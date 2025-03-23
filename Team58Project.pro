@@ -9,14 +9,34 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    boluscalculator.cpp \
+    insulinpump.cpp \
+    logger.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    personalprofile.cpp \
+    screenbolus.cpp \
+    screenhome.cpp \
+    screenlock.cpp \
+    screenprofilesetup.cpp
 
 HEADERS += \
-    mainwindow.h
+    boluscalculator.h \
+    insulinpump.h \
+    logger.h \
+    mainwindow.h \
+    personalprofile.h \
+    screenbolus.h \
+    screenhome.h \
+    screenlock.h \
+    screenprofilesetup.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    screenbolus.ui \
+    screenhome.ui \
+    screenlock.ui \
+    screenprofilesetup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
