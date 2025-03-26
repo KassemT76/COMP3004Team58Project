@@ -12,3 +12,14 @@ ScreenProfileSetup::~ScreenProfileSetup()
 {
     delete ui;
 }
+void ScreenProfileSetup::addProfile(PersonalProfile& inProfile){
+
+}
+void ScreenProfileSetup::removeProfile(QString profileName){
+
+}
+PersonalProfile& ScreenProfileSetup::getProfile(QString profileName){
+    PersonalProfile profile;
+
+    return profile;
+}
