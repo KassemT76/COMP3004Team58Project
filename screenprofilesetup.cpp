@@ -23,3 +23,15 @@ void ScreenProfileSetup::goToHome(){
 void ScreenProfileSetup::goToAddProfile(){
     emit sendToAddProfile();
 }
+
+void ScreenProfileSetup::addProfile(PersonalProfile& inProfile){
+
+}
+void ScreenProfileSetup::removeProfile(QString profileName){
+
+}
+PersonalProfile& ScreenProfileSetup::getProfile(QString profileName){
+    PersonalProfile profile;
+
+    return profile;
+}
