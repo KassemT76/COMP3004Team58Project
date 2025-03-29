@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::ScreenBolus *ui;
+
+signals:
+    void sendToHome();
+
+private slots:
+    void goToHome();
 };
 
 #endif // SCREENBOLUS_H

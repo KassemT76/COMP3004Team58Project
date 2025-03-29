@@ -7,6 +7,7 @@
 #include "screenbolus.h"
 #include "screenprofilesetup.h"
 #include "screenlock.h"
+#include "screenaddprofile.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +25,7 @@ public:
     ScreenBolus* screenBolus = nullptr;
     ScreenLock* screenLock = nullptr;
     ScreenProfileSetup* screenProfileSetup = nullptr;
+    ScreenAddProfile* screenAddProfile = nullptr;
 
 private:
 
@@ -34,6 +36,7 @@ private slots:
     void goToLock();
     void goToBolus();
     void goToProfile();
+    void goToAddProfile();
 };
 
 #endif // MAINWINDOW_H

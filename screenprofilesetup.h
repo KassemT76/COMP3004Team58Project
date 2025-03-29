@@ -17,6 +17,14 @@ public:
 
 private:
     Ui::ScreenProfileSetup *ui;
+
+signals:
+    void sendToHome();
+    void sendToAddProfile();
+
+private slots:
+    void goToHome();
+    void goToAddProfile();
 };
 
 #endif // SCREENPROFILESETUP_H

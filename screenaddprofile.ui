@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ScreenProfileSetup</class>
- <widget class="QWidget" name="ScreenProfileSetup">
+ <class>ScreenAddProfile</class>
+ <widget class="QWidget" name="ScreenAddProfile">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -475,7 +475,7 @@
     <item>
      <widget class="QLabel" name="title">
       <property name="text">
-       <string>Profile Setup</string>
+       <string>Add Profile</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -483,7 +483,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="addButton">
+     <widget class="QPushButton" name="confirmButton">
       <property name="palette">
        <palette>
         <active>
@@ -927,100 +927,80 @@
        </palette>
       </property>
       <property name="text">
-       <string>Add</string>
+       <string>Confirm</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QTableWidget" name="profileTable">
+  <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>50</x>
      <y>50</y>
-     <width>400</width>
-     <height>171</height>
+     <width>301</width>
+     <height>231</height>
     </rect>
    </property>
-   <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>83</number>
-   </attribute>
-   <attribute name="verticalHeaderDefaultSectionSize">
-    <number>36</number>
-   </attribute>
-   <row>
-    <property name="text">
-     <string>Profile 1</string>
+   <layout class="QFormLayout" name="formLayout">
+    <property name="verticalSpacing">
+     <number>30</number>
     </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Profile 2</string>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>Carbs</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Glucose</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Basal</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Correction</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>240</y>
-     <width>401</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>35</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="selectProfileButton">
+    <item row="0" column="0">
+     <widget class="QLabel" name="basalLabel">
       <property name="text">
-       <string>Select Profile</string>
+       <string>Basal</string>
       </property>
      </widget>
     </item>
-    <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Press to Set Up</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Correction Factor</string>
       </property>
-     </spacer>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>Press to Set Up</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Carb Ratio</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>Press to Set Up</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Target BG</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>Press to Set Up</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

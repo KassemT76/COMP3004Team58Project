@@ -15,8 +15,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     personalprofile.cpp \
+    screenaddprofile.cpp \
     screenbolus.cpp \
     screenhome.cpp \
+    screenkeypad.cpp \
     screenlock.cpp \
     screenprofilesetup.cpp
 
@@ -26,15 +28,19 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     personalprofile.h \
+    screenaddprofile.h \
     screenbolus.h \
     screenhome.h \
+    screenkeypad.h \
     screenlock.h \
     screenprofilesetup.h
 
 FORMS += \
     mainwindow.ui \
+    screenaddprofile.ui \
     screenbolus.ui \
     screenhome.ui \
+    screenkeypad.ui \
     screenlock.ui \
     screenprofilesetup.ui
 
