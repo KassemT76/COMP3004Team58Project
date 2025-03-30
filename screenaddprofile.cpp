@@ -22,61 +22,46 @@ void ScreenAddProfile::goToProfile(){
 }
 
 void ScreenAddProfile::gatherInfo(){
+    //Grab values from the ui form
     QString inName = ui->nameEnter->toPlainText();
-    QString inBasal = ui->basalEnter->toPlainText();
-    QString inCorrection = ui->correctEnter->toPlainText();
-    QString inCarb = ui->carbEnter->toPlainText();
-    QString inTarget = ui->targetEnter->toPlainText();
-    QString inStartHr = ui->startHour->toPlainText();
-    QString inStartMin = ui->startMin->toPlainText();
-    QString inEndHr = ui->endHour->toPlainText();
-    QString inEndMin = ui->endMin->toPlainText();
+
+    double basal = ui->basalEnter->value();
+    double correct = ui->correctEnter->value();
+    double carb = ui->carbEnter->value();
+    double target = ui->targetEnter->value();
+
+    int startHr = ui->startHour->value();
+    int startMin = ui->startMin->value();
+    int endHr = ui->endHour->value();
+    int endMin = ui->endMin->value();
+
+    // Reset UI fields
     ui->nameEnter->setText("");
-    ui->basalEnter->setText("");
-    ui->correctEnter->setText("");
-    ui->carbEnter->setText("");
-    ui->targetEnter->setText("");
-    ui->startHour->setText("");
-    ui->startMin->setText("");
-    ui->endHour->setText("");
-    ui->endMin->setText("");
-    bool okBasal;
-    double basal = inBasal.toDouble(&okBasal);//basal will be 0 if text is not double, ok = true if it is double, false otherwise
-    bool okCorrection;
-    double correct = inCorrection.toDouble(&okCorrection);
-    bool okCarb;
-    double carb = inCarb.toDouble(&okCarb);
-    bool okTarget;
-    double target = inTarget.toDouble(&okTarget);
-    bool okStartHr;
-    int startHr = inStartHr.toInt(&okStartHr);
-    bool okStartMin;
-    int startMin = inStartMin.toInt(&okStartMin);
-    bool okEndHr;
-    int endHr = inEndHr.toInt(&okEndHr);
-    bool okEndMin;
-    int endMin = inEndMin.toInt(&okEndMin);
+
+    ui->basalEnter->setValue(0.0);
+    ui->correctEnter->setValue(0.0);
+    ui->carbEnter->setValue(0.0);
+    ui->targetEnter->setValue(0.0);
+
+    ui->startHour->setValue(0);
+    ui->startMin->setValue(0);
+    ui->endHour->setValue(0);
+    ui->endMin->setValue(0);
+
+    //Calculate Time
     int startTime, endTime = 0;
-    if(okStartHr && okStartMin && okEndHr && okEndMin){//check correct input
-        if(startHr < 24 && startHr >= 0 && endHr < 24 && endHr >= 0 && startMin < 60 && startMin >= 0 && endMin < 60 && endHr >= 0 ){
-            //check if time is appropriate
-            startTime = startHr*60 + startMin;//we convert start and end hours into min
-            endTime = endHr*60 + endMin;
-            if(startTime >= endTime){//if start is after or at end time
-                return;
-            }
-        }
-        else{//if time is inappropriate
-            return;
-        }
-    }//if time is not int
-    else{
+
+    //we convert start and end hours into min
+    startTime = startHr*60 + startMin;
+    endTime = endHr*60 + endMin;
+
+    //if start is after or at end time
+    if(startTime >= endTime){
         return;
     }
-    if(okBasal && okCorrection && okCarb && okTarget){
-    //if all info is correct
-        profileSetup.addProfile(inName, basal, carb, correct, target, startTime, endTime);
-        emit sendToProfile();
-    }
+
+    //if all info is correct, add the profile!
+    profileSetup.addProfile(inName, basal, carb, correct, target, startTime, endTime);
+    emit sendToProfile();
 }
 

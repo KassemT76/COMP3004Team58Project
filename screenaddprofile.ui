@@ -990,7 +990,7 @@
     <rect>
      <x>20</x>
      <y>30</y>
-     <width>301</width>
+     <width>361</width>
      <height>261</height>
     </rect>
    </property>
@@ -1022,6 +1022,9 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>Enter name here...</string>
+    </property>
    </widget>
    <widget class="QLabel" name="basalLabel">
     <property name="geometry">
@@ -1034,58 +1037,6 @@
     </property>
     <property name="text">
      <string>Basal</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="basalEnter">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>50</y>
-      <width>198</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="correctEnter">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>90</y>
-      <width>198</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="carbEnter">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>130</y>
-      <width>198</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="targetEnter">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>167</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
     </property>
    </widget>
    <widget class="QLabel" name="basalLabel_2">
@@ -1140,32 +1091,6 @@
      <string>Target BG</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="startHour">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>210</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="startMin">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>210</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -1182,7 +1107,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>190</x>
       <y>210</y>
       <width>21</width>
       <height>31</height>
@@ -1192,36 +1117,10 @@
      <string>to</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="endHour">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>210</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="endMin">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>210</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>260</x>
       <y>210</y>
       <width>16</width>
       <height>31</height>
@@ -1255,6 +1154,101 @@
     </property>
     <property name="text">
      <string>(24 hr)</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="startHour">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>210</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>23</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="startMin">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>210</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="accelerated">
+     <bool>false</bool>
+    </property>
+    <property name="maximum">
+     <number>59</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="endHour">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>210</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>23</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="endMin">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>210</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>59</number>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="basalEnter">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>50</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="correctEnter">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>90</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="carbEnter">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>130</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="targetEnter">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>170</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
     </property>
    </widget>
   </widget>
