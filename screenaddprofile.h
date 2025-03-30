@@ -2,6 +2,7 @@
 #define SCREENADDPROFILE_H
 
 #include <QWidget>
+#include <screenprofilesetup.h>
 
 namespace Ui {
 class ScreenAddProfile;
@@ -17,12 +18,13 @@ public:
 
 private:
     Ui::ScreenAddProfile *ui;
-
+    ScreenProfileSetup profileSetup;
 signals:
     void sendToProfile();
 
 private slots:
     void goToProfile();
+    void gatherInfo();
 };
 
 #endif // SCREENADDPROFILE_H

@@ -16,15 +16,15 @@ class ScreenProfileSetup : public QWidget
 public:
     explicit ScreenProfileSetup(QWidget *parent = nullptr);
     ~ScreenProfileSetup();
-    void addProfile(PersonalProfile&);
+    void addProfile(QString, double, double, double, double, int, int);
     void removeProfile(QString);
     PersonalProfile& getProfile(QString);
-    //profile manager:
-    QVector<PersonalProfile> profiles;
-    QString activeProfileName;
+
 private:
     Ui::ScreenProfileSetup *ui;
-
+    //profile manager:
+    QVector<PersonalProfile> profiles;
+    PersonalProfile activeProfile;
 signals:
     void sendToHome();
     void sendToAddProfile();

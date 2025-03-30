@@ -1,5 +1,6 @@
 #include "screenprofilesetup.h"
 #include "ui_screenprofilesetup.h"
+#include <QDebug>
 
 ScreenProfileSetup::ScreenProfileSetup(QWidget *parent) :
     QWidget(parent),
@@ -24,14 +25,20 @@ void ScreenProfileSetup::goToAddProfile(){
     emit sendToAddProfile();
 }
 
-void ScreenProfileSetup::addProfile(PersonalProfile& inProfile){
-
+void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double inCarbRatio, double inCorrectionFactor, double inTargetBG, int inStartTime, int inEndTime){
+    PersonalProfile newProfile(inName, inBasalRate, inCarbRatio, inCorrectionFactor, inTargetBG, inStartTime, inEndTime);
+    profiles.append(newProfile);
+    //****CODE TO CHANGE ADD PROFILE TO UI HERE VV****
+    qInfo() << inName << " " << inBasalRate << " " <<  inCarbRatio << " " <<  inCorrectionFactor << " " << inTargetBG << " " <<  inStartTime << " " <<  inEndTime;
 }
 void ScreenProfileSetup::removeProfile(QString profileName){
 
 }
 PersonalProfile& ScreenProfileSetup::getProfile(QString profileName){
-    PersonalProfile profile;
-
-    return profile;
+    for(PersonalProfile profile: profiles){
+        if(profile.getName() == profileName){
+            return profile;
+        }
+    }
+    return activeProfile;
 }

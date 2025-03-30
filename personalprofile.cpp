@@ -1,12 +1,13 @@
 #include "personalprofile.h"
 
-PersonalProfile::PersonalProfile(QString name, double basalRate, double insulinToCarbRatio, double correctionFactor, double targetBG, int time):
+PersonalProfile::PersonalProfile(QString name, double basalRate, double insulinToCarbRatio, double correctionFactor, double targetBG, int startTime, int endTime):
     name(name),
     basalRate(basalRate),
     insulinToCarbRatio(insulinToCarbRatio),
     correctionFactor(correctionFactor),
     targetBG(targetBG),
-    distributionTime(time)
+    startTime(startTime),
+    endTime(endTime)
 {
 
 }
@@ -40,9 +41,20 @@ double PersonalProfile::getTargetBG(){
 void PersonalProfile::setTargetBG(double newTarget){
     targetBG = newTarget;
 }
-int PersonalProfile::getTime(){
-    return distributionTime;
+int PersonalProfile::getStartTime(){
+    return startTime;
 }
-void PersonalProfile::setTime(int time){
-    distributionTime = time;
+void PersonalProfile::setStartTime(int time){
+    startTime = time;
+}
+int PersonalProfile::getEndTime(){
+    return endTime;
+}
+void PersonalProfile::setEndTime(int time){
+    endTime = time;
+}
+double PersonalProfile::getTimeHr(){
+    double time = endTime - startTime;
+    time = time/60;
+    return endTime;
 }

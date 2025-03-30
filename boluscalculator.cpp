@@ -24,7 +24,7 @@ QVector<double> BolusCalculator::calculateBolus(int totalCarbs, double currentBG
     double immediateBolus = immediateBolusFraction * finalBolus;
     allValues.append(immediateBolus);
     //extended insulin delivery:
-    double extendedBolus = ((1-immediateBolusFraction) * finalBolus)/profile.getTime();
+    double extendedBolus = ((1-immediateBolusFraction) * finalBolus)/profile.getTimeHr();
     //might need to round to 2 decimals
     allValues.append(extendedBolus);
     return allValues;

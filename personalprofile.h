@@ -5,7 +5,7 @@
 class PersonalProfile
 {
 public:
-    PersonalProfile(QString name="default", double basalRate=0, double insulinToCarbRatio=1, double correctionFactor=1, double targetBG=0, int distributionTime=0);
+    PersonalProfile(QString name="default", double basalRate=0, double insulinToCarbRatio=1, double correctionFactor=1, double targetBG=0, int startTime=0, int endTime=0);
     QString getName();
     void setName(QString);
     double getBasalRate();
@@ -16,16 +16,19 @@ public:
     void setCorrectionFactor(double);
     double getTargetBG();
     void setTargetBG(double);
-    int getTime();
-    void setTime(int);
+    int getStartTime();
+    void setStartTime(int);
+    int getEndTime();
+    void setEndTime(int);
+    double getTimeHr();//get time span from start to end in hours for bolus calculations
 private:
     QString name;
     double basalRate;
     double insulinToCarbRatio;
     double correctionFactor;
     double targetBG;
-    int distributionTime;//in hours
-
+    int startTime;//in hours
+    int endTime;
 };
 
 #endif // PERSONALPROFILE_H

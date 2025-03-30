@@ -48,9 +48,9 @@
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="title">
+     <widget class="QLabel" name="time">
       <property name="text">
-       <string>Home</string>
+       <string>0:00 AM</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
