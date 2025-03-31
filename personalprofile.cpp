@@ -9,8 +9,8 @@ PersonalProfile::PersonalProfile(QString name, double basalRate, double insulinT
     startTime(startTime),
     endTime(endTime)
 {
-
 }
+
 QString PersonalProfile::getName(){
     return name;
 }
@@ -58,3 +58,9 @@ double PersonalProfile::getTimeHr(){
     time = time/60;
     return endTime;
 }
+QString PersonalProfile::getDisplayTime(int time){
+    int hr = time/60;
+    QString display = (QString::number(hr).rightJustified(2, '0')+":"+(QString::number(time-hr*60)).rightJustified(2, '0'));
+    return display;
+}
+

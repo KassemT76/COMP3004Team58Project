@@ -1,7 +1,7 @@
 #ifndef PERSONALPROFILE_H
 #define PERSONALPROFILE_H
 #include <QObject>
-
+#include <QTableWidgetItem>
 class PersonalProfile
 {
 public:
@@ -21,6 +21,7 @@ public:
     int getEndTime();
     void setEndTime(int);
     double getTimeHr();//get time span from start to end in hours for bolus calculations
+    QString getDisplayTime(int);//in the form of XX:XX (24 hr)
 private:
     QString name;
     double basalRate;
@@ -29,6 +30,7 @@ private:
     double targetBG;
     int startTime;//in hours
     int endTime;
+    //all of these are for the QTable in screenprofilesetup
 };
 
 #endif // PERSONALPROFILE_H
