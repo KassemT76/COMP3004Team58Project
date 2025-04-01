@@ -2,6 +2,7 @@
 #define INSULINPUMP_H
 
 #include "error.h"
+#include "boluscalculator.h"
 
 class InsulinPump
 {
@@ -9,7 +10,8 @@ public:
     InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
     ~InsulinPump();
 
-    Error giveBolus(int, double); // return true if successful
+    void initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG);
+    Error giveBolus(); // return true if successful
     void startBasalDelievery();
     void stopBasalDelievery();
     // void raiseError();
@@ -29,6 +31,9 @@ private:
     int battery;
     double insulinLevel;
     double insulinOnBoard;
+    bool basalDeliveryActive;
+    BolusCalculator* bolusCalculator;
+    int timeInHours;
 };
 
 #endif // INSULINPUMP_H

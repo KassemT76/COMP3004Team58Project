@@ -58,3 +58,11 @@ double PersonalProfile::getTimeHr(){
     time = time/60;
     return endTime;
 }
+
+double PersonalProfile::getInsulinOB(){
+    return insulinOB;
+}
+
+void PersonalProfile::setInsulinOB(double insulinOB){
+    this->insulinOB = insulinOB;
+}

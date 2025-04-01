@@ -21,6 +21,9 @@ public:
     int getEndTime();
     void setEndTime(int);
     double getTimeHr();//get time span from start to end in hours for bolus calculations
+
+    double getInsulinOB();
+    void setInsulinOB(double insulinOB);
 private:
     QString name;
     double basalRate;
@@ -29,6 +32,11 @@ private:
     double targetBG; // target blood glucose level
     int startTime;//in hours
     int endTime;
+
+    /**
+     * TODO: this should get updated 
+     */
+    double insulinOB; // insulin on board
 };
 
 #endif // PERSONALPROFILE_H

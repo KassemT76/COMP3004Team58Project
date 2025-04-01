@@ -8,8 +8,16 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
 
 }
 
-Error InsulinPump::giveBolus(int a, double b){
+InsulinPump::~InsulinPump(){
+    delete bolusCalculator;
+}
 
+void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
+    this.bolusCalculator = new BolusCalculator(profile, totalCarbs, currentBG);
+}
+
+Error InsulinPump::giveBolus(){
+    // TODO: This part should be next, need to discuss what the plan is now...
 }
 
 void InsulinPump::startBasalDelievery(){
@@ -19,6 +27,7 @@ void InsulinPump::startBasalDelievery(){
 void InsulinPump::stopBasalDelievery(){
 
 }
+
 int InsulinPump::getBattery(){
     return battery;
 }
