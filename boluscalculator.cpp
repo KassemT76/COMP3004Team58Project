@@ -4,6 +4,13 @@ BolusCalculator::BolusCalculator()
 {
 
 }
+
+/*
+ * TODO: 
+ * insulinOB should come from profile
+ * immediateBolusFraction should be hardcoded for now
+ * should return a bolus data object instead of a vector
+*/
 QVector<double> BolusCalculator::calculateBolus(int totalCarbs, double currentBG, double insulinOB, double immediateBolusFraction){
     /*
     rough format for calculating bolus:

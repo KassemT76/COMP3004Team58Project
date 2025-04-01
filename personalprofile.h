@@ -26,7 +26,7 @@ private:
     double basalRate;
     double insulinToCarbRatio;
     double correctionFactor;
-    double targetBG;
+    double targetBG; // target blood glucose level
     int startTime;//in hours
     int endTime;
 };

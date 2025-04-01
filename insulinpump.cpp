@@ -7,28 +7,25 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
 {
 
 }
-void InsulinPump::giveBolus(int a, double b){
+
+Error InsulinPump::giveBolus(int a, double b){
 
 }
+
 void InsulinPump::startBasalDelievery(){
 
 }
-void InsulinPump::stopBasalDelievery(){
 
-}
-void InsulinPump::raiseError(){
+void InsulinPump::stopBasalDelievery(){
 
 }
 int InsulinPump::getBattery(){
     return battery;
 }
-void InsulinPump::setBattery(int newBattery){
-    battery = newBattery;
-}
 double InsulinPump::getInsulinLevel(){
     return insulinLevel;
 }
-void InsulinPump::setgetInsulinLevel(double newLevel){
+void InsulinPump::setInsulinLevel(double newLevel){
     insulinLevel = newLevel;
 }
 double InsulinPump::getInsulinOB(){
@@ -37,3 +34,12 @@ double InsulinPump::getInsulinOB(){
 void InsulinPump::setInsulinOB(double newOB){
     insulinOnBoard = newOB;
 }
+
+void InsulinPump::setBattery(int newBattery){
+    battery = newBattery;
+}
+
+// Should be implemented by functions returning an error
+// void InsulinPump::raiseError(){
+
+// }
