@@ -17,9 +17,11 @@ class ScreenProfileSetup : public QWidget
 public:
     explicit ScreenProfileSetup(QWidget *parent = nullptr);
     ~ScreenProfileSetup();
-    void addProfile(QString, double, double, double, double, int, int);
-    void removeProfile(QString);
+    void removeProfile();
+    void editProfile();
+    void selectProfile();
     PersonalProfile& getProfile(QString);
+    void addProfile(QString, double, double, double, double, int, int);
 
 private:
     Ui::ScreenProfileSetup *ui;
@@ -28,15 +30,13 @@ private:
     QVector<PersonalProfile> profiles;
     PersonalProfile activeProfile;
     QVBoxLayout *profileLayout;
+
 signals:
     void sendToHome();
     void sendToAddProfile();
-
 private slots:
     void goToHome();
     void goToAddProfile();
-
-    void on_profileTable_cellChanged(int row, int column);
 };
 
 #endif // SCREENPROFILESETUP_H

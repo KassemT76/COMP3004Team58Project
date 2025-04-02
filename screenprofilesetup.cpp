@@ -8,19 +8,16 @@ ScreenProfileSetup::ScreenProfileSetup(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ScreenProfileSetup)
 {
-    this->setParent(parent);
     ui->setupUi(this);
     connect(ui->backButton, SIGNAL(released()), this, SLOT(goToHome()));
     connect(ui->addButton, SIGNAL(released()), this, SLOT(goToAddProfile()));
-    this->setWindowFlags(Qt::Widget);
-    qInfo() << this->parentWidget();
-    profileLayout = new QVBoxLayout(parent);
-    profileLayout->addWidget(this);
+    connect(ui->selectButton, &QPushButton::released, this, &ScreenProfileSetup::selectProfile);
+    connect(ui->editButton, &QPushButton::released, this, &ScreenProfileSetup::editProfile);
+    connect(ui->removeButton, &QPushButton::released, this, &ScreenProfileSetup::removeProfile);
 }
 
 ScreenProfileSetup::~ScreenProfileSetup()
 {
-    delete profileLayout;
     for(QTableWidgetItem* widget : cells){
         delete widget;
     }
@@ -38,19 +35,15 @@ void ScreenProfileSetup::goToAddProfile(){
 void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double inCarbRatio, double inCorrectionFactor, double inTargetBG, int inStartTime, int inEndTime){
     PersonalProfile newProfile(inName, inBasalRate, inCarbRatio, inCorrectionFactor, inTargetBG, inStartTime, inEndTime);
     profiles.append(newProfile);
-    //****CODE TO CHANGE ADD PROFILE TO UI HERE VV****
-    qInfo() << inName << " " << inBasalRate << " " <<  inCarbRatio << " " <<  inCorrectionFactor << " " << inTargetBG << " " <<  inStartTime << " " <<  inEndTime;
     int rowCount = ui->profileTable->rowCount();
-    qInfo() << rowCount;
     ui->profileTable->insertRow(rowCount);
-    qInfo() << ui->profileTable->rowCount();
     QTableWidgetItem* nameWidget = new QTableWidgetItem(inName);
-    QTableWidgetItem* timeWidget = new QTableWidgetItem(newProfile.getDisplayTime(inStartTime));
+    QString time = newProfile.getDisplayTime(inStartTime) + "-" + newProfile.getDisplayTime(inEndTime);
+    QTableWidgetItem* timeWidget = new QTableWidgetItem(time);
     QTableWidgetItem* basalWidget = new QTableWidgetItem(QString::number(inBasalRate));
     QTableWidgetItem* correctWidget = new QTableWidgetItem(QString::number(inCorrectionFactor));
     QTableWidgetItem* carbWidget = new QTableWidgetItem(QString::number(inCarbRatio));
     QTableWidgetItem* targetWidget = new QTableWidgetItem(QString::number(inTargetBG));
-    qInfo() << newProfile.getDisplayTime(inStartTime) << " " << QString::number(inBasalRate) << " " <<  QString::number(inCorrectionFactor) << " " <<  QString::number(inCarbRatio) << " " << QString::number(inTargetBG);
     cells.append(timeWidget);
     cells.append(basalWidget);
     cells.append(correctWidget);
@@ -63,25 +56,14 @@ void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double i
     ui->profileTable->setItem(rowCount, 3, carbWidget);
     ui->profileTable->setItem(rowCount, 4, targetWidget);
     int columnCount = ui->profileTable->columnCount();
-        for (int row = 0; row < rowCount+1; ++row) {
-            // Iterate through columns
-            for (int col = 0; col < columnCount; ++col) {
-                // Get the item at row, col
-                QTableWidgetItem *item = ui->profileTable->item(row, col);
-                if (item) {
-                    // Print the item text
-                    qDebug() << "Row:" << row << "Col:" << col << "Value:" << item->text();
-                } else {
-                    // If no item exists, print "empty" or some placeholder
-                    qDebug() << "Row:" << row << "Col:" << col << "Value: (empty)";
-                }
-            }
-        }
-        this->show();
-        this->update();
-        this->raise();
 }
-void ScreenProfileSetup::removeProfile(QString profileName){
+void ScreenProfileSetup::removeProfile(){
+
+}
+void ScreenProfileSetup::editProfile(){
+
+}
+void ScreenProfileSetup::selectProfile(){
 
 }
 PersonalProfile& ScreenProfileSetup::getProfile(QString profileName){
@@ -93,8 +75,4 @@ PersonalProfile& ScreenProfileSetup::getProfile(QString profileName){
     return activeProfile;
 }
 
-void ScreenProfileSetup::on_profileTable_cellChanged(int row, int column)
-{
-
-}
 

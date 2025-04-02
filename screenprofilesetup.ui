@@ -957,6 +957,12 @@
      <height>0</height>
     </size>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
    <property name="gridStyle">
     <enum>Qt::SolidLine</enum>
    </property>
@@ -964,24 +970,20 @@
     <bool>false</bool>
    </property>
    <property name="rowCount">
-    <number>2</number>
+    <number>0</number>
    </property>
+   <attribute name="horizontalHeaderCascadingSectionResizes">
+    <bool>true</bool>
+   </attribute>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>66</number>
+    <number>69</number>
+   </attribute>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>true</bool>
    </attribute>
    <attribute name="verticalHeaderDefaultSectionSize">
     <number>36</number>
    </attribute>
-   <row>
-    <property name="text">
-     <string>Profile 1</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>Profile 2</string>
-    </property>
-   </row>
    <column>
     <property name="text">
      <string>Time</string>
@@ -1007,27 +1009,12 @@
      <string>Target</string>
     </property>
    </column>
-   <item row="0" column="0">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="font">
-     <font>
-      <kerning>true</kerning>
-     </font>
-    </property>
-   </item>
-   <item row="1" column="3">
-    <property name="text">
-     <string/>
-    </property>
-   </item>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>240</y>
+     <y>230</y>
      <width>401</width>
      <height>31</height>
     </rect>
@@ -1047,21 +1034,21 @@
      </spacer>
     </item>
     <item>
-     <widget class="QPushButton" name="selectProfileButton_3">
+     <widget class="QPushButton" name="selectButton">
       <property name="text">
        <string>Select Profile</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="editProfileButton_2">
+     <widget class="QPushButton" name="editButton">
       <property name="text">
        <string>Edit Profile</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="removeProfileButton">
+     <widget class="QPushButton" name="removeButton">
       <property name="text">
        <string>Remove Profile</string>
       </property>
@@ -1082,9 +1069,34 @@
     </item>
    </layout>
   </widget>
+  <widget class="QTextEdit" name="textEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>260</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>260</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit Value:</string>
+   </property>
+  </widget>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
   <zorder>profileTable</zorder>
+  <zorder>textEdit</zorder>
+  <zorder>label</zorder>
  </widget>
  <resources/>
  <connections/>

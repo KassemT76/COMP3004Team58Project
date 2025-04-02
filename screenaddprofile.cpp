@@ -59,9 +59,7 @@ void ScreenAddProfile::gatherInfo(){
     if(startTime >= endTime){
         return;
     }
-
     //if all info is correct, add the profile!
-    profileSetup.addProfile(inName, basal, carb, correct, target, startTime, endTime);
-    emit sendToProfile();
+    emit sendProfile(inName, basal, carb, correct, target, startTime, endTime);
 }
 

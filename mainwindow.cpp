@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
+    connect(screenAddProfile, SIGNAL(sendProfile(QString, double, double, double, double,int,int)), this, SLOT(addProfile(QString, double, double, double, double,int,int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -102,3 +104,7 @@ void MainWindow::goToAddProfile(){
     screenAddProfile->show();
 }
 
+void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
+    screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
+    goToProfile();
+}

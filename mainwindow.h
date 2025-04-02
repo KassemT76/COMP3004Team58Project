@@ -37,6 +37,7 @@ private slots:
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
+    void addProfile(QString, double, double, double, double, int, int);
 };
 
 #endif // MAINWINDOW_H

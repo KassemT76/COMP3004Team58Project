@@ -55,12 +55,12 @@ void PersonalProfile::setEndTime(int time){
 }
 double PersonalProfile::getTimeHr(){
     double time = endTime - startTime;
-    time = time/60;
-    return endTime;
+    return time/60;
 }
 QString PersonalProfile::getDisplayTime(int time){
     int hr = time/60;
     QString display = (QString::number(hr).rightJustified(2, '0')+":"+(QString::number(time-hr*60)).rightJustified(2, '0'));
+
     return display;
 }
 
