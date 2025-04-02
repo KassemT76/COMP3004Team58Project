@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     boluscalculator.cpp \
+    error.cpp \
     insulinpump.cpp \
     logger.cpp \
     main.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 
 HEADERS += \
     boluscalculator.h \
+    error.h \
     insulinpump.h \
     logger.h \
     mainwindow.h \

@@ -21,15 +21,22 @@ public:
     int getEndTime();
     void setEndTime(int);
     double getTimeHr();//get time span from start to end in hours for bolus calculations
+    double getInsulinOB();
+    void setInsulinOB(double insulinOB);
+
     QString getDisplayTime(int);//in the form of XX:XX (24 hr)
 private:
     QString name;
     double basalRate;
     double insulinToCarbRatio;
     double correctionFactor;
-    double targetBG;
+    double targetBG; // target blood glucose level
     int startTime;//in hours
     int endTime;
+    /**
+     * TODO: this should get updated 
+     */
+    double insulinOB; // insulin on board
     //all of these are for the QTable in screenprofilesetup
 };
 

@@ -60,7 +60,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QLabel" name="mysteryLabel">
+       <widget class="QLabel" name="insulinLevelLabel">
         <property name="text">
          <string>Insulin Left</string>
         </property>
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mysteryValue">
+       <widget class="QLabel" name="insulinLevelValue">
         <property name="text">
          <string>235 u</string>
         </property>
@@ -96,7 +96,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLabel" name="insulinLevelValue">
+       <widget class="QLabel" name="mysteryValue">
         <property name="text">
          <string>6.9</string>
         </property>
@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="insulinLevelLabel">
+       <widget class="QLabel" name="mysteryLabel">
         <property name="text">
          <string>mmol/L</string>
         </property>
@@ -612,7 +612,7 @@
    </property>
    <layout class="QHBoxLayout" name="insulinInfo">
     <item>
-     <widget class="QLabel" name="batteryTitle_2">
+     <widget class="QLabel" name="iobLabel">
       <property name="text">
        <string>Insulin on Board</string>
       </property>
@@ -622,7 +622,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="batteryValue_2">
+     <widget class="QLabel" name="iobValue">
       <property name="text">
        <string>0 u</string>
       </property>

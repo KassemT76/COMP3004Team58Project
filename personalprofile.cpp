@@ -57,10 +57,18 @@ double PersonalProfile::getTimeHr(){
     double time = endTime - startTime;
     return time/60;
 }
+
+double PersonalProfile::getInsulinOB(){
+    return insulinOB;
+}
+
+void PersonalProfile::setInsulinOB(double insulinOB){
+    this->insulinOB = insulinOB;
+}
+
 QString PersonalProfile::getDisplayTime(int time){
     int hr = time/60;
     QString display = (QString::number(hr).rightJustified(2, '0')+":"+(QString::number(time-hr*60)).rightJustified(2, '0'));
 
     return display;
 }
-
