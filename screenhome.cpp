@@ -22,26 +22,3 @@ void ScreenHome::goToProfile(){
 void ScreenHome::goToBolus(){
     emit sendToBolus();
 }
-
-void ScreenHome::setTime(int t) {
-    int hours = t / 60;
-    int minutes = t % 60;
-
-    QString formattedTime = QString("%1:%2")
-        .arg(hours, 2, 10, QChar('0'))   // 2-digit hours, pad with 0
-        .arg(minutes, 2, 10, QChar('0'));// 2-digit minutes, pad with 0
-
-    ui->time->setText(formattedTime);
-}
-
-void ScreenHome::setIOB(double iob){
-    ui->iobValue->setText(QString::number(iob) + " u");
-}
-
-void ScreenHome::setIL(double il){
-    ui->insulinLevelValue->setText(QString::number(il) + " u");
-}
-
-void ScreenHome::setBattery(int b){
-    ui->batteryValue->setText(QString::number(b) + "%");
-}

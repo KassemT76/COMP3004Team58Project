@@ -5,37 +5,30 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    this->bolusCalculator = new BolusCalculator();
+
 }
+void InsulinPump::giveBolus(int a, double b){
 
-
-InsulinPump::~InsulinPump(){
-    delete bolusCalculator;
 }
-
-void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
-    this->bolusCalculator->calculateBolus(totalCarbs, currentBG, profile);
-}
-
-Error InsulinPump::giveBolus(){
-    
-}
-
 void InsulinPump::startBasalDelievery(){
 
 }
-
 void InsulinPump::stopBasalDelievery(){
 
 }
+void InsulinPump::raiseError(){
 
+}
 int InsulinPump::getBattery(){
     return battery;
+}
+void InsulinPump::setBattery(int newBattery){
+    battery = newBattery;
 }
 double InsulinPump::getInsulinLevel(){
     return insulinLevel;
 }
-void InsulinPump::setInsulinLevel(double newLevel){
+void InsulinPump::setgetInsulinLevel(double newLevel){
     insulinLevel = newLevel;
 }
 double InsulinPump::getInsulinOB(){
@@ -44,12 +37,3 @@ double InsulinPump::getInsulinOB(){
 void InsulinPump::setInsulinOB(double newOB){
     insulinOnBoard = newOB;
 }
-
-void InsulinPump::setBattery(int newBattery){
-    battery = newBattery;
-}
-
-// Should be implemented by functions returning an error
-// void InsulinPump::raiseError(){
-
-// }

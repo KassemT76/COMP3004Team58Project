@@ -1,18 +1,36 @@
 #include "boluscalculator.h"
 
-BolusCalculator::BolusCalculator() : foodBolus(0), correctionBolus(0), totalRequiredBolus(0), finalBolus(0), immediateBolus(0), extendedBolus(0), bolusRatePerHour(0) {}
+BolusCalculator::BolusCalculator()
+{
 
-void BolusCalculator::calculateBolus(int totalCarbs, double currentBG, PersonalProfile* profile) {
-    this->foodBolus = totalCarbs / profile->getCarbRatio();
-    this->correctionBolus = (currentBG - profile->getTargetBG()) / profile->getCorrectionFactor();
-    this->totalRequiredBolus = this->foodBolus + this->correctionBolus;
-    this->finalBolus = this->totalRequiredBolus - profile->getInsulinOB();
-    
-    // TODO: the percentages should be retrieved from the profile
-    // For now, we will use hardcoded values
-    this->immediateBolus = 0.6 * this->finalBolus; // 60% immediate bolus
-    this->extendedBolus = 0.4 * this->finalBolus; // 40% extended bolus
+}
+QVector<double> BolusCalculator::calculateBolus(int totalCarbs, double currentBG, double insulinOB, double immediateBolusFraction){
+    /*
+    rough format for calculating bolus:
+    units from profile:
+    insulinToCarbRatio;
+    correctionFactor;
+    targetBG;
+    distributionTime;
+     */
+    QVector<double> allValues;
+    //for total insulin adminstered:
+    double carbBolus = totalCarbs/profile.getCarbRatio();
+    double correctionBolus = (currentBG - profile.getTargetBG())/profile.getCorrectionFactor();
+    double totalBolusRequired = carbBolus + correctionBolus;
+    double finalBolus = totalBolusRequired - insulinOB;
+    allValues.append(finalBolus);
+    //immediate insulin dose:
+    double immediateBolus = immediateBolusFraction * finalBolus;
+    allValues.append(immediateBolus);
+    //extended insulin delivery:
+    double extendedBolus = ((1-immediateBolusFraction) * finalBolus)/profile.getTimeHr();
+    //might need to round to 2 decimals
+    allValues.append(extendedBolus);
+    return allValues;
+}
+QVector<double> BolusCalculator::getCharData(){
+    QVector<double> charData;
 
-    // TODO: the "3" should be replaced with the bolus duration from the profile when added
-    this->bolusRatePerHour = this->extendedBolus / 3; // rate per hour for extended bolus
+    return charData;
 }

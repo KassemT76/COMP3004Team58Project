@@ -5,14 +5,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    //Insulin Pump
-    insulinPump = new InsulinPump(100, 0, 0);
-
-    //Timer
-    timer = new QTimer(this);
-    currentTimeStep = 0;
-
-    //UI
     ui->setupUi(this);
 
     //Set up screens
@@ -32,30 +24,23 @@ MainWindow::MainWindow(QWidget *parent)
 
     //SLOTS
 
-    // UI
     connect(ui->homeButton, SIGNAL(released()), this, SLOT(goToHome()));
-    connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
-    connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
-    connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
-
-    // Simulation
-    connect(timer, SIGNAL(timeout()), this, SLOT(simulationStep()));
 
     //SIGNALS
 
-    // Home Screen
+    //Home Screen
     connect(screenHome, SIGNAL(sendToHome()), this, SLOT(goToHome()));
     connect(screenHome, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenHome, SIGNAL(sendToBolus()), this, SLOT(goToBolus()));
 
-    // Profile Screen
+    //Profile Screen
     connect(screenProfileSetup, SIGNAL(sendToAddProfile()), this, SLOT(goToAddProfile()));
     connect(screenProfileSetup, SIGNAL(sendToHome()), this, SLOT(goToHome()));
 
-    // Bolus Screen
+    //Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
 
-    // Add Profile Screen
+    //Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenAddProfile, SIGNAL(sendProfile(QString, double, double, double, double,int,int)), this, SLOT(addProfile(QString, double, double, double, double,int,int)));
 
@@ -119,37 +104,7 @@ void MainWindow::goToAddProfile(){
     screenAddProfile->show();
 }
 
-<<<<<<< HEAD
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
     goToProfile();
-=======
-//Simulation
-
-void MainWindow::simulationStep(){
-    //Do 1 Tick
-    currentTimeStep++;
-
-    //Insulin Pump
-    //TODO: DECAY, operations
-
-    //Update UI
-    screenHome->setTime(currentTimeStep);
-    screenHome->setBattery(insulinPump->getBattery());
-    screenHome->setIL(insulinPump->getInsulinLevel());
-    screenHome->setIOB(insulinPump->getInsulinOB());
-}
-
-void MainWindow::startSimulation(){
-    timer->start(100);
-}
-
-void MainWindow::stopSimulation(){
-    timer->stop();
-    currentTimeStep = 0;
-}
-
-void MainWindow::pauseSimulation(){
-    timer->stop();
->>>>>>> origin/main
 }
