@@ -4,9 +4,8 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     battery(battery),
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
-{
+{}
 
-}
 void InsulinPump::giveBolus(int a, double b){
 
 }

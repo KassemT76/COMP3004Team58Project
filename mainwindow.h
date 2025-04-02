@@ -2,12 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include <QDebug>
 
 #include "screenhome.h"
 #include "screenbolus.h"
 #include "screenprofilesetup.h"
 #include "screenlock.h"
 #include "screenaddprofile.h"
+#include "insulinpump.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,9 +30,16 @@ public:
     ScreenProfileSetup* screenProfileSetup = nullptr;
     ScreenAddProfile* screenAddProfile = nullptr;
 
+
+
 private:
 
     Ui::MainWindow *ui;
+
+    InsulinPump* insulinPump;
+
+    QTimer* timer;
+    int currentTimeStep;
 
 private slots:
     void goToHome();
@@ -37,6 +47,11 @@ private slots:
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
+    // These slots will be called by the QTimer and the simulation
+    void simulationStep();
+    void startSimulation();
+    void stopSimulation();
+    void pauseSimulation();
 };
 
 #endif // MAINWINDOW_H
