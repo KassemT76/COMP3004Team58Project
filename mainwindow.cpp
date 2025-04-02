@@ -132,6 +132,9 @@ void MainWindow::simulationStep(){
 
     //Insulin Pump
     //TODO: DECAY, operations
+    int battery = insulinPump->useBattery();
+
+    screenHome->setBattery(battery);
 
     //Update UI
     screenHome->setTime(currentTimeStep);
