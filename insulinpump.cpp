@@ -1,16 +1,18 @@
 #include "insulinpump.h"
 
-InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard) :
+InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, ScreenProfileSetup* profileScreen) :
     battery(battery),
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
     this->bolusCalculator = new BolusCalculator();
+    profileManager = new ProfileManager(profileScreen);
 }
 
 
 InsulinPump::~InsulinPump(){
     delete bolusCalculator;
+    delete profileManager;
 }
 
 void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
@@ -18,7 +20,8 @@ void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, doub
 }
 
 Error InsulinPump::giveBolus(){
-    
+    Error error;
+    return error;
 }
 
 void InsulinPump::startBasalDelievery(){

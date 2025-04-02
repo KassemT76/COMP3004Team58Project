@@ -3,11 +3,13 @@
 
 #include "error.h"
 #include "boluscalculator.h"
+#include "profilemanager.h"
+#include "screenprofilesetup.h"
 
 class InsulinPump
 {
 public:
-    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
+    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, ScreenProfileSetup* profileScreen=nullptr);
     ~InsulinPump();
 
     void initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG);
@@ -33,6 +35,7 @@ private:
     double insulinOnBoard;
     bool basalDeliveryActive;
     BolusCalculator* bolusCalculator;
+    ProfileManager* profileManager;
     int timeInHours;
 };
 

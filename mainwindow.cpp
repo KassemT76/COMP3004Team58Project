@@ -5,8 +5,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    //Insulin Pump
-    insulinPump = new InsulinPump(100, 0, 0);
 
     //Timer
     timer = new QTimer(this);
@@ -26,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
         screenProfileSetup = new ScreenProfileSetup(this->ui->frame);
     if (!screenAddProfile)
         screenAddProfile = new ScreenAddProfile(this->ui->frame);
+
+    //Insulin Pump
+    insulinPump = new InsulinPump(100, 0, 0, screenProfileSetup);
 
     //Set to home after screens are set up
     goToHome();

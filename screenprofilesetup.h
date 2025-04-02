@@ -6,6 +6,7 @@
 #include <personalprofile.h>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
+class ProfileManager;
 namespace Ui {
 class ScreenProfileSetup;
 }
@@ -20,15 +21,16 @@ public:
     void removeProfile();
     void editProfile();
     void selectProfile();
-    PersonalProfile& getProfile(QString);
+    PersonalProfile* getProfile(QString);
     void addProfile(QString, double, double, double, double, int, int);
-
+    void setProfileManager(ProfileManager*);
 private:
     Ui::ScreenProfileSetup *ui;
     QVector<QTableWidgetItem*> cells;
     //profile manager:
-    QVector<PersonalProfile> profiles;
-    PersonalProfile activeProfile;
+    ProfileManager* profileManager;
+    QVector<PersonalProfile*> profiles;
+    PersonalProfile* activeProfile;
     QVBoxLayout *profileLayout;
 
 signals:
