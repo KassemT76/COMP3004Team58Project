@@ -6,6 +6,8 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinOnBoard(insulinOnBoard)
 {
     this->bolusCalculator = new BolusCalculator();
+    this-> batteryUsage = 0;
+    this->batteryOffset = 5;
 }
 
 
@@ -27,6 +29,30 @@ void InsulinPump::startBasalDelievery(){
 
 void InsulinPump::stopBasalDelievery(){
 
+}
+
+int InsulinPump::useBattery(){
+    if (battery > 0){
+        batteryUsage++;
+        if (batteryUsage >= batteryOffset){
+            battery--;
+            batteryUsage = 0;
+        }
+    }
+    return battery;
+}
+
+void InsulinPump::rechargeBattery(){
+    battery = 100;
+    batteryUsage = 0;
+}
+
+bool InsulinPump::setBatteryOffset(int offset){
+    if (offset > 0){
+        batteryOffset = offset;
+        return true;
+    }
+    return false;
 }
 
 int InsulinPump::getBattery(){
