@@ -12,7 +12,13 @@ void BolusCalculator::calculateBolus(int totalCarbs, double currentBG, PersonalP
     // For now, we will use hardcoded values
     this->immediateBolus = 0.6 * this->finalBolus; // 60% immediate bolus
     this->extendedBolus = 0.4 * this->finalBolus; // 40% extended bolus
-
+    
+    //this->immediateBolus = profile ->getImmediateBolusPercentage() * this->finalBolus; // 60% immediate bolus
+    //this->extendedBolus = profile ->getExtendedBolusPercentage() * this->finalBolus; // 40% extended bolus
+    
     // TODO: the "3" should be replaced with the bolus duration from the profile when added
     this->bolusRatePerHour = this->extendedBolus / 3; // rate per hour for extended bolus
+    // Calculate extended bolus rate (units per hour)
+    //double duriation = profile->getExtendedBolusDuration();
+    //this->bolusRatePerHour = ((duration >0) ? this ->extenttedBolus / duration:0;
 }
