@@ -4,14 +4,21 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     battery(battery),
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
+<<<<<<< HEAD
 {
     this.bolusCalculator = new BolusCalculator();
 }
+=======
+{}
+
+void InsulinPump::giveBolus(int a, double b){
+>>>>>>> simulationSetup
 
 InsulinPump::~InsulinPump(){
     delete bolusCalculator;
 }
 
+<<<<<<< HEAD
 void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
     this.bolusCalculator->calculateBolus(totalCarbs, currentBG, profile);
 }
@@ -20,6 +27,8 @@ Error InsulinPump::giveBolus(){
     
 }
 
+=======
+>>>>>>> simulationSetup
 void InsulinPump::startBasalDelievery(){
 
 }

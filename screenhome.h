@@ -15,6 +15,11 @@ public:
     explicit ScreenHome(QWidget *parent = nullptr);
     ~ScreenHome();
 
+    void setTime(int);
+    void setIOB(double);
+    void setIL(double);
+    void setBattery(int);
+
 private:
     Ui::ScreenHome *ui;
 
