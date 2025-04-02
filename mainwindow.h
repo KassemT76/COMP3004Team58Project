@@ -48,9 +48,7 @@ private slots:
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
-<<<<<<< HEAD
     void addProfile(QString, double, double, double, double, int, int);
-=======
 
 
     // These slots will be called by the QTimer and the simulation
@@ -58,7 +56,7 @@ private slots:
     void startSimulation();
     void stopSimulation();
     void pauseSimulation();
->>>>>>> origin/main
+
 };
 
 #endif // MAINWINDOW_H

@@ -119,11 +119,11 @@ void MainWindow::goToAddProfile(){
     screenAddProfile->show();
 }
 
-<<<<<<< HEAD
+
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
     goToProfile();
-=======
+}
 //Simulation
 
 void MainWindow::simulationStep(){
@@ -151,5 +151,4 @@ void MainWindow::stopSimulation(){
 
 void MainWindow::pauseSimulation(){
     timer->stop();
->>>>>>> origin/main
 }
