@@ -16,7 +16,7 @@ public:
     double getFoodBolus() const { return foodBolus; }
     double getCorrectionBolus() const { return correctionBolus; }
     double getTotalRequiredBolus() const { return totalRequiredBolus; }
-    double getFinalBolus() const { return insulinOB; }
+    double getFinalBolus() const { return finalBolus; }
     double getImmediateBolus() const { return immediateBolus; }
     double getExtendedBolus() const { return extendedBolus; }
     double getBolusRatePerHour() const { return bolusRatePerHour; }
