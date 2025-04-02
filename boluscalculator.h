@@ -10,8 +10,7 @@ class BolusCalculator
 {
 public:
     // Constructors
-    BolusCalculator(PersonalProfile* profile);
-    BolusCalculator(PersonalProfile* profile, int totalCarbs, double currentBG);
+    BolusCalculator();
 
     // Getters for the private members
     double getFoodBolus() const { return foodBolus; }
@@ -29,11 +28,9 @@ public:
      * @param currentBG Current blood glucose level.
      * @return A BolusData object containing the total, immediate, and extended insulin doses.
      */
-    void calculateBolus(int totalCarbs, double currentBG);
+    void calculateBolus(int totalCarbs, double currentBG, PersonalProfile* profile);
 
 private:
-    PersonalProfile* profile;
-
     double foodBolus;
     double correctionBolus;
     double totalRequiredBolus;

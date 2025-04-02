@@ -5,7 +5,7 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-
+    this.bolusCalculator = new BolusCalculator();
 }
 
 InsulinPump::~InsulinPump(){
@@ -13,11 +13,11 @@ InsulinPump::~InsulinPump(){
 }
 
 void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
-    this.bolusCalculator = new BolusCalculator(profile, totalCarbs, currentBG);
+    this.bolusCalculator->calculateBolus(totalCarbs, currentBG, profile);
 }
 
 Error InsulinPump::giveBolus(){
-    // TODO: This part should be next, need to discuss what the plan is now...
+    
 }
 
 void InsulinPump::startBasalDelievery(){

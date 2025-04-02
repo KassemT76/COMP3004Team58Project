@@ -1,11 +1,8 @@
 #include "boluscalculator.h"
 
-BolusCalculator::BolusCalculator(PersonalProfile* profile) : profile(profile), foodBolus(0), correctionBolus(0), totalRequiredBolus(0), finalBolus(0), immediateBolus(0), extendedBolus(0), bolusRatePerHour(0) {}
-BolusCalculator::BolusCalculator(PersonalProfile* profile, int totalCarbs, double currentBG) : profile(profile), foodBolus(0), correctionBolus(0), totalRequiredBolus(0), finalBolus(0), immediateBolus(0), extendedBolus(0), bolusRatePerHour(0) {
-    calculateBolus(totalCarbs, currentBG);
-}
+BolusCalculator::BolusCalculator() : foodBolus(0), correctionBolus(0), totalRequiredBolus(0), finalBolus(0), immediateBolus(0), extendedBolus(0), bolusRatePerHour(0) {}
 
-void BolusCalculator::calculateBolus(int totalCarbs, double currentBG){
+void BolusCalculator::calculateBolus(int totalCarbs, double currentBG, PersonalProfile* profile) {
     this.foodBolus = totalCarbs / profile->getCarbRatio();
     this.correctionBolus = (currentBG - profile->getTargetBG()) / profile->getCorrectionFactor();
     this.totalRequiredBolus = this.foodBolus + this.correctionBolus;
