@@ -4,7 +4,8 @@
 #include <QWidget>
 #include <QVector>
 #include <personalprofile.h>
-
+#include <QTableWidgetItem>
+#include <QVBoxLayout>
 namespace Ui {
 class ScreenProfileSetup;
 }
@@ -22,9 +23,11 @@ public:
 
 private:
     Ui::ScreenProfileSetup *ui;
+    QVector<QTableWidgetItem*> cells;
     //profile manager:
     QVector<PersonalProfile> profiles;
     PersonalProfile activeProfile;
+    QVBoxLayout *profileLayout;
 signals:
     void sendToHome();
     void sendToAddProfile();
@@ -33,6 +36,7 @@ private slots:
     void goToHome();
     void goToAddProfile();
 
+    void on_profileTable_cellChanged(int row, int column);
 };
 
 #endif // SCREENPROFILESETUP_H

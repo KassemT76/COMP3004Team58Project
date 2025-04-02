@@ -934,16 +934,40 @@
    </layout>
   </widget>
   <widget class="QTableWidget" name="profileTable">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-4</x>
      <y>50</y>
-     <width>400</width>
-     <height>171</height>
+     <width>401</width>
+     <height>181</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>401</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::SolidLine</enum>
+   </property>
+   <property name="sortingEnabled">
+    <bool>false</bool>
+   </property>
+   <property name="rowCount">
+    <number>2</number>
+   </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>83</number>
+    <number>66</number>
    </attribute>
    <attribute name="verticalHeaderDefaultSectionSize">
     <number>36</number>
@@ -960,12 +984,7 @@
    </row>
    <column>
     <property name="text">
-     <string>Carbs</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Glucose</string>
+     <string>Time</string>
     </property>
    </column>
    <column>
@@ -975,9 +994,34 @@
    </column>
    <column>
     <property name="text">
-     <string>Correction</string>
+     <string>Correct</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>Carb</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Target</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+   </item>
+   <item row="1" column="3">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
@@ -1038,6 +1082,9 @@
     </item>
    </layout>
   </widget>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>horizontalLayoutWidget_2</zorder>
+  <zorder>profileTable</zorder>
  </widget>
  <resources/>
  <connections/>
