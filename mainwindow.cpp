@@ -120,8 +120,11 @@ void MainWindow::goToAddProfile(){
 //Simulation
 
 void MainWindow::simulationStep(){
+    //Do 1 Tick
     currentTimeStep++;
-    qInfo() << currentTimeStep;
+
+    //Insulin Pump
+    //TODO: DECAY, operations
 
     //Update UI
     screenHome->setTime(currentTimeStep);
@@ -131,13 +134,11 @@ void MainWindow::simulationStep(){
 }
 
 void MainWindow::startSimulation(){
-    timer->start(1000);
+    timer->start(100);
 }
-
 
 void MainWindow::stopSimulation(){
     timer->stop();
-    ui->lcdNumber->display(0);
     currentTimeStep = 0;
 }
 

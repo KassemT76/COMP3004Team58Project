@@ -47,9 +47,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>160</y>
-      <width>51</width>
-      <height>61</height>
+      <y>170</y>
+      <width>41</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -1504,29 +1504,6 @@
       </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="a">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>450</y>
-      <width>121</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>currentTimeStep</string>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdNumber">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>340</y>
-      <width>401</width>
-      <height>71</height>
-     </rect>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

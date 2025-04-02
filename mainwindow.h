@@ -42,11 +42,14 @@ private:
     int currentTimeStep;
 
 private slots:
+    //Routing
     void goToHome();
     void goToLock();
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
+
+
     // These slots will be called by the QTimer and the simulation
     void simulationStep();
     void startSimulation();

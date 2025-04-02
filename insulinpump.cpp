@@ -9,9 +9,11 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
 void InsulinPump::giveBolus(int a, double b){
 
 }
+
 void InsulinPump::startBasalDelievery(){
 
 }
+
 void InsulinPump::stopBasalDelievery(){
 
 }
