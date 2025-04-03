@@ -19,10 +19,7 @@ ScreenProfileSetup::ScreenProfileSetup(QWidget *parent) :
 }
 
 ScreenProfileSetup::~ScreenProfileSetup()
-{
-    for(PersonalProfile* profile : profiles){
-        delete profile;
-    }
+{ 
     for(QTableWidgetItem* widget : cells){
         delete widget;
     }
@@ -38,12 +35,15 @@ void ScreenProfileSetup::goToAddProfile(){
 }
 
 void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double inCarbRatio, double inCorrectionFactor, double inTargetBG, int inStartTime, int inEndTime){
-    PersonalProfile *newProfile = new PersonalProfile(inName, inBasalRate, inCarbRatio, inCorrectionFactor, inTargetBG, inStartTime, inEndTime);
-    profiles.append(newProfile);
+    if(profileManager->getProfile(inName) != nullptr){
+        return;//if there already exists a profile with the same name, don't add it
+    }
+    profileManager->addProfile(inName, inBasalRate, inCarbRatio, inCorrectionFactor, inTargetBG, inStartTime, inEndTime);
     int rowCount = ui->profileTable->rowCount();
     ui->profileTable->insertRow(rowCount);
     QTableWidgetItem* nameWidget = new QTableWidgetItem(inName);
-    QString time = newProfile->getDisplayTime(inStartTime) + "-" + newProfile->getDisplayTime(inEndTime);
+    PersonalProfile profile;
+    QString time = profile.getDisplayTime(inStartTime) + "-" + profile.getDisplayTime(inEndTime);
     QTableWidgetItem* timeWidget = new QTableWidgetItem(time);
     QTableWidgetItem* basalWidget = new QTableWidgetItem(QString::number(inBasalRate));
     QTableWidgetItem* correctWidget = new QTableWidgetItem(QString::number(inCorrectionFactor));
@@ -65,6 +65,21 @@ void ScreenProfileSetup::removeProfile(){
 
 }
 void ScreenProfileSetup::editProfile(){
+    QTableWidgetItem *selected = ui->profileTable->currentItem();
+    qInfo() << selected->text() << selected->column();
+    QString input = ui->editText->toPlainText();
+    ui->editText->setText("");
+    if(selected->column() == 0){
+
+    }
+    else{
+        bool ok;
+        double val = input.toDouble(&ok);
+        if(!ok){//if value is inappropriate
+            return;
+        }
+
+    }
 
 }
 void ScreenProfileSetup::selectProfile(){
@@ -72,16 +87,11 @@ void ScreenProfileSetup::selectProfile(){
     //SEND SIGNAL TO INSULIN PUMP, WHERE IT WOULD CALL PROFILE MANAGER
 
 }
-PersonalProfile* ScreenProfileSetup::getProfile(QString profileName){
-    for(PersonalProfile* profile: profiles){
-        if(profile->getName() == profileName){
-            return profile;
-        }
-    }
-    return activeProfile;
-}
 
 
 void ScreenProfileSetup::setProfileManager(ProfileManager* passedManager){
     profileManager = passedManager;
+}
+ProfileManager* ScreenProfileSetup::getManager(){
+    return profileManager;
 }

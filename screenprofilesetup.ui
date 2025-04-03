@@ -978,6 +978,9 @@
    <attribute name="horizontalHeaderDefaultSectionSize">
     <number>69</number>
    </attribute>
+   <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+    <bool>false</bool>
+   </attribute>
    <attribute name="horizontalHeaderStretchLastSection">
     <bool>true</bool>
    </attribute>
@@ -1069,7 +1072,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QTextEdit" name="editText">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -1095,7 +1098,7 @@
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
   <zorder>profileTable</zorder>
-  <zorder>textEdit</zorder>
+  <zorder>editText</zorder>
   <zorder>label</zorder>
  </widget>
  <resources/>

@@ -21,16 +21,13 @@ public:
     void removeProfile();
     void editProfile();
     void selectProfile();
-    PersonalProfile* getProfile(QString);
     void addProfile(QString, double, double, double, double, int, int);
     void setProfileManager(ProfileManager*);
+    ProfileManager* getManager();
 private:
     Ui::ScreenProfileSetup *ui;
     QVector<QTableWidgetItem*> cells;
-    //profile manager:
     ProfileManager* profileManager;
-    QVector<PersonalProfile*> profiles;
-    PersonalProfile* activeProfile;
 
 signals:
     void sendToHome();
