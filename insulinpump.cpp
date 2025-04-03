@@ -18,15 +18,25 @@ void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, doub
 }
 
 Error InsulinPump::giveBolus(){
-    
+    //check if there is enough insulin
+
+    //check battery level
+
+    //check if pump has enough insulin for the bolus
+
+    //Deliver immediate bolus
+
+    //startextended bolus if neded
+
+    // Reduce battery by 1% per unit (simplified)cd
 }
 
 void InsulinPump::startBasalDelievery(){
-
+    basalDeliveryActive = true;//this would start a background process that continously delivers basal insulin
 }
 
 void InsulinPump::stopBasalDelievery(){
-
+    basalDeliveryActive = false;//this would stop the basal delivey process
 }
 
 int InsulinPump::getBattery(){
