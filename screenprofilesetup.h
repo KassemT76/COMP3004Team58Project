@@ -31,7 +31,6 @@ private:
     ProfileManager* profileManager;
     QVector<PersonalProfile*> profiles;
     PersonalProfile* activeProfile;
-    QVBoxLayout *profileLayout;
 
 signals:
     void sendToHome();
