@@ -57,6 +57,9 @@ private slots:
     void stopSimulation();
     void pauseSimulation();
 
+    // other, misc fuctions
+    void resetBattery();
+
 };
 
 #endif // MAINWINDOW_H

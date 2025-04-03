@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
     connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
+    connect(ui->rechargeBattButton, SIGNAL(released()), this, SLOT(resetBattery()));
+    
 
     // Simulation
     connect(timer, SIGNAL(timeout()), this, SLOT(simulationStep()));
@@ -138,7 +140,7 @@ void MainWindow::simulationStep(){
 
     //Update UI
     screenHome->setTime(currentTimeStep);
-    screenHome->setBattery(insulinPump->getBattery());
+    // screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
 }
@@ -157,4 +159,8 @@ void MainWindow::stopSimulation(){
 
 void MainWindow::pauseSimulation(){
     timer->stop();
+}
+
+void MainWindow::resetBattery(){
+    insulinPump->rechargeBattery();
 }
