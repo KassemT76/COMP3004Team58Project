@@ -150,6 +150,9 @@ void MainWindow::startSimulation(){
 void MainWindow::stopSimulation(){
     timer->stop();
     currentTimeStep = 0;
+    screenHome->setTime(currentTimeStep);
+    insulinPump->rechargeBattery();
+    screenHome->setBattery(insulinPump->getBattery());
 }
 
 void MainWindow::pauseSimulation(){
