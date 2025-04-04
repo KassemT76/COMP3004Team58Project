@@ -1,12 +1,13 @@
 #include "insulinpump.h"
 
-InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, ScreenProfileSetup* profileScreen) :
+InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard) :
     battery(battery),
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    this->bolusCalculator = new BolusCalculator();
-    profileManager = new ProfileManager(profileScreen);
+    currGlucoseLevel = 0;
+    bolusCalculator = new BolusCalculator();
+    profileManager = new ProfileManager();
 }
 
 
@@ -50,6 +51,9 @@ void InsulinPump::setInsulinOB(double newOB){
 
 void InsulinPump::setBattery(int newBattery){
     battery = newBattery;
+}
+ProfileManager* InsulinPump::getProfileManager(){
+    return profileManager;
 }
 
 // Should be implemented by functions returning an error

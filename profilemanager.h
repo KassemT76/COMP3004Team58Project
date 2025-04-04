@@ -9,16 +9,14 @@ class ScreenProfileSetup;
 class ProfileManager {
 
 public:
-    explicit ProfileManager(ScreenProfileSetup* profileSetupScreen);
+    explicit ProfileManager();
     ~ProfileManager();
     void addProfile(QString, double, double, double, double, int, int);
     void removeProfile();
-    void editProfile();
+    void editProfile(int, QString, QString);
     void selectProfile();
     PersonalProfile* getProfile(QString);
-
 private:
-    ScreenProfileSetup* profileSetupScreen;
     QVector<PersonalProfile*> profiles;
     PersonalProfile* activeProfile;
 

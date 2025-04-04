@@ -47,7 +47,6 @@ private slots:
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
-    void addProfile(QString, double, double, double, double, int, int);
 
 
     // These slots will be called by the QTimer and the simulation
@@ -55,6 +54,12 @@ private slots:
     void startSimulation();
     void stopSimulation();
     void pauseSimulation();
+
+    // screen profile setup:
+    void addProfile(QString, double, double, double, double, int, int);
+    void removeProfile();
+    void editProfile(int, QString, QString);
+    void selectProfile();
 
 };
 

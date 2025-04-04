@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
         screenAddProfile = new ScreenAddProfile(this->ui->frame);
 
     //Insulin Pump
-    insulinPump = new InsulinPump(100, 0, 0, screenProfileSetup);
+    insulinPump = new InsulinPump(100, 0, 0);
 
     //Set to home after screens are set up
     goToHome();
@@ -45,13 +45,15 @@ MainWindow::MainWindow(QWidget *parent)
     //SIGNALS
 
     // Home Screen
-    connect(screenHome, SIGNAL(sendToHome()), this, SLOT(goToHome()));
     connect(screenHome, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenHome, SIGNAL(sendToBolus()), this, SLOT(goToBolus()));
 
     // Profile Screen
     connect(screenProfileSetup, SIGNAL(sendToAddProfile()), this, SLOT(goToAddProfile()));
     connect(screenProfileSetup, SIGNAL(sendToHome()), this, SLOT(goToHome()));
+    connect(screenProfileSetup, SIGNAL(sendRemoveProfile()), this, SLOT(removeProfile()));
+    connect(screenProfileSetup, SIGNAL(sendEditProfile(int, QString, QString)), this, SLOT(editProfile(int, QString, QString)));
+    connect(screenProfileSetup, SIGNAL(sendSelectProfile()), this, SLOT(selectProfile()));
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
@@ -59,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenAddProfile, SIGNAL(sendProfile(QString, double, double, double, double,int,int)), this, SLOT(addProfile(QString, double, double, double, double,int,int)));
-
 }
 
 MainWindow::~MainWindow()
@@ -123,6 +124,7 @@ void MainWindow::goToAddProfile(){
 
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
+    insulinPump->getProfileManager()->addProfile(name, basal, carb, correct, target, start, end);
     goToProfile();
 }
 //Simulation
@@ -152,4 +154,14 @@ void MainWindow::stopSimulation(){
 
 void MainWindow::pauseSimulation(){
     timer->stop();
+}
+void MainWindow::removeProfile(){
+    //Insulin pump removes profile
+    insulinPump->getProfileManager()->removeProfile();
+}
+void MainWindow::editProfile(int index, QString input, QString rowName){
+    insulinPump->getProfileManager()->editProfile(index, input, rowName);
+}
+void MainWindow::selectProfile(){
+    insulinPump->getProfileManager()->selectProfile();
 }

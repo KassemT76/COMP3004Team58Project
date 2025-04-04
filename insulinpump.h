@@ -9,7 +9,7 @@
 class InsulinPump
 {
 public:
-    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, ScreenProfileSetup* profileScreen=nullptr);
+    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
     ~InsulinPump();
 
     void initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG);
@@ -22,7 +22,7 @@ public:
     int getBattery();
     double getInsulinLevel();
     double getInsulinOB();
-
+    ProfileManager* getProfileManager();
     // setters
     void setBattery(int);
     void setInsulinLevel(double);
@@ -37,6 +37,7 @@ private:
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
     int timeInHours;
+    double currGlucoseLevel;
 };
 
 #endif // INSULINPUMP_H
