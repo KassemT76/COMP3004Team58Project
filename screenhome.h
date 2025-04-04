@@ -2,7 +2,8 @@
 #define SCREENHOME_H
 
 #include <QWidget>
-
+#include <QDebug>
+#include "chart.h"
 namespace Ui {
 class ScreenHome;
 }
@@ -20,8 +21,12 @@ public:
     void setIL(double);
     void setBattery(int);
 
+    void addPoint(double);
+    void startShadedArea();
 private:
     Ui::ScreenHome *ui;
+
+    Chart* chart;
 
 signals:
     void sendToBolus();

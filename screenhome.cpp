@@ -9,6 +9,8 @@ ScreenHome::ScreenHome(QWidget *parent) :
 
     connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToProfile()));
     connect(ui->bolusButton, SIGNAL(released()), this, SLOT(goToBolus()));
+
+    chart = new Chart(ui->chartHolder);
 }
 
 ScreenHome::~ScreenHome()
@@ -45,3 +47,12 @@ void ScreenHome::setIL(double il){
 void ScreenHome::setBattery(int b){
     ui->batteryValue->setText(QString::number(b) + "%");
 }
+
+void ScreenHome::addPoint(double glucose){
+    chart->addPoint(glucose);
+}
+
+void ScreenHome::startShadedArea(){
+    chart->shadeArea();
+}
+

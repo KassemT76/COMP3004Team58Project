@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
     //SIGNALS
 
     // Home Screen
-    connect(screenHome, SIGNAL(sendToHome()), this, SLOT(goToHome()));
     connect(screenHome, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenHome, SIGNAL(sendToBolus()), this, SLOT(goToBolus()));
 
@@ -68,6 +68,9 @@ MainWindow::~MainWindow()
     delete screenProfileSetup;
     delete screenLock;
     delete screenAddProfile;
+
+    delete insulinPump;
+    delete timer;
 
     delete ui;
 }
@@ -131,7 +134,11 @@ void MainWindow::simulationStep(){
     currentTimeStep++;
 
     //Insulin Pump
-    //TODO: DECAY, operations
+    screenHome->addPoint(6.95 + 3.05 * qSin(currentTimeStep * 0.3));
+
+    if(currentTimeStep % 5 == 0){
+        screenHome->startShadedArea();
+    }
 
     //Update UI
     screenHome->setTime(currentTimeStep);
@@ -141,7 +148,7 @@ void MainWindow::simulationStep(){
 }
 
 void MainWindow::startSimulation(){
-    timer->start(100);
+    timer->start(500);
 }
 
 void MainWindow::stopSimulation(){
