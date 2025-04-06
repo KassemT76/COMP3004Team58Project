@@ -1095,11 +1095,39 @@
     <string>Edit Value:</string>
    </property>
   </widget>
+  <widget class="QLabel" name="selectedProfile">
+   <property name="geometry">
+    <rect>
+     <x>171</x>
+     <y>30</y>
+     <width>211</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>none</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>30</y>
+     <width>111</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Selected Profile:</string>
+   </property>
+  </widget>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
   <zorder>profileTable</zorder>
   <zorder>editText</zorder>
   <zorder>label</zorder>
+  <zorder>selectedProfile</zorder>
+  <zorder>label_3</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -18,8 +18,13 @@ void ProfileManager::addProfile(QString inName, double inBasalRate, double inCar
     PersonalProfile *newProfile = new PersonalProfile(inName, inBasalRate, inCarbRatio, inCorrectionFactor, inTargetBG, inStartTime, inEndTime);
     profiles.append(newProfile);
 }
-void ProfileManager::removeProfile(){
-
+void ProfileManager::removeProfile(QString inName){
+    PersonalProfile* gotProfile = getProfile(inName);
+    if(activeProfile == gotProfile){
+        activeProfile = nullptr;
+    }
+    profiles.removeOne(gotProfile);
+    delete gotProfile;
 }
 void ProfileManager::editProfile(int index, QString input, QString rowName){
     PersonalProfile* profile = getProfile(rowName);
@@ -50,9 +55,13 @@ void ProfileManager::editProfile(int index, QString input, QString rowName){
         profile->setTargetBG(target);
     }
 }
-void ProfileManager::selectProfile(){
-
+void ProfileManager::selectProfile(QString inName){
+    activeProfile = getProfile(inName);
 }
+PersonalProfile* ProfileManager::getActiveProfile(){
+    return activeProfile;
+}
+
 PersonalProfile* ProfileManager::getProfile(QString profileName){
     for(PersonalProfile* profile: profiles){
         if(profile->getName() == profileName){

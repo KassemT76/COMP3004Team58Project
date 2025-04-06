@@ -12,9 +12,10 @@ public:
     explicit ProfileManager();
     ~ProfileManager();
     void addProfile(QString, double, double, double, double, int, int);
-    void removeProfile();
+    void removeProfile(QString);
     void editProfile(int, QString, QString);
-    void selectProfile();
+    void selectProfile(QString);
+    PersonalProfile* getActiveProfile();
     PersonalProfile* getProfile(QString);
 private:
     QVector<PersonalProfile*> profiles;

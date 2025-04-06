@@ -22,15 +22,14 @@ public:
     bool nameExists(QString);
 private:
     Ui::ScreenProfileSetup *ui;
-    QVector<QTableWidgetItem*> cells;
     QVector<QString> names;
 
 signals:
     void sendToHome();
     void sendToAddProfile();
-    void sendRemoveProfile();
+    void sendRemoveProfile(QString);
     void sendEditProfile(int, QString, QString);
-    void sendSelectProfile();
+    void sendSelectProfile(QString);
 private slots:
     void goToHome();
     void goToAddProfile();

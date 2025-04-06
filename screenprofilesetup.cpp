@@ -19,9 +19,6 @@ ScreenProfileSetup::ScreenProfileSetup(QWidget *parent) :
 
 ScreenProfileSetup::~ScreenProfileSetup()
 { 
-    for(QTableWidgetItem* widget : cells){
-        delete widget;
-    }
     delete ui;
 }
 
@@ -48,11 +45,6 @@ void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double i
     QTableWidgetItem* correctWidget = new QTableWidgetItem(QString::number(inCorrectionFactor));
     QTableWidgetItem* carbWidget = new QTableWidgetItem(QString::number(inCarbRatio));
     QTableWidgetItem* targetWidget = new QTableWidgetItem(QString::number(inTargetBG));
-    cells.append(timeWidget);
-    cells.append(basalWidget);
-    cells.append(correctWidget);
-    cells.append(carbWidget);
-    cells.append(targetWidget);
     ui->profileTable->setVerticalHeaderItem(rowCount, nameWidget);
     ui->profileTable->setItem(rowCount, 0, timeWidget);
     ui->profileTable->setItem(rowCount, 1, basalWidget);
@@ -61,8 +53,17 @@ void ScreenProfileSetup::addProfile(QString inName, double inBasalRate, double i
     ui->profileTable->setItem(rowCount, 4, targetWidget);
 }
 void ScreenProfileSetup::removeProfile(){
-    //Remove Row from table, emit signal
-     emit sendRemoveProfile();
+    QTableWidgetItem *selected = ui->profileTable->currentItem();
+    if(selected == nullptr){//if nothing is selected, do nothing
+        return;
+    }
+    QTableWidgetItem* rowHeader = ui->profileTable->verticalHeaderItem(selected->row());
+    if(ui->selectedProfile->text() == rowHeader->text()){//if removed row is active profile
+        ui->selectedProfile->setText("none");
+    }
+    names.removeOne(rowHeader->text());
+    emit sendRemoveProfile(rowHeader->text());
+    ui->profileTable->removeRow(selected->row());
 }
 void ScreenProfileSetup::editProfile(){
     QTableWidgetItem *selected = ui->profileTable->currentItem();
@@ -104,7 +105,13 @@ void ScreenProfileSetup::editProfile(){
     emit sendEditProfile(index, input, rowHeader->text());
 }
 void ScreenProfileSetup::selectProfile(){
-    emit sendSelectProfile();
+    QTableWidgetItem *selected = ui->profileTable->currentItem();
+    if(selected == nullptr){//if nothing is selected, do nothing
+        return;
+    }
+    QTableWidgetItem* rowHeader = ui->profileTable->verticalHeaderItem(selected->row());
+    ui->selectedProfile->setText(rowHeader->text());
+    emit sendSelectProfile(rowHeader->text());
 }
 bool ScreenProfileSetup::nameExists(QString inName){
     for(QString name: names){
