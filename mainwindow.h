@@ -61,6 +61,10 @@ private slots:
     void editProfile(int, QString, QString);
     void selectProfile(QString);
 
+    // screen bolus:
+    void confirmBolus();
+    void calcUnits();
+    void calcExtended();
 };
 
 #endif // MAINWINDOW_H

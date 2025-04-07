@@ -57,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
+    connect(screenBolus, SIGNAL(sendConfirmBolus()), this, SLOT(confirmBolus()));
+    connect(screenBolus, SIGNAL(sendCalcUnits()), this, SLOT(calcUnits()));
+    connect(screenBolus, SIGNAL(sendCalcExtended()), this, SLOT(calcExtended()));
 
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
@@ -156,7 +159,6 @@ void MainWindow::pauseSimulation(){
     timer->stop();
 }
 void MainWindow::removeProfile(QString inName){
-    //Insulin pump removes profile
     insulinPump->getProfileManager()->removeProfile(inName);
 }
 void MainWindow::editProfile(int index, QString input, QString rowName){
@@ -164,4 +166,14 @@ void MainWindow::editProfile(int index, QString input, QString rowName){
 }
 void MainWindow::selectProfile(QString inName){
     insulinPump->getProfileManager()->selectProfile(inName);
+}
+
+void MainWindow::confirmBolus(){
+    //INSULIN PUMP DELIEVERS BOLUS
+}
+void MainWindow::calcUnits(){
+    //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
+}
+void MainWindow::calcExtended(){
+    //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
 }
