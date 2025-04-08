@@ -96,7 +96,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLabel" name="mysteryValue">
+       <widget class="QLabel" name="glucoseValue">
         <property name="text">
          <string>6.9</string>
         </property>
@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mysteryLabel">
+       <widget class="QLabel" name="glucoseLabel">
         <property name="text">
          <string>mmol/L</string>
         </property>

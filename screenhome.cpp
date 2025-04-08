@@ -44,6 +44,10 @@ void ScreenHome::setIL(double il){
     ui->insulinLevelValue->setText(QString::number(il) + " u");
 }
 
+void ScreenHome::setGlucoseLevel(double g){
+    ui->glucoseValue->setText(QString::number(g));
+}
+
 void ScreenHome::setBattery(int b){
     ui->batteryValue->setText(QString::number(b) + "%");
 }

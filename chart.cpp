@@ -102,53 +102,83 @@ Chart::~Chart()
     delete ui;
 }
 
-void Chart::addPoint(double glucose){
+void Chart::addPoint(double glucose) {
     qInfo() << glucose;
-
     series->append(currentX, glucose);
 
-    //Update threshold line when needed
-    if(currentX % 15 == 0 && currentX != 0){
-        thresholdLineTop->append(currentX, UPPER_THRESHOLD); //start
-        thresholdLineTop->append(currentX + MAX_LENGTH, UPPER_THRESHOLD); //end
-
-        thresholdLineBottom->append(currentX, LOWER_THRESHOLD); //start
-        thresholdLineBottom->append(currentX + MAX_LENGTH, LOWER_THRESHOLD); //end
+    // Threshold lines
+    if (currentX % 15 == 0 && currentX != 0) {
+        thresholdLineTop->append(currentX, UPPER_THRESHOLD);
+        thresholdLineTop->append(currentX + MAX_LENGTH, UPPER_THRESHOLD);
+        thresholdLineBottom->append(currentX, LOWER_THRESHOLD);
+        thresholdLineBottom->append(currentX + MAX_LENGTH, LOWER_THRESHOLD);
     }
 
-    //Update sliding window
-    if(series->count() == MAX_LENGTH){
-        series->remove(0); //you can remove this line to preserve old values
+    // Sliding window
+    if (series->count() == MAX_LENGTH) {
+        series->remove(0);
         axisX->setRange(currentX - MAX_LENGTH + 1, currentX);
+    }
+
+    // Live shaded region (dynamic right boundary)
+    if (isShading) {
+        if (shadedArea) {
+            chart->removeSeries(shadedArea);
+            delete shadedArea;
+        }
+
+        QLineSeries* rightBoundary = new QLineSeries();
+        rightBoundary->append(currentX, MIN_GLUCOSE);
+        rightBoundary->append(currentX, MAX_GLUCOSE);
+
+        shadedArea = new QAreaSeries(leftBoundary, rightBoundary);
+        shadedArea->setPen(Qt::NoPen);
+        shadedArea->setBrush(QBrush(QColor(255, 0, 0, 50)));
+
+        chart->addSeries(shadedArea);
+        shadedArea->attachAxis(axisX);
+        shadedArea->attachAxis(axisY);
     }
 
     currentX++;
 }
 
-void Chart::shadeArea(){
-    if(isShading){
-        rightBoundary = new QLineSeries();
+void Chart::shadeArea() {
+    if (isShading) {
+        qInfo() << "Stop shading";
+        // Finalize the live shaded area
+        if (shadedArea) {
+            chart->removeSeries(shadedArea);
+            delete shadedArea;
+            shadedArea = nullptr;
+        }
+
+        // Create right boundary at currentX
+        QLineSeries* rightBoundary = new QLineSeries();
         rightBoundary->append(currentX, MIN_GLUCOSE);
         rightBoundary->append(currentX, MAX_GLUCOSE);
 
-        QAreaSeries *shadedArea = new QAreaSeries(leftBoundary, rightBoundary);
+        // Create final area
+        QAreaSeries* permanentShadedArea = new QAreaSeries(leftBoundary, rightBoundary);
+        permanentShadedArea->setPen(Qt::NoPen);
+        permanentShadedArea->setBrush(QBrush(QColor(255, 0, 0, 50)));
 
-        QPen pen(Qt::NoPen); // No border
-        shadedArea->setPen(pen);
+        chart->addSeries(permanentShadedArea);
+        permanentShadedArea->attachAxis(axisX);
+        permanentShadedArea->attachAxis(axisY);
 
-        QBrush brush(QColor(255, 0, 0, 50));
-        shadedArea->setBrush(brush);
-
-        chart->addSeries(shadedArea);
-        shadedArea->attachAxis(axisX);
-        shadedArea->attachAxis(axisY);
-
+        // Do NOT delete leftBoundary — it's part of the permanent area now
+        leftBoundary = nullptr;
         isShading = false;
     } else {
+        // Begin a new shaded region
+        qInfo() << "Start shading";
         leftBoundary = new QLineSeries();
         leftBoundary->append(currentX, MIN_GLUCOSE);
         leftBoundary->append(currentX, MAX_GLUCOSE);
 
+        // Preload shadedArea to prevent freeing dangling pointer
+        shadedArea = nullptr;
         isShading = true;
     }
 }

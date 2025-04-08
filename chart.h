@@ -30,7 +30,7 @@ public:
 
     void addPoint(double);
     void shadeArea();
-
+    void updateShadedArea();
 private:
     Ui::Chart *ui;
     QChart* chart;
@@ -41,8 +41,13 @@ private:
     QValueAxis* axisX;
     QValueAxis* axisY;
 
+    QAreaSeries *shadedArea;
+
     QLineSeries *leftBoundary;
     QLineSeries *rightBoundary;
+
+    QList<QAreaSeries*> shadedAreas;
+
 
     int currentX;
 

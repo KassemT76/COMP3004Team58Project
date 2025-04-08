@@ -19,6 +19,7 @@ public:
     void setTime(int);
     void setIOB(double);
     void setIL(double);
+    void setGlucoseLevel(double);
     void setBattery(int);
 
     void addPoint(double);

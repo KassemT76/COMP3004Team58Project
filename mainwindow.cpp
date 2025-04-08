@@ -134,12 +134,12 @@ void MainWindow::simulationStep(){
     currentTimeStep++;
 
     //Insulin Pump
-    screenHome->addPoint(6.95 + 3.05 * qSin(currentTimeStep * 0.3));
-
+    double n = 6.95 + 3.05 * qSin(currentTimeStep * 0.3);
+    screenHome->setGlucoseLevel(n);
+    screenHome->addPoint(n);
     if(currentTimeStep % 5 == 0){
         screenHome->startShadedArea();
     }
-
     //Update UI
     screenHome->setTime(currentTimeStep);
     screenHome->setBattery(insulinPump->getBattery());
