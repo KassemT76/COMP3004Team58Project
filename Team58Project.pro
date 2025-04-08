@@ -19,6 +19,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     personalprofile.cpp \
+    profilemanager.cpp \
     screenaddprofile.cpp \
     screenbolus.cpp \
     screenhome.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     personalprofile.h \
+    profilemanager.h \
     screenaddprofile.h \
     screenbolus.h \
     screenhome.h \

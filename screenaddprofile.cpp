@@ -23,6 +23,7 @@ void ScreenAddProfile::goToProfile(){
 
 void ScreenAddProfile::gatherInfo(){
     //Grab values from the ui form
+
     QString inName = ui->nameEnter->toPlainText();
 
     double basal = ui->basalEnter->value();
