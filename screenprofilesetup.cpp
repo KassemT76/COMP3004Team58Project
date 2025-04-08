@@ -69,6 +69,9 @@ void ScreenProfileSetup::editProfile(){
     QTableWidgetItem *selected = ui->profileTable->currentItem();
     QString input = ui->editText->toPlainText();
     ui->editText->setText("");
+    if(selected == nullptr){//if nothing is selected, do nothing
+        return;
+    }
     double val = 0;
     int index = selected->column();
     if(index == 0){//setting time, have to adjust differently than other values
