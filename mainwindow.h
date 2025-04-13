@@ -63,8 +63,8 @@ private slots:
 
     // screen bolus:
     void confirmBolus();
-    void calcUnits();
-    void calcExtended();
+    void calcUnits(double, double);
+    void calcExtended(int, int, double, double, double);
 };
 
 #endif // MAINWINDOW_H

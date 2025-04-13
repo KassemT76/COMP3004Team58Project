@@ -15,11 +15,17 @@ InsulinPump::~InsulinPump(){
     delete bolusCalculator;
     delete profileManager;
 }
-
-void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
-    this->bolusCalculator->calculateBolus(totalCarbs, currentBG, profile);
+void InsulinPump::initailizeBolus(double totalCarbs, double currentBG){
+    if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
+        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile());
+    }
 }
-
+void InsulinPump::initailizeExtended(int now, int later, int duration, double totalCarbs, double currentBG){
+    if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
+        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile());
+        bolusCalculator->calculateExtended(now, later, duration);
+    }
+}
 Error InsulinPump::giveBolus(){
     //check if there is enough insulin
 
@@ -65,6 +71,9 @@ void InsulinPump::setBattery(int newBattery){
 }
 ProfileManager* InsulinPump::getProfileManager(){
     return profileManager;
+}
+BolusCalculator* InsulinPump::getBolusCalculator(){
+    return bolusCalculator;
 }
 
 // Should be implemented by functions returning an error

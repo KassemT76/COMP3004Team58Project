@@ -14,6 +14,8 @@ class ScreenBolus : public QWidget
 public:
     explicit ScreenBolus(QWidget *parent = nullptr);
     ~ScreenBolus();
+    void updateCalc(double);
+    void updateExtended(double, double);
 
 private:
     Ui::ScreenBolus *ui;
@@ -21,8 +23,8 @@ private:
 signals:
     void sendToHome();
     void sendConfirmBolus();
-    void sendCalcUnits();
-    void sendCalcExtended();
+    void sendCalcUnits(double, double);
+    void sendCalcExtended(int, int, int, double, double);
 
 private slots:
     void goToHome();

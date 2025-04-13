@@ -946,7 +946,7 @@
     <string>Glucose:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="glucose">
+  <widget class="QDoubleSpinBox" name="glucoseSpinbox">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -1492,7 +1492,7 @@
     <string>mmol/L</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="extendedCheckBox">
    <property name="geometry">
     <rect>
      <x>20</x>

@@ -12,7 +12,8 @@ public:
     InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
     ~InsulinPump();
 
-    void initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG);
+    void initailizeBolus(double, double);
+    void initailizeExtended(int, int, int, double, double);
     Error giveBolus(); // return true if successful
     void startBasalDelievery();
     void stopBasalDelievery();
@@ -23,6 +24,7 @@ public:
     double getInsulinLevel();
     double getInsulinOB();
     ProfileManager* getProfileManager();
+    BolusCalculator* getBolusCalculator();
     // setters
     void setBattery(int);
     void setInsulinLevel(double);

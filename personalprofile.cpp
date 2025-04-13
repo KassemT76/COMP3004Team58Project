@@ -53,10 +53,6 @@ int PersonalProfile::getEndTime(){
 void PersonalProfile::setEndTime(int time){
     endTime = time;
 }
-double PersonalProfile::getTimeHr(){
-    double time = endTime - startTime;
-    return time/60;
-}
 
 double PersonalProfile::getInsulinOB(){
     return insulinOB;

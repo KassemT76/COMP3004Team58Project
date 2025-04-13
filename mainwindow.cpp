@@ -59,8 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
     connect(screenBolus, SIGNAL(sendConfirmBolus()), this, SLOT(confirmBolus()));
-    connect(screenBolus, SIGNAL(sendCalcUnits()), this, SLOT(calcUnits()));
-    connect(screenBolus, SIGNAL(sendCalcExtended()), this, SLOT(calcExtended()));
+    connect(screenBolus, SIGNAL(sendCalcUnits(double, double)), this, SLOT(calcUnits(double, double)));
+    connect(screenBolus, SIGNAL(sendCalcExtended(int, int, double, double, double)), this, SLOT(calcExtended(int, int, double, double, double)));
 
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
@@ -106,7 +106,6 @@ void MainWindow::goToBolus(){
     screenLock->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
-
     screenBolus->show();
 }
 
@@ -179,9 +178,13 @@ void MainWindow::selectProfile(QString inName){
 void MainWindow::confirmBolus(){
     //INSULIN PUMP DELIEVERS BOLUS
 }
-void MainWindow::calcUnits(){
+void MainWindow::calcUnits(double totalCarbs, double currentBG){
     //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
+    insulinPump->initailizeBolus(totalCarbs, currentBG);
+    screenBolus->updateCalc(insulinPump->getBolusCalculator()->getBolus());
 }
-void MainWindow::calcExtended(){
+void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
+    insulinPump->initailizeExtended(now, later, duration, totalCarbs, currentBG);
+    screenBolus->updateExtended(insulinPump->getBolusCalculator()->getImmediateBolus(), insulinPump->getBolusCalculator()->getExtendedBolus());
 }

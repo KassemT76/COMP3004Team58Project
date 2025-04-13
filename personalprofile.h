@@ -20,7 +20,6 @@ public:
     void setStartTime(int);
     int getEndTime();
     void setEndTime(int);
-    double getTimeHr();//get time span from start to end in hours for bolus calculations
     double getInsulinOB();
     void setInsulinOB(double insulinOB);
 
