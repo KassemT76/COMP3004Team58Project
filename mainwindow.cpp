@@ -6,8 +6,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    //Insulin Pump
-    insulinPump = new InsulinPump(100, 0, 0);
 
     //Timer
     timer = new QTimer(this);
@@ -27,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
         screenProfileSetup = new ScreenProfileSetup(this->ui->frame);
     if (!screenAddProfile)
         screenAddProfile = new ScreenAddProfile(this->ui->frame);
+
+    //Insulin Pump
+    insulinPump = new InsulinPump(100, 0, 0);
 
     //Set to home after screens are set up
     goToHome();
@@ -51,14 +52,19 @@ MainWindow::MainWindow(QWidget *parent)
     // Profile Screen
     connect(screenProfileSetup, SIGNAL(sendToAddProfile()), this, SLOT(goToAddProfile()));
     connect(screenProfileSetup, SIGNAL(sendToHome()), this, SLOT(goToHome()));
+    connect(screenProfileSetup, SIGNAL(sendRemoveProfile(QString)), this, SLOT(removeProfile(QString)));
+    connect(screenProfileSetup, SIGNAL(sendEditProfile(int, QString, QString)), this, SLOT(editProfile(int, QString, QString)));
+    connect(screenProfileSetup, SIGNAL(sendSelectProfile(QString)), this, SLOT(selectProfile(QString)));
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
+    connect(screenBolus, SIGNAL(sendConfirmBolus()), this, SLOT(confirmBolus()));
+    connect(screenBolus, SIGNAL(sendCalcUnits()), this, SLOT(calcUnits()));
+    connect(screenBolus, SIGNAL(sendCalcExtended()), this, SLOT(calcExtended()));
 
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenAddProfile, SIGNAL(sendProfile(QString, double, double, double, double,int,int)), this, SLOT(addProfile(QString, double, double, double, double,int,int)));
-
 }
 
 MainWindow::~MainWindow()
@@ -125,6 +131,7 @@ void MainWindow::goToAddProfile(){
 
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
+    insulinPump->getProfileManager()->addProfile(name, basal, carb, correct, target, start, end);
     goToProfile();
 }
 //Simulation
@@ -158,4 +165,23 @@ void MainWindow::stopSimulation(){
 
 void MainWindow::pauseSimulation(){
     timer->stop();
+}
+void MainWindow::removeProfile(QString inName){
+    insulinPump->getProfileManager()->removeProfile(inName);
+}
+void MainWindow::editProfile(int index, QString input, QString rowName){
+    insulinPump->getProfileManager()->editProfile(index, input, rowName);
+}
+void MainWindow::selectProfile(QString inName){
+    insulinPump->getProfileManager()->selectProfile(inName);
+}
+
+void MainWindow::confirmBolus(){
+    //INSULIN PUMP DELIEVERS BOLUS
+}
+void MainWindow::calcUnits(){
+    //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
+}
+void MainWindow::calcExtended(){
+    //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
 }

@@ -5,12 +5,15 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    this->bolusCalculator = new BolusCalculator();
+    currGlucoseLevel = 0;
+    bolusCalculator = new BolusCalculator();
+    profileManager = new ProfileManager();
 }
 
 
 InsulinPump::~InsulinPump(){
     delete bolusCalculator;
+    delete profileManager;
 }
 
 void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
@@ -29,6 +32,8 @@ Error InsulinPump::giveBolus(){
     //startextended bolus if neded
 
     // Reduce battery by 1% per unit (simplified)cd
+    Error error;
+    return error;
 }
 
 void InsulinPump::startBasalDelievery(){
@@ -57,6 +62,9 @@ void InsulinPump::setInsulinOB(double newOB){
 
 void InsulinPump::setBattery(int newBattery){
     battery = newBattery;
+}
+ProfileManager* InsulinPump::getProfileManager(){
+    return profileManager;
 }
 
 // Should be implemented by functions returning an error
