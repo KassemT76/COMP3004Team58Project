@@ -16,7 +16,7 @@ public:
     explicit ScreenHome(QWidget *parent = nullptr);
     ~ScreenHome();
 
-    void setTime(int);
+    QString setTime(int);
     void setIOB(double);
     void setIL(double);
     void setGlucoseLevel(double);

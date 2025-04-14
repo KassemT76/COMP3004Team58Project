@@ -1,5 +1,6 @@
 #include "screenbolus.h"
 #include "ui_screenbolus.h"
+#include <QDebug>
 
 ScreenBolus::ScreenBolus(QWidget *parent) :
     QWidget(parent),
@@ -23,7 +24,12 @@ void ScreenBolus::goToHome(){
 }
 void ScreenBolus::confirmBolus(){
     if(ui->extendedCheckBox->isChecked()){
-
+        double duration = ui->durationHr->value() + ui->durationMin->value()/60;
+        sendConfirmBolus(ui->deliverNow->value(), ui->deliverLater->value(), duration,
+                         ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    }
+    else{
+        sendConfirmBolus(0, 0, 0, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
     }
     ui->carbsSpinbox->setValue(0.0);
     ui->glucoseSpinbox->setValue(0.0);
@@ -34,8 +40,6 @@ void ScreenBolus::confirmBolus(){
     ui->unitsView->setText("");
     ui->nowView->setText("");
     ui->laterView->setText("");
-    emit sendConfirmBolus();
-
 }
 void ScreenBolus::calcUnits(){
     emit sendCalcUnits(ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());

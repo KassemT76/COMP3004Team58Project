@@ -2,6 +2,7 @@
 #define SCREENBOLUS_H
 
 #include <QWidget>
+#include <QDebug>
 
 namespace Ui {
 class ScreenBolus;
@@ -22,7 +23,7 @@ private:
 
 signals:
     void sendToHome();
-    void sendConfirmBolus();
+    void sendConfirmBolus(int, int, int, double, double);
     void sendCalcUnits(double, double);
     void sendCalcExtended(int, int, int, double, double);
 

@@ -13,6 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //UI
     ui->setupUi(this);
+    logLayout = new QVBoxLayout();
+    ui->logConsole->setLayout(logLayout);
+    logText = new QTextEdit(this);
+    logText->setReadOnly(true);
+    logText->setWordWrapMode(QTextOption::NoWrap);
+    logLayout->addWidget(logText);
 
     //Set up screens
     if (!screenHome)
@@ -58,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
-    connect(screenBolus, SIGNAL(sendConfirmBolus()), this, SLOT(confirmBolus()));
+    connect(screenBolus, SIGNAL(sendConfirmBolus(int, int, double, double, double)), this, SLOT(confirmBolus(int, int, double, double, double)));
     connect(screenBolus, SIGNAL(sendCalcUnits(double, double)), this, SLOT(calcUnits(double, double)));
     connect(screenBolus, SIGNAL(sendCalcExtended(int, int, double, double, double)), this, SLOT(calcExtended(int, int, double, double, double)));
 
@@ -137,20 +143,27 @@ void MainWindow::addProfile(QString name, double basal, double carb, double corr
 
 void MainWindow::simulationStep(){
     //Do 1 Tick
-    currentTimeStep++;
+    currentTimeStep+=5;
 
     //Insulin Pump
+    QString logMessage = "";
     double n = 6.95 + 3.05 * qSin(currentTimeStep * 0.3);
     screenHome->setGlucoseLevel(n);
     screenHome->addPoint(n);
     if(currentTimeStep % 5 == 0){
         screenHome->startShadedArea();
     }
+    logMessage += insulinPump->distributeInsulin();//output
+
     //Update UI
-    screenHome->setTime(currentTimeStep);
+    QString time = screenHome->setTime(currentTimeStep);
     screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
+
+    //Log Console
+    logText->append(time+" | "+logMessage);
+
 }
 
 void MainWindow::startSimulation(){
@@ -175,13 +188,17 @@ void MainWindow::selectProfile(QString inName){
     insulinPump->getProfileManager()->selectProfile(inName);
 }
 
-void MainWindow::confirmBolus(){
-    //INSULIN PUMP DELIEVERS BOLUS
+void MainWindow::confirmBolus(int now, int later, double duration, double totalCarbs, double currentBG){
+    //INSULIN PUMP DELIEVERS BOLUS, inputs in case view bolus calculator wasn't initialized
+    QString logMessage = insulinPump->giveBolus(now, later, duration, totalCarbs, currentBG);
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" | "+logMessage);
+
 }
 void MainWindow::calcUnits(double totalCarbs, double currentBG){
     //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
     insulinPump->initailizeBolus(totalCarbs, currentBG);
-    screenBolus->updateCalc(insulinPump->getBolusCalculator()->getBolus());
+    screenBolus->updateCalc(insulinPump->getBolusCalculator()->getFinalBolus());
 }
 void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE

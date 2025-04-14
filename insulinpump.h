@@ -13,16 +13,21 @@ public:
     ~InsulinPump();
 
     void initailizeBolus(double, double);
-    void initailizeExtended(int, int, int, double, double);
-    Error giveBolus(); // return true if successful
+    void initailizeExtended(int, int, double, double, double);
+    QString giveBolus(int, int, double, double, double); // return true if successful
+    QString distributeInsulin();// to be called every tick
     void startBasalDelievery();
     void stopBasalDelievery();
+    void startBolusDelievery();
+    void stopBolusDelievery();
     // void raiseError();
 
     // getters
     int getBattery();
     double getInsulinLevel();
     double getInsulinOB();
+    bool getBasalActive();
+    bool getBolusActive();
     ProfileManager* getProfileManager();
     BolusCalculator* getBolusCalculator();
     // setters
@@ -35,7 +40,8 @@ private:
     int battery;
     double insulinLevel;
     double insulinOnBoard;
-    bool basalDeliveryActive;
+    bool basalActive;
+    bool bolusActive;
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
     int timeInHours;

@@ -25,7 +25,7 @@ void ScreenHome::goToBolus(){
     emit sendToBolus();
 }
 
-void ScreenHome::setTime(int t) {
+QString ScreenHome::setTime(int t) {
     int hours = t / 60;
     int minutes = t % 60;
 
@@ -34,6 +34,7 @@ void ScreenHome::setTime(int t) {
         .arg(minutes, 2, 10, QChar('0'));// 2-digit minutes, pad with 0
 
     ui->time->setText(formattedTime);
+    return formattedTime;
 }
 
 void ScreenHome::setIOB(double iob){

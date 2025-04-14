@@ -1,26 +1,19 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include <string>
-#include <logger.h>
+#include <QVector>
 
+enum class ErrorType {LOW_INSULIN_BOLUS, LOW_INSULIN,LOW_POWER, INSULIN_OUT, POWER_OUT,LOW_GLUCOSE, HIGH_GLUCOSE, NONE};
+//LOW_INSULIN_BOLUS is for the immediate does being over the insulin level, LOW_INSULIN applies to continuous bolus running out
 class Error
 {
 public:
-    Error(int code = 0, int subCode = 0, const std::string& message = "", const std::string& subMessage = "");
-
-    int getErrorCode() const;
-    int getSubErrorCode() const;
-    std::string getErrorMessage() const;
-    std::string getSubErrorMessage() const;
+    Error();
+    QString getErrorMessage(ErrorType);
 
 
 private:
-    int errorCode; // main error code
-    int subErrorCode; // sub error code
-
-    std::string errorMessage; // error message
-    std::string subErrorMessage; // sub error message
+    QVector<QString> errorMessage;
 };
 
 #endif // ERROR_H

@@ -17,44 +17,92 @@ InsulinPump::~InsulinPump(){
 }
 void InsulinPump::initailizeBolus(double totalCarbs, double currentBG){
     if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
-        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile());
+        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile(), insulinOnBoard);
     }
 }
-void InsulinPump::initailizeExtended(int now, int later, int duration, double totalCarbs, double currentBG){
+void InsulinPump::initailizeExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
-        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile());
+        bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile(), insulinOnBoard);
         bolusCalculator->calculateExtended(now, later, duration);
     }
 }
-Error InsulinPump::giveBolus(){
-    //check if there is enough insulin
-
-    //check battery level
-
-    //check if pump has enough insulin for the bolus
-
-    //Deliver immediate bolus
-
-    //startextended bolus if neded
-
-    // Reduce battery by 1% per unit (simplified)cd
+QString InsulinPump::giveBolus(int now, int later, double duration, double totalCarbs, double currentBG){
     Error error;
-    return error;
+    QString message = "";
+    //initialize bolus calc if hadn't already(ie didn't view calculations or units)
+    if(duration <= 0){
+        initailizeBolus(totalCarbs, currentBG);
+    }
+    else{
+        initailizeExtended(now, later, duration, totalCarbs, currentBG);
+    }
+    //check if there is enough insulin
+    if(insulinLevel < getBolusCalculator()->getTotalRequiredBolus()){
+        return error.getErrorMessage(ErrorType::LOW_INSULIN_BOLUS);
+    }
+    //startextended bolus if nedeed
+    stopBasalDelievery();
+    startBolusDelievery();
+    return message;
+}
+QString InsulinPump::distributeInsulin(){
+    Error error;
+    QString message = "";
+    battery--;
+    if(!basalActive && !bolusActive){
+        return message;
+    }
+    // Reduce battery by 1% per unit (simplified)cd
+    //check battery level
+    if(battery <= 0){
+        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
+    }
+    else if(battery <= 30){
+        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
+    }
+    //check if pump has enough insulin for the bolus
+    if(insulinLevel <= 0){
+        message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
+    }
+    else if(insulinLevel <= 30){
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
+    }
+    //Deliver immediate bolus
+    if(currGlucoseLevel < 3.9){
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
+    }
+    /*
+    else if(currGlucoseLevel > CHANGE THIS TO SOME VALUE){
+        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
+    }
+    */
+    return message;
 }
 
 void InsulinPump::startBasalDelievery(){
-    basalDeliveryActive = true;//this would start a background process that continously delivers basal insulin
+    basalActive = true;//this would start a background process that continously delivers basal insulin
 }
 
 void InsulinPump::stopBasalDelievery(){
-    basalDeliveryActive = false;//this would stop the basal delivey process
+    basalActive = false;//this would stop the basal delivey process
 }
-
+void InsulinPump::startBolusDelievery(){
+    bolusActive = true;
+}
+void InsulinPump::stopBolusDelievery(){
+    bolusActive = false;
+}
 int InsulinPump::getBattery(){
     return battery;
 }
 double InsulinPump::getInsulinLevel(){
     return insulinLevel;
+}
+bool InsulinPump::getBasalActive(){
+    return basalActive;
+}
+bool InsulinPump::getBolusActive(){
+    return bolusActive;
 }
 void InsulinPump::setInsulinLevel(double newLevel){
     insulinLevel = newLevel;

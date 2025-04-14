@@ -29,7 +29,7 @@ public:
      * @param currentBG Current blood glucose level.
      * @return A BolusData object containing the total, immediate, and extended insulin doses.
      */
-    void calculateBolus(double, double, PersonalProfile*);
+    void calculateBolus(double, double, PersonalProfile*, double);
     void calculateExtended(int, int, double);
 
 private:
