@@ -10,6 +10,7 @@
 #include "screenprofilesetup.h"
 #include "screenlock.h"
 #include "screenaddprofile.h"
+#include "screensettings.h"
 #include "insulinpump.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,8 @@ public:
     ScreenLock* screenLock = nullptr;
     ScreenProfileSetup* screenProfileSetup = nullptr;
     ScreenAddProfile* screenAddProfile = nullptr;
+    ScreenSettings* screenSettings = nullptr;
+
 
 
 
@@ -47,7 +50,14 @@ private slots:
     void goToBolus();
     void goToProfile();
     void goToAddProfile();
+    void goToSettings();
 
+
+    // Main Window
+    void addBattery();
+    void removeBattery();
+    void addCarbs();
+    void removeCarbs();
 
     // These slots will be called by the QTimer and the simulation
     void simulationStep();
@@ -65,6 +75,10 @@ private slots:
     void confirmBolus();
     void calcUnits();
     void calcExtended();
+
+    //screen settings
+    void startDelivery();
+    void stopDelivery();
 };
 
 #endif // MAINWINDOW_H

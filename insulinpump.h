@@ -22,11 +22,13 @@ public:
     int getBattery();
     double getInsulinLevel();
     double getInsulinOB();
+    double getGlucoseLevel();
     ProfileManager* getProfileManager();
     // setters
     void setBattery(int);
     void setInsulinLevel(double);
     void setInsulinOB(double);
+    void setGlucoseLevel(double);
 
 
 private:

@@ -24,7 +24,8 @@ SOURCES += \
     screenbolus.cpp \
     screenhome.cpp \
     screenlock.cpp \
-    screenprofilesetup.cpp
+    screenprofilesetup.cpp \
+    screensettings.cpp
 
 HEADERS += \
     boluscalculator.h \
@@ -39,7 +40,8 @@ HEADERS += \
     screenbolus.h \
     screenhome.h \
     screenlock.h \
-    screenprofilesetup.h
+    screenprofilesetup.h \
+    screensettings.h
 
 FORMS += \
     chart.ui \
@@ -48,7 +50,8 @@ FORMS += \
     screenbolus.ui \
     screenhome.ui \
     screenlock.ui \
-    screenprofilesetup.ui
+    screenprofilesetup.ui \
+    screensettings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

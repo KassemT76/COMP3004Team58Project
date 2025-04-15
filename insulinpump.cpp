@@ -67,6 +67,10 @@ ProfileManager* InsulinPump::getProfileManager(){
     return profileManager;
 }
 
+double InsulinPump::getGlucoseLevel(){return currGlucoseLevel;}
+
+void InsulinPump::setGlucoseLevel(double g){currGlucoseLevel = g;}
+
 // Should be implemented by functions returning an error
 // void InsulinPump::raiseError(){
 
