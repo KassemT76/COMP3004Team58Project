@@ -76,6 +76,13 @@ QString InsulinPump::distributeInsulin(){
         message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
     }
     */
+
+    if(basalActive){
+
+    }
+    else{//bolusActive
+
+    }
     return message;
 }
 

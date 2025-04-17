@@ -25,8 +25,7 @@ void ScreenBolus::goToHome(){
 void ScreenBolus::confirmBolus(){
     if(ui->extendedCheckBox->isChecked()){
         double duration = ui->durationHr->value() + ui->durationMin->value()/60;
-        sendConfirmBolus(ui->deliverNow->value(), ui->deliverLater->value(), duration,
-                         ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+        sendConfirmBolus((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
     }
     else{
         sendConfirmBolus(0, 0, 0, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
@@ -34,7 +33,7 @@ void ScreenBolus::confirmBolus(){
     ui->carbsSpinbox->setValue(0.0);
     ui->glucoseSpinbox->setValue(0.0);
     ui->deliverNow->setValue(0);
-    ui->deliverLater->setValue(0);
+    ui->deliverLater->setText("0");
     ui->durationHr->setValue(0);
     ui->durationMin->setValue(0);
     ui->unitsView->setText("");
@@ -47,8 +46,9 @@ void ScreenBolus::calcUnits(){
 
 void ScreenBolus::calcExtended(){
     double duration = ui->durationHr->value() + ui->durationMin->value()/60;
-    emit sendCalcExtended(ui->deliverNow->value(), ui->deliverLater->value(), duration,
-                          ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    ui->deliverLater->setText(QString::number(100-(int)ui->deliverNow->value()));
+
+    emit sendCalcExtended((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
 }
 void ScreenBolus::updateCalc(double bolus){
     ui->unitsView->setText(QString::number(bolus));

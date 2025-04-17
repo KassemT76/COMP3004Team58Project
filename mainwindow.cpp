@@ -193,7 +193,6 @@ void MainWindow::confirmBolus(int now, int later, double duration, double totalC
     QString logMessage = insulinPump->giveBolus(now, later, duration, totalCarbs, currentBG);
     QString time = screenHome->setTime(currentTimeStep);
     logText->append(time+" | "+logMessage);
-
 }
 void MainWindow::calcUnits(double totalCarbs, double currentBG){
     //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
@@ -202,6 +201,10 @@ void MainWindow::calcUnits(double totalCarbs, double currentBG){
 }
 void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
+    qInfo("TEST");
+    qInfo() << now << later << duration << totalCarbs << currentBG;
     insulinPump->initailizeExtended(now, later, duration, totalCarbs, currentBG);
+    qInfo() <<insulinPump->getBolusCalculator()->getImmediateBolus() << insulinPump->getBolusCalculator()->getExtendedBolus();
+
     screenBolus->updateExtended(insulinPump->getBolusCalculator()->getImmediateBolus(), insulinPump->getBolusCalculator()->getExtendedBolus());
 }
