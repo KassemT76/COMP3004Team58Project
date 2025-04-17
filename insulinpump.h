@@ -12,6 +12,11 @@ public:
     InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
     ~InsulinPump();
 
+    void initailizeBolus(double, double);
+    void initailizeExtended(int, int, double, double, double);
+    QString giveBolus(int, int, double, double, double); // return true if successful
+    QString distributeInsulin();// to be called every tick
+
     /**
      * @brief This method initializes the bolus calculator with the given profile and carbs. This method should be called
      * every time the user changes the profile or starts a bolus.
@@ -24,6 +29,8 @@ public:
     Error giveBolus(); // return true if successful
     void startBasalDelievery();
     void stopBasalDelievery();
+    void startBolusDelievery();
+    void stopBolusDelievery();
     // void raiseError();
 
     /**
@@ -60,6 +67,9 @@ public:
 
     double getInsulinLevel();
     double getInsulinOB();
+    bool getBasalActive();
+    bool getBolusActive();
+
 
     /**
      * @deprecated This method is deprecated, use rechargeBattery() instead.
@@ -71,6 +81,7 @@ public:
 
     double getGlucoseLevel();
     ProfileManager* getProfileManager();
+    BolusCalculator* getBolusCalculator();
     // setters
 
     void setBattery(int);
@@ -90,7 +101,8 @@ private:
 
     double insulinLevel;
     double insulinOnBoard;
-    bool basalDeliveryActive;
+    bool basalActive;
+    bool bolusActive;
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
     int timeInHours;

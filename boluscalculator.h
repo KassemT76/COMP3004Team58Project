@@ -3,6 +3,7 @@
 
 
 #include "personalprofile.h"
+#include <cmath>
 // #include "QObject"
 // #include "QVector"
 
@@ -15,6 +16,9 @@ public:
      * Initializes the bolus calculator with default values.
      */
     BolusCalculator();
+
+    // Getters for the private members
+    double getBolus() const { return bolus; }
 
     /**
      * @brief This method retrieves the food bolus (carb bolus)
@@ -72,10 +76,11 @@ public:
      * @param currentBG Current blood glucose level.
      * @return A BolusData object containing the total, immediate, and extended insulin doses.
      */
-    void calculateBolus(int totalCarbs, double currentBG, PersonalProfile* profile);
+    void calculateBolus(double, double, PersonalProfile*, double);
+    void calculateExtended(int, int, double);
 
 private:
-    double foodBolus;
+    double bolus;
     double correctionBolus;
     double totalRequiredBolus;
     double finalBolus;

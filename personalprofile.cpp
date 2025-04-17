@@ -9,6 +9,7 @@ PersonalProfile::PersonalProfile(QString name, double basalRate, double insulinT
     startTime(startTime),
     endTime(endTime)
 {
+    insulinOB = 0;
 }
 
 QString PersonalProfile::getName(){
@@ -52,10 +53,6 @@ int PersonalProfile::getEndTime(){
 }
 void PersonalProfile::setEndTime(int time){
     endTime = time;
-}
-double PersonalProfile::getTimeHr(){
-    double time = endTime - startTime;
-    return time/60;
 }
 
 double PersonalProfile::getInsulinOB(){

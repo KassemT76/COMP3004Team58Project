@@ -1,5 +1,6 @@
 #include "screenbolus.h"
 #include "ui_screenbolus.h"
+#include <QDebug>
 
 ScreenBolus::ScreenBolus(QWidget *parent) :
     QWidget(parent),
@@ -22,11 +23,37 @@ void ScreenBolus::goToHome(){
     emit sendToHome();
 }
 void ScreenBolus::confirmBolus(){
-    emit sendConfirmBolus();
+    if(ui->extendedCheckBox->isChecked()){
+        double duration = ui->durationHr->value() + ui->durationMin->value()/60;
+        sendConfirmBolus((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    }
+    else{
+        sendConfirmBolus(0, 0, 0, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    }
+    ui->carbsSpinbox->setValue(0.0);
+    ui->glucoseSpinbox->setValue(0.0);
+    ui->deliverNow->setValue(0);
+    ui->deliverLater->setText("0");
+    ui->durationHr->setValue(0);
+    ui->durationMin->setValue(0);
+    ui->unitsView->setText("");
+    ui->nowView->setText("");
+    ui->laterView->setText("");
 }
 void ScreenBolus::calcUnits(){
-    emit sendCalcUnits();
+    emit sendCalcUnits(ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
 }
+
 void ScreenBolus::calcExtended(){
-    emit sendCalcExtended();
+    double duration = ui->durationHr->value() + ui->durationMin->value()/60;
+    ui->deliverLater->setText(QString::number(100-(int)ui->deliverNow->value()));
+
+    emit sendCalcExtended((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+}
+void ScreenBolus::updateCalc(double bolus){
+    ui->unitsView->setText(QString::number(bolus));
+}
+void ScreenBolus::updateExtended(double now, double later){
+    ui->nowView->setText(QString::number(now));
+    ui->laterView->setText(QString::number(later));
 }

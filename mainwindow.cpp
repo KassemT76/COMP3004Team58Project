@@ -13,11 +13,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     // UI
     ui->setupUi(this);
+
+    logLayout = new QVBoxLayout();
+    ui->logConsole->setLayout(logLayout);
+    logText = new QTextEdit(this);
+    logText->setReadOnly(true);
+    logText->setWordWrapMode(QTextOption::NoWrap);
+    logLayout->addWidget(logText);
+
     ui->batterySlider->setEnabled(false);
     ui->insulinLevelSlider->setEnabled(false);
     ui->iobSlider->setEnabled(false);
     ui->glucoseSlider->setEnabled(false);
-
 
     // Set up screens
     if (!screenHome)
@@ -69,9 +76,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
-    connect(screenBolus, SIGNAL(sendConfirmBolus()), this, SLOT(confirmBolus()));
-    connect(screenBolus, SIGNAL(sendCalcUnits()), this, SLOT(calcUnits()));
-    connect(screenBolus, SIGNAL(sendCalcExtended()), this, SLOT(calcExtended()));
+    connect(screenBolus, SIGNAL(sendConfirmBolus(int, int, double, double, double)), this, SLOT(confirmBolus(int, int, double, double, double)));
+    connect(screenBolus, SIGNAL(sendCalcUnits(double, double)), this, SLOT(calcUnits(double, double)));
+    connect(screenBolus, SIGNAL(sendCalcExtended(int, int, double, double, double)), this, SLOT(calcExtended(int, int, double, double, double)));
 
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
@@ -181,11 +188,14 @@ void MainWindow::removeCarbs(){
 /// Simulation ///
 
 void MainWindow::simulationStep(){
-    //Do 5 Tick
-    currentTimeStep += 5;
+    //Do 1 Tick
+    currentTimeStep+=5;
 
     //Insulin Pump
     //TODO: DECAY, operations
+    QString logMessage = "";
+    logMessage += insulinPump->distributeInsulin();//output
+    
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);
 
@@ -198,7 +208,6 @@ void MainWindow::simulationStep(){
     if(currentTimeStep % 25 == 0){ //replace with check if we are not adminstring a bolus once function is done
         screenHome->startShadedArea();
     }
-
 
     //Update UI
 
@@ -221,6 +230,10 @@ void MainWindow::simulationStep(){
     // screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
+
+    //Log Console
+    logText->append(time+" | "+logMessage);
+
 }
 
 void MainWindow::startSimulation(){
@@ -259,15 +272,26 @@ void MainWindow::selectProfile(QString inName){
     insulinPump->getProfileManager()->selectProfile(inName);
 }
 
-/// Bolus Calculations ///
-void MainWindow::confirmBolus(){
-    //INSULIN PUMP DELIEVERS BOLUS
+void MainWindow::confirmBolus(int now, int later, double duration, double totalCarbs, double currentBG){
+    //INSULIN PUMP DELIEVERS BOLUS, inputs in case view bolus calculator wasn't initialized
+    QString logMessage = insulinPump->giveBolus(now, later, duration, totalCarbs, currentBG);
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" | "+logMessage);
 }
-void MainWindow::calcUnits(){
+
+void MainWindow::calcUnits(double totalCarbs, double currentBG){
     //FIND A WAY FOR INSULIN TO TRANSFER THE ACTIVE PROFILE(IF EXISTS) SO THAT IT CAN CALC UNIT
+    insulinPump->initailizeBolus(totalCarbs, currentBG);
+    screenBolus->updateCalc(insulinPump->getBolusCalculator()->getFinalBolus());
 }
-void MainWindow::calcExtended(){
+void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
+    qInfo("TEST");
+    qInfo() << now << later << duration << totalCarbs << currentBG;
+    insulinPump->initailizeExtended(now, later, duration, totalCarbs, currentBG);
+    qInfo() <<insulinPump->getBolusCalculator()->getImmediateBolus() << insulinPump->getBolusCalculator()->getExtendedBolus();
+
+    screenBolus->updateExtended(insulinPump->getBolusCalculator()->getImmediateBolus(), insulinPump->getBolusCalculator()->getExtendedBolus());
 }
 
 void MainWindow::startDelivery(){

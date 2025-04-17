@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QDebug>
+#include <QTextEdit>
 
 #include "screenhome.h"
 #include "screenbolus.h"
@@ -42,6 +43,8 @@ private:
 
     QTimer* timer;
     int currentTimeStep;
+    QTextEdit *logText;
+    QVBoxLayout *logLayout;
 
 private slots:
     //Routing
@@ -76,9 +79,9 @@ private slots:
     void selectProfile(QString);
 
     // screen bolus:
-    void confirmBolus();
-    void calcUnits();
-    void calcExtended();
+    void confirmBolus(int, int, double, double, double);
+    void calcUnits(double, double);
+    void calcExtended(int, int, double, double, double);
 
     //screen settings
     void startDelivery();
