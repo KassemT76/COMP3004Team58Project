@@ -17,15 +17,12 @@ public:
      */
     BolusCalculator();
 
-    // Getters for the private members
-    double getBolus() const { return bolus; }
-
     /**
      * @brief This method retrieves the food bolus (carb bolus)
-     * 
+     *
      * @return The food bolus in units.
      */
-    double getFoodBolus() const { return foodBolus; }
+    double getBolus() const { return bolus; }
 
     /**
      * @brief This method retrieves the correction bolus

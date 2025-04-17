@@ -226,7 +226,7 @@ void MainWindow::simulationStep(){
 
     //Home Screen
     screenHome->setGlucoseLevel(newGlucoseLevel);
-    screenHome->setTime(currentTimeStep);
+    QString time = screenHome->setTime(currentTimeStep);
     // screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
