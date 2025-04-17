@@ -47,6 +47,18 @@ QString InsulinPump::giveBolus(int now, int later, double duration, double total
     startBolusDelievery();
     return message;
 }
+/*
+TODO add an error message if the user tries to give a bolus when the pump is already giving a bolus
+
+caclculate how much insulin to give
+
+if the glucose is under X then give higher bolus
+
+if the glucose is over X then stop giving bolus
+
+get the glucose from sinosodial function for a test and make that function
+*/
+
 QString InsulinPump::distributeInsulin(){
     Error error;
     QString message = "";

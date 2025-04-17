@@ -6,6 +6,40 @@
 #include "profilemanager.h"
 #include "screenprofilesetup.h"
 
+class InsulinInformation
+{   
+    public:
+
+        InsulinInformation();
+
+        /**
+         * @brief This method retrieves the current glucose level.
+         * 
+         * @return double The current glucose level.
+         */
+        double currentGlucose();
+
+        /**
+         * @brief This mothod returns if glucose range requires insulin to be given.
+         * 
+         * @return double The current insulin level.
+         */
+        boolean isInsulinActive();
+
+        /**
+         * @brief This method return the message to be displayed on the screen.
+         * 
+         * @return QString The message to be displayed on the screen.
+         */
+        Qstring getMessage();
+
+    private:
+        double glucoseLevel;
+        boolean insulinActive;
+        QString message;
+
+};
+
 class InsulinPump
 {
 public:
