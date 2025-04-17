@@ -62,9 +62,9 @@ get the glucose from sinosodial function for a test and make that function
 InsulinInformation InsulinPump::distributeInsulin(){
     Error error;
     QString message = "";
-  
+    InsulinInformation info;
     if(!basalActive && !bolusActive){
-        return message;
+        return info;
     }
     // Reduce battery by 1% per unit (simplified)cd
     //check battery level
@@ -97,7 +97,7 @@ InsulinInformation InsulinPump::distributeInsulin(){
     else{//bolusActive
 
     }
-    return NULL;
+    return info;
 }
 
 void InsulinPump::startBasalDelievery(){

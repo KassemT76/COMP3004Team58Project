@@ -10,32 +10,18 @@ class InsulinInformation
 {   
     public:
 
-        InsulinInformation();
+    InsulinInformation(double inGluc=0, bool insulin=false, QString inMess="") : glucoseLevel(inGluc), insulinActive(insulin), message(inMess) {}
 
-        /**
-         * @brief This method retrieves the current glucose level.
-         * 
-         * @return double The current glucose level.
-         */
-        double currentGlucose();
-
-        /**
-         * @brief This mothod returns if glucose range requires insulin to be given.
-         * 
-         * @return double The current insulin level.
-         */
-        boolean isInsulinActive();
-
-        /**
-         * @brief This method return the message to be displayed on the screen.
-         * 
-         * @return QString The message to be displayed on the screen.
-         */
-        Qstring getMessage();
+        double getCurrentGlucose() {return glucoseLevel;}
+        void setCurrentGlucose(double inGluc){glucoseLevel = inGluc;}
+        bool getInsulinActive() {return insulinActive;}
+        void setInsulin(bool insulin){insulinActive = insulin;}
+        QString getMessage() {return message;}
+        void setMessage(QString inMess){message = inMess;}
 
     private:
         double glucoseLevel;
-        boolean insulinActive;
+        bool insulinActive;
         QString message;
 
 };

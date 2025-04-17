@@ -194,8 +194,8 @@ void MainWindow::simulationStep(){
     //Insulin Pump
     //TODO: DECAY, operations
     QString logMessage = "";
-    logMessage += insulinPump->distributeInsulin();//output
-    
+    InsulinInformation info = insulinPump->distributeInsulin();//output
+    logMessage += info.getMessage();
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);
 
