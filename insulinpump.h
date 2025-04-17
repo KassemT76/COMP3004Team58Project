@@ -49,7 +49,7 @@ public:
     void initailizeBolus(double, double);
     void initailizeExtended(int, int, double, double, double);
     QString giveBolus(int, int, double, double, double); // return true if successful
-    QString distributeInsulin();// to be called every tick
+    InsulinInformation distributeInsulin();// to be called every tick
 
     /**
      * @brief This method initializes the bolus calculator with the given profile and carbs. This method should be called

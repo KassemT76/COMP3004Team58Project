@@ -59,7 +59,7 @@ if the glucose is over X then stop giving bolus
 get the glucose from sinosodial function for a test and make that function
 */
 
-QString InsulinPump::distributeInsulin(){
+InsulinInformation InsulinPump::distributeInsulin(){
     Error error;
     QString message = "";
   
@@ -97,7 +97,7 @@ QString InsulinPump::distributeInsulin(){
     else{//bolusActive
 
     }
-    return message;
+    return NULL;
 }
 
 void InsulinPump::startBasalDelievery(){
