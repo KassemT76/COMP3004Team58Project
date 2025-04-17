@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
     connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
+    connect(ui->rechargeBattButton, SIGNAL(released()), this, SLOT(resetBattery()));
+    
 
     connect(ui->addBatteryButton, SIGNAL(released()), this, SLOT(addBattery()));
     connect(ui->removeBatteryButton, SIGNAL(released()), this, SLOT(removeBattery()));
@@ -186,6 +188,10 @@ void MainWindow::simulationStep(){
     currentTimeStep += 5;
 
     //Insulin Pump
+    //TODO: DECAY, operations
+    int battery = insulinPump->useBattery();
+    screenHome->setBattery(battery);
+
     insulinPump->setGlucoseLevel((6.95 + 3.05 * qSin((currentTimeStep / 5) * 0.3))); //this should be removed later
     double newGlucoseLevel = insulinPump->getGlucoseLevel();
 
@@ -195,6 +201,7 @@ void MainWindow::simulationStep(){
     if(currentTimeStep % 25 == 0){ //replace with check if we are not adminstring a bolus once function is done
         screenHome->startShadedArea();
     }
+
 
     //Update UI
 
@@ -214,7 +221,7 @@ void MainWindow::simulationStep(){
     //Home Screen
     screenHome->setGlucoseLevel(newGlucoseLevel);
     screenHome->setTime(currentTimeStep);
-    screenHome->setBattery(insulinPump->getBattery());
+    // screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
 }
@@ -226,12 +233,19 @@ void MainWindow::startSimulation(){
 void MainWindow::stopSimulation(){
     timer->stop();
     currentTimeStep = 0;
+    screenHome->setTime(currentTimeStep);
+    insulinPump->rechargeBattery();
+    screenHome->setBattery(insulinPump->getBattery());
 }
 
 void MainWindow::pauseSimulation(){
     timer->stop();
 }
 
+
+void MainWindow::resetBattery(){
+    insulinPump->rechargeBattery();
+}
 /// Profile Functions ///
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);

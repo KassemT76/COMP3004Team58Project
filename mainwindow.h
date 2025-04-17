@@ -65,6 +65,10 @@ private slots:
     void stopSimulation();
     void pauseSimulation();
 
+
+    // other, misc fuctions
+    void resetBattery();
+
     // screen profile setup:
     void addProfile(QString, double, double, double, double, int, int);
     void removeProfile(QString);

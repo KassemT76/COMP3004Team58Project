@@ -5,9 +5,11 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    currGlucoseLevel = 0;
-    bolusCalculator = new BolusCalculator();
-    profileManager = new ProfileManager();
+    this->bolusCalculator = new BolusCalculator();
+    this->batteryUsage = 0;
+    this->batteryOffset = 5;
+    this->currGlucoseLevel = 0;
+    this->profileManager = new ProfileManager();
 }
 
 
@@ -42,6 +44,30 @@ void InsulinPump::startBasalDelievery(){
 
 void InsulinPump::stopBasalDelievery(){
     basalDeliveryActive = false;//this would stop the basal delivey process
+}
+
+int InsulinPump::useBattery(){
+    if (battery > 0){
+        batteryUsage++;
+        if (batteryUsage >= batteryOffset){
+            battery--;
+            batteryUsage = 0;
+        }
+    }
+    return battery;
+}
+
+void InsulinPump::rechargeBattery(){
+    battery = 100;
+    batteryUsage = 0;
+}
+
+bool InsulinPump::setBatteryOffset(int offset){
+    if (offset > 0){
+        batteryOffset = offset;
+        return true;
+    }
+    return false;
 }
 
 int InsulinPump::getBattery(){
