@@ -10,16 +10,63 @@
 class BolusCalculator
 {
 public:
-    // Constructors
+    /**
+     * @brief Constructor for the BolusCalculator class.
+     * 
+     * Initializes the bolus calculator with default values.
+     */
     BolusCalculator();
 
     // Getters for the private members
     double getBolus() const { return bolus; }
+
+    /**
+     * @brief This method retrieves the food bolus (carb bolus)
+     * 
+     * @return The food bolus in units.
+     */
+    double getFoodBolus() const { return foodBolus; }
+
+    /**
+     * @brief This method retrieves the correction bolus
+     * 
+     * @return The correction bolus in units.
+     */
     double getCorrectionBolus() const { return correctionBolus; }
+
+    /**
+     * @brief This method retrieves the total required bolus
+     * 
+     * @return The total required bolus in units.
+     */
     double getTotalRequiredBolus() const { return totalRequiredBolus; }
+
+    /**
+     * @brief This method retrieves the final bolus
+     * 
+     * @return The final bolus in units.
+     */
     double getFinalBolus() const { return finalBolus; }
+
+    /**
+     * @brief This method retrieves the immediate bolus, the bolus that should be given right away
+     * 
+     * @return The immediate bolus in units.
+     */
     double getImmediateBolus() const { return immediateBolus; }
+
+    /**
+     * @brief This method retrieves the extended bolus, the bolus that should be given over time
+     * 
+     * @return The extended bolus in units.
+     */
     double getExtendedBolus() const { return extendedBolus; }
+
+    /**
+     * @brief This method retrieves the bolus rate per hour, the rate at which the extended bolus should be given
+     * 
+     * @return The bolus rate per hour in units.
+     */
     double getBolusRatePerHour() const { return bolusRatePerHour; }
 
     /**

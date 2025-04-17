@@ -7,7 +7,7 @@ ScreenHome::ScreenHome(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToProfile()));
+    connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToSettings()));
     connect(ui->bolusButton, SIGNAL(released()), this, SLOT(goToBolus()));
 
     chart = new Chart(ui->chartHolder);
@@ -18,8 +18,8 @@ ScreenHome::~ScreenHome()
     delete ui;
 }
 
-void ScreenHome::goToProfile(){
-    emit sendToProfile();
+void ScreenHome::goToSettings(){
+    emit sendToSettings();
 }
 void ScreenHome::goToBolus(){
     emit sendToBolus();

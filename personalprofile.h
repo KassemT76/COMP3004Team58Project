@@ -2,6 +2,7 @@
 #define PERSONALPROFILE_H
 #include <QObject>
 #include <QTableWidgetItem>
+
 class PersonalProfile
 {
 public:

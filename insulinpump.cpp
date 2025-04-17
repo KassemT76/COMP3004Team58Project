@@ -5,9 +5,11 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    currGlucoseLevel = 0;
-    bolusCalculator = new BolusCalculator();
-    profileManager = new ProfileManager();
+    this->bolusCalculator = new BolusCalculator();
+    this->batteryUsage = 0;
+    this->batteryOffset = 5;
+    this->currGlucoseLevel = 0;
+    this->profileManager = new ProfileManager();
 }
 
 
@@ -48,7 +50,7 @@ QString InsulinPump::giveBolus(int now, int later, double duration, double total
 QString InsulinPump::distributeInsulin(){
     Error error;
     QString message = "";
-    battery--;
+  
     if(!basalActive && !bolusActive){
         return message;
     }
@@ -99,6 +101,31 @@ void InsulinPump::startBolusDelievery(){
 void InsulinPump::stopBolusDelievery(){
     bolusActive = false;
 }
+
+int InsulinPump::useBattery(){
+    if (battery > 0){
+        batteryUsage++;
+        if (batteryUsage >= batteryOffset){
+            battery--;
+            batteryUsage = 0;
+        }
+    }
+    return battery;
+}
+
+void InsulinPump::rechargeBattery(){
+    battery = 100;
+    batteryUsage = 0;
+}
+
+bool InsulinPump::setBatteryOffset(int offset){
+    if (offset > 0){
+        batteryOffset = offset;
+        return true;
+    }
+    return false;
+}
+
 int InsulinPump::getBattery(){
     return battery;
 }
@@ -130,6 +157,10 @@ ProfileManager* InsulinPump::getProfileManager(){
 BolusCalculator* InsulinPump::getBolusCalculator(){
     return bolusCalculator;
 }
+
+double InsulinPump::getGlucoseLevel(){return currGlucoseLevel;}
+
+void InsulinPump::setGlucoseLevel(double g){currGlucoseLevel = g;}
 
 // Should be implemented by functions returning an error
 // void InsulinPump::raiseError(){
