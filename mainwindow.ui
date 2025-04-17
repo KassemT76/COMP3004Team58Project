@@ -546,13 +546,6 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
-        <widget class="QPushButton" name="removeBatteryButton">
-         <property name="text">
-          <string>- 5</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Battery</string>
@@ -563,9 +556,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="addBatteryButton">
+        <widget class="QPushButton" name="rechargeButton">
          <property name="text">
-          <string>+ 5</string>
+          <string>Recharge</string>
          </property>
         </widget>
        </item>

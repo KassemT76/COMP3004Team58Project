@@ -46,11 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
     connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
-    connect(ui->rechargeBattButton, SIGNAL(released()), this, SLOT(resetBattery()));
-    
 
-    connect(ui->addBatteryButton, SIGNAL(released()), this, SLOT(addBattery()));
-    connect(ui->removeBatteryButton, SIGNAL(released()), this, SLOT(removeBattery()));
+    connect(ui->rechargeButton, SIGNAL(released()), this, SLOT(resetBattery()));
     connect(ui->addCarbsButton, SIGNAL(released()), this, SLOT(addCarbs()));
     connect(ui->removeCarbsButton, SIGNAL(released()), this, SLOT(removeCarbs()));
 
