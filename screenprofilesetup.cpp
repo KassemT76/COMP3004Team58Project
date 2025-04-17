@@ -10,7 +10,7 @@ ScreenProfileSetup::ScreenProfileSetup(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->profileTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    connect(ui->backButton, SIGNAL(released()), this, SLOT(goToHome()));
+    connect(ui->backButton, SIGNAL(released()), this, SLOT(goToSettings()));
     connect(ui->addButton, SIGNAL(released()), this, SLOT(goToAddProfile()));
     connect(ui->selectButton, &QPushButton::released, this, &ScreenProfileSetup::selectProfile);
     connect(ui->editButton, &QPushButton::released, this, &ScreenProfileSetup::editProfile);
@@ -22,8 +22,8 @@ ScreenProfileSetup::~ScreenProfileSetup()
     delete ui;
 }
 
-void ScreenProfileSetup::goToHome(){
-    emit sendToHome();
+void ScreenProfileSetup::goToSettings(){
+    emit sendToSettings();
 }
 
 void ScreenProfileSetup::goToAddProfile(){

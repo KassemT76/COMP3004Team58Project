@@ -25,13 +25,13 @@ private:
     QVector<QString> names;
 
 signals:
-    void sendToHome();
+    void sendToSettings();
     void sendToAddProfile();
     void sendRemoveProfile(QString);
     void sendEditProfile(int, QString, QString);
     void sendSelectProfile(QString);
 private slots:
-    void goToHome();
+    void goToSettings();
     void goToAddProfile();
     void removeProfile();
     void editProfile();

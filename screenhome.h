@@ -31,10 +31,10 @@ private:
 
 signals:
     void sendToBolus();
-    void sendToProfile();
+    void sendToSettings();
 
 private slots:
-    void goToProfile();
+    void goToSettings();
     void goToBolus();
 };
 
