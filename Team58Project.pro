@@ -1,4 +1,6 @@
 QT       += core gui
+QT       += charts
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,38 +12,46 @@ CONFIG += c++11
 
 SOURCES += \
     boluscalculator.cpp \
+    chart.cpp \
     error.cpp \
     insulinpump.cpp \
     logger.cpp \
     main.cpp \
     mainwindow.cpp \
     personalprofile.cpp \
+    profilemanager.cpp \
     screenaddprofile.cpp \
     screenbolus.cpp \
     screenhome.cpp \
     screenlock.cpp \
-    screenprofilesetup.cpp
+    screenprofilesetup.cpp \
+    screensettings.cpp
 
 HEADERS += \
     boluscalculator.h \
+    chart.h \
     error.h \
     insulinpump.h \
     logger.h \
     mainwindow.h \
     personalprofile.h \
+    profilemanager.h \
     screenaddprofile.h \
     screenbolus.h \
     screenhome.h \
     screenlock.h \
-    screenprofilesetup.h
+    screenprofilesetup.h \
+    screensettings.h
 
 FORMS += \
+    chart.ui \
     mainwindow.ui \
     screenaddprofile.ui \
     screenbolus.ui \
     screenhome.ui \
     screenlock.ui \
-    screenprofilesetup.ui
+    screenprofilesetup.ui \
+    screensettings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

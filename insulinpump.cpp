@@ -6,13 +6,16 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinOnBoard(insulinOnBoard)
 {
     this->bolusCalculator = new BolusCalculator();
-    this-> batteryUsage = 0;
+    this->batteryUsage = 0;
     this->batteryOffset = 5;
+    this->currGlucoseLevel = 0;
+    this->profileManager = new ProfileManager();
 }
 
 
 InsulinPump::~InsulinPump(){
     delete bolusCalculator;
+    delete profileManager;
 }
 
 void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG){
@@ -20,15 +23,27 @@ void InsulinPump::initailizeBolus(PersonalProfile* profile, int totalCarbs, doub
 }
 
 Error InsulinPump::giveBolus(){
-    
+    //check if there is enough insulin
+
+    //check battery level
+
+    //check if pump has enough insulin for the bolus
+
+    //Deliver immediate bolus
+
+    //startextended bolus if neded
+
+    // Reduce battery by 1% per unit (simplified)cd
+    Error error;
+    return error;
 }
 
 void InsulinPump::startBasalDelievery(){
-
+    basalDeliveryActive = true;//this would start a background process that continously delivers basal insulin
 }
 
 void InsulinPump::stopBasalDelievery(){
-
+    basalDeliveryActive = false;//this would stop the basal delivey process
 }
 
 int InsulinPump::useBattery(){
@@ -74,6 +89,13 @@ void InsulinPump::setInsulinOB(double newOB){
 void InsulinPump::setBattery(int newBattery){
     battery = newBattery;
 }
+ProfileManager* InsulinPump::getProfileManager(){
+    return profileManager;
+}
+
+double InsulinPump::getGlucoseLevel(){return currGlucoseLevel;}
+
+void InsulinPump::setGlucoseLevel(double g){currGlucoseLevel = g;}
 
 // Should be implemented by functions returning an error
 // void InsulinPump::raiseError(){

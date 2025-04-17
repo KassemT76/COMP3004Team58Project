@@ -20,9 +20,15 @@ private:
 
 signals:
     void sendToHome();
+    void sendConfirmBolus();
+    void sendCalcUnits();
+    void sendCalcExtended();
 
 private slots:
     void goToHome();
+    void confirmBolus();
+    void calcUnits();
+    void calcExtended();
 };
 
 #endif // SCREENBOLUS_H

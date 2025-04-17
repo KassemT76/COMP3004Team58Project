@@ -3,6 +3,8 @@
 
 #include "error.h"
 #include "boluscalculator.h"
+#include "profilemanager.h"
+#include "screenprofilesetup.h"
 
 class InsulinPump
 {
@@ -66,11 +68,17 @@ public:
      * 
      * @return BolusCalculator* The bolus calculator.
      */
+
+    double getGlucoseLevel();
+    ProfileManager* getProfileManager();
+    // setters
+
     void setBattery(int);
 
 
     void setInsulinLevel(double);
     void setInsulinOB(double);
+    void setGlucoseLevel(double);
 
 
 private:
@@ -84,7 +92,9 @@ private:
     double insulinOnBoard;
     bool basalDeliveryActive;
     BolusCalculator* bolusCalculator;
+    ProfileManager* profileManager;
     int timeInHours;
+    double currGlucoseLevel;
 };
 
 #endif // INSULINPUMP_H

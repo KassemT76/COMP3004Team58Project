@@ -7,8 +7,10 @@ ScreenHome::ScreenHome(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToProfile()));
+    connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToSettings()));
     connect(ui->bolusButton, SIGNAL(released()), this, SLOT(goToBolus()));
+
+    chart = new Chart(ui->chartHolder);
 }
 
 ScreenHome::~ScreenHome()
@@ -16,8 +18,8 @@ ScreenHome::~ScreenHome()
     delete ui;
 }
 
-void ScreenHome::goToProfile(){
-    emit sendToProfile();
+void ScreenHome::goToSettings(){
+    emit sendToSettings();
 }
 void ScreenHome::goToBolus(){
     emit sendToBolus();
@@ -42,6 +44,19 @@ void ScreenHome::setIL(double il){
     ui->insulinLevelValue->setText(QString::number(il) + " u");
 }
 
+void ScreenHome::setGlucoseLevel(double g){
+    ui->glucoseValue->setText(QString::number(g));
+}
+
 void ScreenHome::setBattery(int b){
     ui->batteryValue->setText(QString::number(b) + "%");
 }
+
+void ScreenHome::addPoint(double glucose){
+    chart->addPoint(glucose);
+}
+
+void ScreenHome::startShadedArea(){
+    chart->shadeArea();
+}
+
