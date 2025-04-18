@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Timer
     timer = new QTimer(this);
     currentTimeStep = 0;
+    chartShaded = false;
 
     // UI
     ui->setupUi(this);
@@ -194,20 +195,23 @@ void MainWindow::simulationStep(){
     //Insulin Pump
     //TODO: DECAY, operations
     QString logMessage = "";
-    InsulinInformation info = insulinPump->distributeInsulin();//output
-    logMessage += info.getMessage();
+    InsulinInformation* info = insulinPump->distributeInsulin(currentTimeStep);//output
+    logMessage += info->getMessage();
+    insulinPump->setGlucoseLevel(info->getCurrentGlucose());
+    if (info->getInsulinActive() != chartShaded){
+        chartShaded != chartShaded;
+        screenHome->startShadedArea();
+    }
+
+    delete info;
+
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);
 
-    insulinPump->setGlucoseLevel((6.95 + 3.05 * qSin((currentTimeStep / 5) * 0.3))); //this should be removed later
     double newGlucoseLevel = insulinPump->getGlucoseLevel();
 
     //Update chart
     screenHome->addPoint(newGlucoseLevel);
-
-    if(currentTimeStep % 25 == 0){ //replace with check if we are not adminstring a bolus once function is done
-        screenHome->startShadedArea();
-    }
 
     //Update UI
 
