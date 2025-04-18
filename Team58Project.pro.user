@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2025-04-12T15:46:34. -->
+<!-- Written by QtCreator 6.0.2, 2025-04-17T21:09:33. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -262,7 +262,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/student/Desktop/build-Team58Project-Desktop-Debug</value>
    </valuemap>
-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">2</value>
   </valuemap>
  </data>
  <data>

@@ -286,8 +286,6 @@ void MainWindow::calcUnits(double totalCarbs, double currentBG){
 }
 void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
-    qInfo("TEST");
-    qInfo() << now << later << duration << totalCarbs << currentBG;
     insulinPump->initailizeExtended(now, later, duration, totalCarbs, currentBG);
     qInfo() <<insulinPump->getBolusCalculator()->getImmediateBolus() << insulinPump->getBolusCalculator()->getExtendedBolus();
 
@@ -295,8 +293,18 @@ void MainWindow::calcExtended(int now, int later, double duration, double totalC
 }
 
 void MainWindow::startDelivery(){
-    qInfo() << "Starting basal delivery...";
+    QString logMessage = insulinPump->giveBasal();
+    if(logMessage == ""){//if no profile
+        return;
+    }
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" | "+logMessage);
 }
 void MainWindow::stopDelivery(){
-    qInfo() << "Stopping basal delivery...";
+    QString logMessage = insulinPump->stopBasal();
+    if(logMessage == ""){//if no profile
+        return;
+    }
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" | "+logMessage);
 }

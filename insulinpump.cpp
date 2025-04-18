@@ -47,6 +47,24 @@ QString InsulinPump::giveBolus(int now, int later, double duration, double total
     startBolusDelievery();
     return message;
 }
+QString InsulinPump::giveBasal(){
+    if(profileManager->getActiveProfile() == nullptr){//when no active profile
+        return "";
+    }
+    QString message = " | starting basal delivery from: "+profileManager->getActiveProfile()->getName();
+    startBasalDelievery();
+    stopBolusDelievery();
+    return message;
+}
+QString InsulinPump::stopBasal(){
+    if(profileManager->getActiveProfile() == nullptr){//when no active profile
+        return "";
+    }
+    QString message = " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
+    stopBasalDelievery();
+    return message;
+}
+
 /*
 TODO add an error message if the user tries to give a bolus when the pump is already giving a bolus
 

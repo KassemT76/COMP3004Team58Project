@@ -35,6 +35,8 @@ public:
     void initailizeBolus(double, double);
     void initailizeExtended(int, int, double, double, double);
     QString giveBolus(int, int, double, double, double); // return true if successful
+    QString giveBasal();
+    QString stopBasal();
     InsulinInformation distributeInsulin();// to be called every tick
 
     /**
