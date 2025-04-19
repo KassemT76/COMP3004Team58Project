@@ -199,7 +199,7 @@ void MainWindow::simulationStep(){
     logMessage += info->getMessage();
     insulinPump->setGlucoseLevel(info->getCurrentGlucose());
     if (info->getInsulinActive() != chartShaded){
-        chartShaded != chartShaded;
+        chartShaded = info->getInsulinActive();
         screenHome->startShadedArea();
     }
 

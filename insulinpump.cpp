@@ -70,10 +70,10 @@ InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
     double rad = timeStep * (M_PI / 180.0);
     double result = sinosoidalFunction(rad);
 
-    double predictedRad = (timeStep + 1) * (M_PI / 180.0);
+    double predictedRad = (timeStep + 30) * (M_PI / 180.0);
     double predictedResult = sinosoidalFunction(predictedRad);
 
-    InsulinInformation* info = new InsulinInformation(result, predictedResult > result, "Insulin distributed successfully: " + QString::number(result) + " units" + " | " + QString::number(timeStep));
+    InsulinInformation* info = new InsulinInformation(result, predictedResult > result,"Insulin distributed successfully: " + QString::number(result) + " units");
 
     return info;
 }
