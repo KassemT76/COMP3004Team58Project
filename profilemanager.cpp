@@ -1,6 +1,7 @@
 #include "profilemanager.h"
 #include <QDebug>
 #include "screenprofilesetup.h"
+#include <cmath>
 
 ProfileManager::ProfileManager(){
     activeProfile = nullptr;
@@ -60,6 +61,17 @@ void ProfileManager::selectProfile(QString inName){
 }
 PersonalProfile* ProfileManager::getActiveProfile(){
     return activeProfile;
+}
+void ProfileManager::updateActiveProfile(int currTime){
+    PersonalProfile* newProfile = nullptr;
+    int closestTime = MAXTIME;
+    for(PersonalProfile* profile: profiles){
+        if(abs(profile->getStartTime() - currTime) < closestTime && profile->getEndTime() > currTime){//get the profile with the closest start time
+            newProfile = profile;
+            closestTime = abs(profile->getStartTime() - currTime);
+        }
+    }
+    activeProfile = newProfile;
 }
 
 PersonalProfile* ProfileManager::getProfile(QString profileName){

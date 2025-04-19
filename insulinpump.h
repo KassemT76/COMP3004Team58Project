@@ -33,10 +33,11 @@ public:
     ~InsulinPump();
 
     void initailizeBolus(double, double);
-    void initailizeExtended(int, int, double, double, double);
-    QString giveBolus(int, int, double, double, double); // return true if successful
-    QString giveBasal();
+    void initailizeExtended(int, int, int, int, int, double, double);
+    QString giveBolus(int, int, int, int, int, double, double); // return true if successful
+    QString giveBasal(int);
     QString stopBasal();
+    QString updateCGM(int);
     InsulinInformation distributeInsulin();// to be called every tick
 
     /**

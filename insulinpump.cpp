@@ -5,11 +5,13 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard)
 {
-    this->bolusCalculator = new BolusCalculator();
-    this->batteryUsage = 0;
-    this->batteryOffset = 5;
-    this->currGlucoseLevel = 0;
-    this->profileManager = new ProfileManager();
+    bolusCalculator = new BolusCalculator();
+    batteryUsage = 0;
+    batteryOffset = 5;
+    currGlucoseLevel = 0;
+    profileManager = new ProfileManager();
+    basalActive = false;
+    bolusActive = false;
 }
 
 
@@ -22,21 +24,65 @@ void InsulinPump::initailizeBolus(double totalCarbs, double currentBG){
         bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile(), insulinOnBoard);
     }
 }
-void InsulinPump::initailizeExtended(int now, int later, double duration, double totalCarbs, double currentBG){
+void InsulinPump::initailizeExtended(int now, int later, int durHr, int durMin, int currTime, double totalCarbs, double currentBG){
     if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
         bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile(), insulinOnBoard);
-        bolusCalculator->calculateExtended(now, later, duration);
+        bolusCalculator->calculateExtended(now, later, durHr, durMin, currTime);
     }
 }
-QString InsulinPump::giveBolus(int now, int later, double duration, double totalCarbs, double currentBG){
-    Error error;
+QString InsulinPump::updateCGM(int currTime){//checks if current basal has finished its delivery period
     QString message = "";
+    //Bolus:
+    if(bolusActive){//if bolus is active and extended, check if it is finished
+        if(bolusCalculator->getEndTime() < currTime){
+            message += " | bolus has finished, changing to: ";
+            stopBolusDelievery();
+            profileManager->updateActiveProfile(currTime);
+            if(profileManager->getActiveProfile() == nullptr){//profile DNE
+                message += "NONE";
+                stopBasalDelievery();
+            }
+            else{//profile exists
+                message += profileManager->getActiveProfile()->getName();
+                startBasalDelievery();
+            }
+        }
+    }
+    else{//Basal:
+        if(profileManager->getActiveProfile() == nullptr && !basalActive){//if no active profile
+            profileManager->updateActiveProfile(currTime);
+            if(profileManager->getActiveProfile() != nullptr){//if theres an available profile
+                message += " | starting basal delivery from: "+profileManager->getActiveProfile()->getName();
+                startBasalDelievery();
+            }
+        }
+        else if(profileManager->getActiveProfile()->getEndTime() < currTime && basalActive){//if active profile has expired
+            message += " | "+profileManager->getActiveProfile()->getName()+" has expired, changing to: ";
+            profileManager->updateActiveProfile(currTime);
+            if(profileManager->getActiveProfile() == nullptr){//profile DNE
+                message += "NONE";
+                stopBasalDelievery();
+            }
+            else{//profile exists
+                message += profileManager->getActiveProfile()->getName();
+                startBasalDelievery();
+            }
+        }
+    }
+    return message;
+}
+
+QString InsulinPump::giveBolus(int now, int later, int durHr, int durMin, int currTime, double totalCarbs, double currentBG){
+    Error error;
+    if(profileManager->getActiveProfile() == nullptr){
+        return " | No profiles selected, a profile is needed as to assess bolus delivery";
+    }
     //initialize bolus calc if hadn't already(ie didn't view calculations or units)
-    if(duration <= 0){
+    if(now < 0){//when immediate, now, later, durHr, durMin are set to -1(aka invalid)
         initailizeBolus(totalCarbs, currentBG);
     }
-    else{
-        initailizeExtended(now, later, duration, totalCarbs, currentBG);
+    else{//when extended, all values are valid are intialized
+        initailizeExtended(now, later, durHr, durMin, currTime, totalCarbs, currentBG);
     }
     //check if there is enough insulin
     if(insulinLevel < getBolusCalculator()->getTotalRequiredBolus()){
@@ -45,24 +91,25 @@ QString InsulinPump::giveBolus(int now, int later, double duration, double total
     //startextended bolus if nedeed
     stopBasalDelievery();
     startBolusDelievery();
-    return message;
+    return " | Bolus Activated";
 }
-QString InsulinPump::giveBasal(){
+QString InsulinPump::giveBasal(int currTime){
     if(profileManager->getActiveProfile() == nullptr){//when no active profile
         return "";
     }
-    QString message = " | starting basal delivery from: "+profileManager->getActiveProfile()->getName();
+    if(profileManager->getActiveProfile()->getEndTime() < currTime){//when profile is not within the current time period
+        return " | time range for profile has expired, choose another profile";
+    }
     startBasalDelievery();
     stopBolusDelievery();
-    return message;
+    return " | starting basal delivery from: "+profileManager->getActiveProfile()->getName();
 }
 QString InsulinPump::stopBasal(){
-    if(profileManager->getActiveProfile() == nullptr){//when no active profile
+    if(profileManager->getActiveProfile() == nullptr || !basalActive){//when no active profile
         return "";
     }
-    QString message = " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
     stopBasalDelievery();
-    return message;
+    return " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
 }
 
 /*

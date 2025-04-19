@@ -20,6 +20,7 @@ public:
     ~ScreenProfileSetup();
     void addProfile(QString, double, double, double, double, int, int);
     bool nameExists(QString);
+    void updateActiveProfile(PersonalProfile*);
 private:
     Ui::ScreenProfileSetup *ui;
     QVector<QString> names;

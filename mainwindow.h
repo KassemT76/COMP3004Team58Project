@@ -31,7 +31,7 @@ public:
     ScreenProfileSetup* screenProfileSetup = nullptr;
     ScreenAddProfile* screenAddProfile = nullptr;
     ScreenSettings* screenSettings = nullptr;
-
+    void stopBolus();
 
 
 
@@ -79,9 +79,9 @@ private slots:
     void selectProfile(QString);
 
     // screen bolus:
-    void confirmBolus(int, int, double, double, double);
+    void confirmBolus(int, int, int, int, double, double);
     void calcUnits(double, double);
-    void calcExtended(int, int, double, double, double);
+    void calcExtended(int, int, int, int, double, double);
 
     //screen settings
     void startDelivery();
