@@ -11,28 +11,11 @@
 /**
  * @brief The current glucose level and insulin active status are stored in this class.
  */
-class InsulinInformation
-{   
-    public:
-        InsulinInformation(double inGluc=0, bool insulin=false, QString inMess="") : glucoseLevel(inGluc), insulinActive(insulin), message(inMess) {}
-        double getCurrentGlucose() {return glucoseLevel;}
-        void setCurrentGlucose(double inGluc){glucoseLevel = inGluc;}
-        bool getInsulinActive() {return insulinActive;}
-        void setInsulin(bool insulin){insulinActive = insulin;}
-        QString getMessage() {return message;}
-        void setMessage(QString inMess){message = inMess;}
-
-    private:
-        double glucoseLevel;
-        bool insulinActive;
-        QString message;
-
-};
 
 class InsulinPump
 {
 public:
-    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0);
+    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, double inGluc=0, bool insulin=false, QString inMess="");
     ~InsulinPump();
 
     void initailizeBolus(double, double);
@@ -41,10 +24,14 @@ public:
     QString giveBasal(int);
     QString stopBasal();
     QString updateCGM(int);
-    InsulinInformation distributeInsulin();// to be called every tick
     void initailizeExtended(int, int, double, double, double);
     QString giveBolus(int, int, double, double, double); // return true if successful
-
+    double getCurrentGlucose() {return glucoseLevel;}
+    void setCurrentGlucose(double inGluc){glucoseLevel = inGluc;}
+    bool getInsulinActive() {return insulinActive;}
+    void setInsulin(bool insulin){insulinActive = insulin;}
+    QString getMessage() {return message;}
+    void setMessage(QString inMess){message = inMess;}
 
     /**
      * @brief This method distributes insulin based on the current time step. It uses a sinusoidal function to calculate
@@ -53,7 +40,7 @@ public:
      * @param timeStep The current time step.
      * @return InsulinInformation* A pointer to an InsulinInformation object containing the result of the distribution.
      */
-    InsulinInformation *distributeInsulin(int timeStep);
+     QString distributeInsulin(int timeStep);
 
 
     /**
@@ -147,6 +134,9 @@ private:
     ProfileManager* profileManager;
     int timeInHours;
     double currGlucoseLevel;
+    double glucoseLevel;
+    bool insulinActive;
+    QString message;
 };
 
 #endif // INSULINPUMP_H

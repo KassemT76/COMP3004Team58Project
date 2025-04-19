@@ -196,15 +196,13 @@ void MainWindow::simulationStep(){
     //Insulin Pump
     //TODO: DECAY, operations
     QString logMessage = "";
-    InsulinInformation* info = insulinPump->distributeInsulin(currentTimeStep);//output
-    logMessage += info->getMessage();
-    insulinPump->setGlucoseLevel(info->getCurrentGlucose());
-    if (info->getInsulinActive() != chartShaded){
-        chartShaded = info->getInsulinActive();
+    logMessage += insulinPump->distributeInsulin(currentTimeStep);//output
+    insulinPump->setGlucoseLevel(insulinPump->getCurrentGlucose());
+    if (insulinPump->getInsulinActive() != chartShaded){
+        chartShaded = insulinPump->getInsulinActive();
         screenHome->startShadedArea();
     }
 
-    delete info;
 
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);

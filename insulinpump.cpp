@@ -1,8 +1,11 @@
 #include "insulinpump.h"
-InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard) :
+InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin, QString inMess) :
     battery(battery),
     insulinLevel(insulinLevel),
-    insulinOnBoard(insulinOnBoard)
+    insulinOnBoard(insulinOnBoard),
+    glucoseLevel(inGluc),
+    insulinActive(insulin),
+    message(inMess)
 {
     bolusCalculator = new BolusCalculator();
     batteryUsage = 0;
@@ -124,7 +127,45 @@ if the glucose is over X then stop giving bolus
 
 get the glucose from sinosodial function for a test and make that function
 */
-InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
+QString InsulinPump::distributeInsulin(int timeStep){
+    Error error;
+    QString message = "";
+    if(!basalActive && !bolusActive){
+        return message;
+    }
+    // Reduce battery by 1% per unit (simplified)cd
+    //check battery level
+    if(battery <= 0){
+        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
+    }
+    else if(battery <= 30){
+        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
+    }
+    //check if pump has enough insulin for the bolus
+    if(insulinLevel <= 0){
+        message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
+
+    }
+    else if(insulinLevel <= 30){
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
+    }
+    //Deliver immediate bolus
+    if(currGlucoseLevel < 3.9){
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
+
+    }
+    else if(currGlucoseLevel > 10){
+        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
+    }
+
+    if(basalActive){
+     //get stats from: profileManager->getActiveProfile()->
+    }
+    else{//bolusActive
+     //get stats from: bolusCalculator->
+    }
+    //Natural Body
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(-1.0, 1.0);
@@ -144,9 +185,7 @@ InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
 
     double glucoseLevel = result + randomValue;
 
-    InsulinInformation* info = new InsulinInformation(glucoseLevel, predictedResult > result,"Insulin distributed successfully: " + QString::number(glucoseLevel) + " units");
-
-    return info;
+    return message;
 }
 
 void InsulinPump::startBasalDelievery(){
