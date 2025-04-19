@@ -13,6 +13,8 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     profileManager = new ProfileManager();
     basalActive = false;
     bolusActive = false;
+
+    basilDeActive = false;
 }
 
 
@@ -127,20 +129,60 @@ if the glucose is over X then stop giving bolus
 get the glucose from sinosodial function for a test and make that function
 */
 QString InsulinPump::distributeInsulin(int timeStep){
-    Error error;
+
     QString message = "";
-    if(!basalActive && !bolusActive){
-        return message;
+    Error error;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-1.0, 1.0);
+    double randomValue = dis(gen);
+
+    auto sinosoidalFunction = [](double x){
+        return 4 * cos((1.0) * x) + 7;
+    };
+    
+    double rad = timeStep * (M_PI / 180.0);
+    double result = sinosoidalFunction(rad);
+    
+    double predictedRad = (timeStep + 30) * (M_PI / 180.0);
+    double predictedResult = sinosoidalFunction(predictedRad);
+    
+    glucoseLevel = result + randomValue;
+
+    currGlucoseLevel = glucoseLevel;
+
+    //Deliver immediate bolus
+    if(predictedResult < 3.9){
+        basilDeActive = true;
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
+        
+    } else {
+        basilDeActive = false;
     }
-    // Reduce battery by 1% per unit (simplified)cd
-    //check battery level
-    if(battery <= 0){
-        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
+    if(predictedResult > 10){
+        // TODO: add a function to deliver bolus boost 
+        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
     }
-    else if(battery <= 30){
-        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
+    
+    if(basalActive && !basilDeActive){
+        double basalRate = profileManager->getActiveProfile()->getBasalRate();
+
+        double basal5Min = (basalRate / 60.0) * 5.0; // basil rate per 5 min
+        // Correction
+        double correction = (currGlucoseLevel - profileManager->getActiveProfile()->getTargetBG()) / profileManager->getActiveProfile()->getCorrectionFactor();
+        double totalInsulin5Min = basal5Min + std::max(correction - getInsulinOB(), 0.0);
+
+
+
+        message += " | basal delivered: "+QString::number(totalInsulin5Min);
     }
+    else{//bolusActive
+        
+    }
+
+    
     //check if pump has enough insulin for the bolus
+    // TODO : do something with this code
     if(insulinLevel <= 0){
         message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
 
@@ -148,41 +190,17 @@ QString InsulinPump::distributeInsulin(int timeStep){
     else if(insulinLevel <= 30){
         message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
     }
-    //Deliver immediate bolus
-    if(currGlucoseLevel < 3.9){
-        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
 
+    // this updates the battery level
+    if(battery <= 0){
+        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
     }
-    else if(currGlucoseLevel > 10){
-        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
+    else if(battery <= 30){
+        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
     }
+    
 
-    if(basalActive){
-     //get stats from: profileManager->getActiveProfile()->
-    }
-    else{//bolusActive
-     //get stats from: bolusCalculator->
-    }
     //Natural Body
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0, 1.0);
-    double randomValue = dis(gen);
-
-    auto sinosoidalFunction = [](double x){
-        return 3.05 * cos((3.0) * x) + 6.95;
-    };
-
-    insulinActive = false;
-
-    double rad = timeStep * (M_PI / 180.0);
-    double result = sinosoidalFunction(rad);
-
-    double predictedRad = (timeStep + 30) * (M_PI / 180.0);
-    double predictedResult = sinosoidalFunction(predictedRad);
-
-    glucoseLevel = result + randomValue;
     return message;
 }
 

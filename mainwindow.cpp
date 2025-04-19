@@ -198,14 +198,15 @@ void MainWindow::simulationStep(){
     QString logMessage = "";
     logMessage += insulinPump->distributeInsulin(currentTimeStep);//output
     insulinPump->setGlucoseLevel(insulinPump->getCurrentGlucose());
-    if (insulinPump->getInsulinActive() != chartShaded){
-        chartShaded = insulinPump->getInsulinActive();
+    if (insulinPump->getBasilDeActive() != chartShaded){
+        chartShaded = insulinPump->getBasilDeActive();
         screenHome->startShadedArea();
     }
 
-
+    // This is updating the battery level
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);
+
 
     double newGlucoseLevel = insulinPump->getGlucoseLevel();
 

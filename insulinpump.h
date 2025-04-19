@@ -95,6 +95,12 @@ public:
     bool getBasalActive();
     bool getBolusActive();
 
+    /**
+     * 
+     * @brief This method retrieves if basiz
+     */
+    bool getBasilDeActive() {return basilDeActive;}
+
 
     /**
      * @deprecated This method is deprecated, use rechargeBattery() instead.
@@ -128,6 +134,9 @@ private:
     double insulinOnBoard;
     bool basalActive;
     bool bolusActive;
+
+    bool basilDeActive;
+
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
     int timeInHours;
