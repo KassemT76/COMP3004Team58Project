@@ -23,12 +23,18 @@ void ScreenBolus::goToHome(){
     emit sendToHome();
 }
 void ScreenBolus::confirmBolus(){
-    if(ui->extendedCheckBox->isChecked()){
-        double duration = ui->durationHr->value() + ui->durationMin->value()/60;
-        sendConfirmBolus((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    qInfo("TEST");
+    if(ui->carbsSpinbox->value() <= 0){//if no carbs input(must at least have carbs, this input is invalid)
+        return;
     }
-    else{
-        sendConfirmBolus(0, 0, 0, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    int durHr = (int)ui->durationHr->value();
+    int durMin = (int)ui->durationMin->value();
+    int delieverNow = (int)ui->deliverNow->value();
+    if(ui->extendedCheckBox->isChecked()){//when extended
+        sendConfirmBolus(delieverNow, 100-delieverNow, durHr,durMin, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    }
+    else{//when immediate
+        sendConfirmBolus(-1, -1, -1, -1, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
     }
     ui->carbsSpinbox->setValue(0.0);
     ui->glucoseSpinbox->setValue(0.0);
@@ -45,10 +51,9 @@ void ScreenBolus::calcUnits(){
 }
 
 void ScreenBolus::calcExtended(){
-    double duration = ui->durationHr->value() + ui->durationMin->value()/60;
     ui->deliverLater->setText(QString::number(100-(int)ui->deliverNow->value()));
 
-    emit sendCalcExtended((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), duration, ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
+    emit sendCalcExtended((int)ui->deliverNow->value(), 100-(int)ui->deliverNow->value(), (int)ui->durationHr->value(), (int)ui->durationMin->value(), ui->carbsSpinbox->value(), ui->glucoseSpinbox->value());
 }
 void ScreenBolus::updateCalc(double bolus){
     ui->unitsView->setText(QString::number(bolus));

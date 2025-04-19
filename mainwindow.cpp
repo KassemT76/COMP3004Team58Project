@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
         screenSettings = new ScreenSettings(this->ui->frame);
 
     // Insulin Pump
-    insulinPump = new InsulinPump(100, 0, 0);
+    insulinPump = new InsulinPump(100, 235, 0);
 
     // Set to home after screens are set up
     goToHome();
@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
     connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
+    connect(ui->stopBolusButton, &QPushButton::released, this, &MainWindow::stopBolus);
 
     connect(ui->rechargeButton, SIGNAL(released()), this, SLOT(resetBattery()));
     connect(ui->addCarbsButton, SIGNAL(released()), this, SLOT(addCarbs()));
@@ -77,9 +78,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Bolus Screen
     connect(screenBolus, SIGNAL(sendToHome()), this, SLOT(goToHome()));
-    connect(screenBolus, SIGNAL(sendConfirmBolus(int, int, double, double, double)), this, SLOT(confirmBolus(int, int, double, double, double)));
+    connect(screenBolus, SIGNAL(sendConfirmBolus(int, int, int, int, double, double)), this, SLOT(confirmBolus(int, int, int, int, double, double)));
     connect(screenBolus, SIGNAL(sendCalcUnits(double, double)), this, SLOT(calcUnits(double, double)));
-    connect(screenBolus, SIGNAL(sendCalcExtended(int, int, double, double, double)), this, SLOT(calcExtended(int, int, double, double, double)));
+    connect(screenBolus, SIGNAL(sendCalcExtended(int, int, int, int, double, double)), this, SLOT(calcExtended(int, int, int, int, double, double)));
 
     // Add Profile Screen
     connect(screenAddProfile, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
@@ -210,6 +211,18 @@ void MainWindow::simulationStep(){
 
     double newGlucoseLevel = insulinPump->getGlucoseLevel();
 
+    //check for profile/bolus time, if it ended, get the next possible profile
+    QString result = insulinPump->updateCGM(currentTimeStep);
+    if(result != ""){
+        screenProfileSetup->updateActiveProfile(insulinPump->getProfileManager()->getActiveProfile());
+        logMessage += result;
+    }
+    if(insulinPump->getBolusActive()){//checks for Bolus status and updates lable accordingly
+        ui->bolusActive->setText("Bolus Delivery: ACTIVE");
+    }
+    else{
+        ui->bolusActive->setText("Bolus Delivery: INACTIVE");
+    }
     //Update chart
     screenHome->addPoint(newGlucoseLevel);
 
@@ -236,7 +249,7 @@ void MainWindow::simulationStep(){
     screenHome->setIOB(insulinPump->getInsulinOB());
 
     //Log Console
-    logText->append(time+" | "+logMessage);
+    logText->append(time+" "+logMessage);
 
 }
 
@@ -276,11 +289,10 @@ void MainWindow::selectProfile(QString inName){
     insulinPump->getProfileManager()->selectProfile(inName);
 }
 
-void MainWindow::confirmBolus(int now, int later, double duration, double totalCarbs, double currentBG){
-    //INSULIN PUMP DELIEVERS BOLUS, inputs in case view bolus calculator wasn't initialized
-    QString logMessage = insulinPump->giveBolus(now, later, duration, totalCarbs, currentBG);
+void MainWindow::confirmBolus(int now, int later, int durHr, int durMin, double totalCarbs, double currentBG){
+    QString logMessage = insulinPump->giveBolus(now, later, durHr, durMin, currentTimeStep, totalCarbs, currentBG);
     QString time = screenHome->setTime(currentTimeStep);
-    logText->append(time+" | "+logMessage);
+    logText->append(time+" "+logMessage);
 }
 
 void MainWindow::calcUnits(double totalCarbs, double currentBG){
@@ -288,19 +300,31 @@ void MainWindow::calcUnits(double totalCarbs, double currentBG){
     insulinPump->initailizeBolus(totalCarbs, currentBG);
     screenBolus->updateCalc(insulinPump->getBolusCalculator()->getFinalBolus());
 }
-void MainWindow::calcExtended(int now, int later, double duration, double totalCarbs, double currentBG){
+void MainWindow::calcExtended(int now, int later, int durHr, int durMin, double totalCarbs, double currentBG){
     //INSULIN PUMP DELIEVERS BOLUS IN A TIME RANGE
-    qInfo("TEST");
-    qInfo() << now << later << duration << totalCarbs << currentBG;
-    insulinPump->initailizeExtended(now, later, duration, totalCarbs, currentBG);
-    qInfo() <<insulinPump->getBolusCalculator()->getImmediateBolus() << insulinPump->getBolusCalculator()->getExtendedBolus();
-
+    insulinPump->initailizeExtended(now, later, durHr, durMin, currentTimeStep, totalCarbs, currentBG);
     screenBolus->updateExtended(insulinPump->getBolusCalculator()->getImmediateBolus(), insulinPump->getBolusCalculator()->getExtendedBolus());
 }
 
 void MainWindow::startDelivery(){
-    qInfo() << "Starting basal delivery...";
+    QString logMessage = insulinPump->giveBasal(currentTimeStep);
+    if(logMessage == ""){//if no profile
+        return;
+    }
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" "+logMessage);
 }
 void MainWindow::stopDelivery(){
-    qInfo() << "Stopping basal delivery...";
+    QString logMessage = insulinPump->stopBasal();
+    if(logMessage == ""){//if no profile
+        return;
+    }
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" "+logMessage);
+}
+void MainWindow::stopBolus(){
+    insulinPump->stopBolusDelievery();
+    ui->bolusActive->setText("Bolus Delivery: INACTIVE");
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" Bolus ended manually");
 }

@@ -65,6 +65,12 @@ public:
      * @return The bolus rate per hour in units.
      */
     double getBolusRatePerHour() const { return bolusRatePerHour; }
+    /**
+     * @brief This method retrieves the end time, the time at which the extended bolus would end
+     *
+     * @return The end time in minutes.
+     */
+    int getEndTime() const { return endTime; }
 
     /**
      * @brief Calculate the bolus insulin required based on the given parameters.
@@ -74,7 +80,7 @@ public:
      * @return A BolusData object containing the total, immediate, and extended insulin doses.
      */
     void calculateBolus(double, double, PersonalProfile*, double);
-    void calculateExtended(int, int, double);
+    void calculateExtended(int, int, int, int, int);
 
 private:
     double bolus;
@@ -84,6 +90,7 @@ private:
     double immediateBolus;
     double extendedBolus;
     double bolusRatePerHour;
+    int endTime;
 };
 
 #endif // BOLUSCALCULATOR_H

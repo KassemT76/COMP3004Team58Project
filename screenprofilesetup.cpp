@@ -124,4 +124,11 @@ bool ScreenProfileSetup::nameExists(QString inName){
     }
     return false;
 }
+void ScreenProfileSetup::updateActiveProfile(PersonalProfile* newProf){
+    if(newProf == nullptr){
+        ui->selectedProfile->setText("none");
+        return;
+    }
+    ui->selectedProfile->setText(newProf->getName());
+}
 

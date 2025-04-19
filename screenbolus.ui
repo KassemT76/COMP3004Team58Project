@@ -2082,6 +2082,12 @@
    <property name="decimals">
     <number>0</number>
    </property>
+   <property name="minimum">
+    <double>-6.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>23.000000000000000</double>
+   </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
@@ -2107,6 +2113,9 @@
    </property>
    <property name="decimals">
     <number>0</number>
+   </property>
+   <property name="maximum">
+    <double>59.000000000000000</double>
    </property>
   </widget>
   <widget class="QLabel" name="laterLabel">
