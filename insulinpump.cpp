@@ -125,6 +125,10 @@ if the glucose is over X then stop giving bolus
 get the glucose from sinosodial function for a test and make that function
 */
 InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-1.0, 1.0);
+    double randomValue = dis(gen);
 
     auto sinosoidalFunction = [](double x){
         return 3.05 * cos((3.0) * x) + 6.95;
@@ -138,7 +142,9 @@ InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
     double predictedRad = (timeStep + 30) * (M_PI / 180.0);
     double predictedResult = sinosoidalFunction(predictedRad);
 
-    InsulinInformation* info = new InsulinInformation(result, predictedResult > result,"Insulin distributed successfully: " + QString::number(result) + " units");
+    double glucoseLevel = result + randomValue;
+
+    InsulinInformation* info = new InsulinInformation(glucoseLevel, predictedResult > result,"Insulin distributed successfully: " + QString::number(glucoseLevel) + " units");
 
     return info;
 }

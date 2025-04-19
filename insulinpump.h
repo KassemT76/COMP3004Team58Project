@@ -6,6 +6,7 @@
 #include "profilemanager.h"
 #include "screenprofilesetup.h"
 # include <cmath>
+#include <random>
 
 /**
  * @brief The current glucose level and insulin active status are stored in this class.
@@ -43,7 +44,16 @@ public:
     InsulinInformation distributeInsulin();// to be called every tick
     void initailizeExtended(int, int, double, double, double);
     QString giveBolus(int, int, double, double, double); // return true if successful
-    InsulinInformation *distributeInsulin(int timeStep);// to be called every tick
+
+
+    /**
+     * @brief This method distributes insulin based on the current time step. It uses a sinusoidal function to calculate
+     * the amount of insulin to be distributed.
+     * s
+     * @param timeStep The current time step.
+     * @return InsulinInformation* A pointer to an InsulinInformation object containing the result of the distribution.
+     */
+    InsulinInformation *distributeInsulin(int timeStep);
 
 
     /**
@@ -55,6 +65,7 @@ public:
      * @param currentBG The current blood glucose level.
      */
     void initailizeBolus(PersonalProfile* profile, int totalCarbs, double currentBG);
+
     Error giveBolus(); // return true if successful
     void startBasalDelievery();
     void stopBasalDelievery();
