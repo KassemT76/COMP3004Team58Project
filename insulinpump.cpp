@@ -1,11 +1,10 @@
 #include "insulinpump.h"
-InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin, QString inMess) :
+InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin) :
     battery(battery),
     insulinLevel(insulinLevel),
     insulinOnBoard(insulinOnBoard),
     glucoseLevel(inGluc),
-    insulinActive(insulin),
-    message(inMess)
+    insulinActive(insulin)
 {
     bolusCalculator = new BolusCalculator();
     batteryUsage = 0;
@@ -175,7 +174,7 @@ QString InsulinPump::distributeInsulin(int timeStep){
         return 3.05 * cos((3.0) * x) + 6.95;
     };
 
-    bool insulinActive = false;
+    insulinActive = false;
 
     double rad = timeStep * (M_PI / 180.0);
     double result = sinosoidalFunction(rad);
@@ -183,8 +182,7 @@ QString InsulinPump::distributeInsulin(int timeStep){
     double predictedRad = (timeStep + 30) * (M_PI / 180.0);
     double predictedResult = sinosoidalFunction(predictedRad);
 
-    double glucoseLevel = result + randomValue;
-
+    glucoseLevel = result + randomValue;
     return message;
 }
 

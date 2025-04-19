@@ -15,7 +15,7 @@
 class InsulinPump
 {
 public:
-    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, double inGluc=0, bool insulin=false, QString inMess="");
+    InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, double inGluc=0, bool insulin=false);
     ~InsulinPump();
 
     void initailizeBolus(double, double);
@@ -30,8 +30,6 @@ public:
     void setCurrentGlucose(double inGluc){glucoseLevel = inGluc;}
     bool getInsulinActive() {return insulinActive;}
     void setInsulin(bool insulin){insulinActive = insulin;}
-    QString getMessage() {return message;}
-    void setMessage(QString inMess){message = inMess;}
 
     /**
      * @brief This method distributes insulin based on the current time step. It uses a sinusoidal function to calculate
@@ -136,7 +134,6 @@ private:
     double currGlucoseLevel;
     double glucoseLevel;
     bool insulinActive;
-    QString message;
 };
 
 #endif // INSULINPUMP_H
