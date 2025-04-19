@@ -43,6 +43,8 @@ private:
 
     QTimer* timer;
     int currentTimeStep;
+    bool chartShaded;
+
     QTextEdit *logText;
     QVBoxLayout *logLayout;
 

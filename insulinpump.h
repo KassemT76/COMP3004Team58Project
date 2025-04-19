@@ -5,13 +5,15 @@
 #include "boluscalculator.h"
 #include "profilemanager.h"
 #include "screenprofilesetup.h"
+# include <cmath>
 
+/**
+ * @brief The current glucose level and insulin active status are stored in this class.
+ */
 class InsulinInformation
 {   
     public:
-
-    InsulinInformation(double inGluc=0, bool insulin=false, QString inMess="") : glucoseLevel(inGluc), insulinActive(insulin), message(inMess) {}
-
+        InsulinInformation(double inGluc=0, bool insulin=false, QString inMess="") : glucoseLevel(inGluc), insulinActive(insulin), message(inMess) {}
         double getCurrentGlucose() {return glucoseLevel;}
         void setCurrentGlucose(double inGluc){glucoseLevel = inGluc;}
         bool getInsulinActive() {return insulinActive;}
@@ -39,6 +41,10 @@ public:
     QString stopBasal();
     QString updateCGM(int);
     InsulinInformation distributeInsulin();// to be called every tick
+    void initailizeExtended(int, int, double, double, double);
+    QString giveBolus(int, int, double, double, double); // return true if successful
+    InsulinInformation *distributeInsulin(int timeStep);// to be called every tick
+
 
     /**
      * @brief This method initializes the bolus calculator with the given profile and carbs. This method should be called

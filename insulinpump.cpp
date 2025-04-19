@@ -1,5 +1,4 @@
 #include "insulinpump.h"
-
 InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard) :
     battery(battery),
     insulinLevel(insulinLevel),
@@ -19,6 +18,7 @@ InsulinPump::~InsulinPump(){
     delete bolusCalculator;
     delete profileManager;
 }
+
 void InsulinPump::initailizeBolus(double totalCarbs, double currentBG){
     if(profileManager->getActiveProfile() != nullptr){//when theres an active profile
         bolusCalculator->calculateBolus(totalCarbs, currentBG, profileManager->getActiveProfile(), insulinOnBoard);
@@ -112,6 +112,7 @@ QString InsulinPump::stopBasal(){
     return " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
 }
 
+
 /*
 TODO add an error message if the user tries to give a bolus when the pump is already giving a bolus
 
@@ -123,45 +124,22 @@ if the glucose is over X then stop giving bolus
 
 get the glucose from sinosodial function for a test and make that function
 */
+InsulinInformation *InsulinPump::distributeInsulin(int timeStep){
 
-InsulinInformation InsulinPump::distributeInsulin(){
-    Error error;
-    QString message = "";
-    InsulinInformation info;
-    if(!basalActive && !bolusActive){
-        return info;
-    }
-    // Reduce battery by 1% per unit (simplified)cd
-    //check battery level
-    if(battery <= 0){
-        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
-    }
-    else if(battery <= 30){
-        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
-    }
-    //check if pump has enough insulin for the bolus
-    if(insulinLevel <= 0){
-        message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
-    }
-    else if(insulinLevel <= 30){
-        message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
-    }
-    //Deliver immediate bolus
-    if(currGlucoseLevel < 3.9){
-        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
-    }
-    /*
-    else if(currGlucoseLevel > CHANGE THIS TO SOME VALUE){
-        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
-    }
-    */
+    auto sinosoidalFunction = [](double x){
+        return 3.05 * cos((3.0) * x) + 6.95;
+    };
 
-    if(basalActive){
+    bool insulinActive = false;
 
-    }
-    else{//bolusActive
+    double rad = timeStep * (M_PI / 180.0);
+    double result = sinosoidalFunction(rad);
 
-    }
+    double predictedRad = (timeStep + 30) * (M_PI / 180.0);
+    double predictedResult = sinosoidalFunction(predictedRad);
+
+    InsulinInformation* info = new InsulinInformation(result, predictedResult > result,"Insulin distributed successfully: " + QString::number(result) + " units");
+
     return info;
 }
 
