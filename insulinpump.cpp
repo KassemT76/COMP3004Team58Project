@@ -129,13 +129,7 @@ TODO add an error message if the user tries to give a bolus when the pump is alr
 
 TODO take this function and break it into smaller functions
 
-caclculate how much insulin to give
-
-if the glucose is under X then give higher bolus
-
-if the glucose is over X then stop giving bolus
-
-get the glucose from sinosodial function for a test and make that function
+TODO make the above 10 function, make it so that the + 7 is reduced and if its less then slowly increase is that sounds like a plan.
 */
 QString InsulinPump::distributeInsulin(int timeStep){
 
