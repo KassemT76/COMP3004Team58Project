@@ -31,7 +31,6 @@ public:
     ScreenProfileSetup* screenProfileSetup = nullptr;
     ScreenAddProfile* screenAddProfile = nullptr;
     ScreenSettings* screenSettings = nullptr;
-    void stopBolus();
 
 
 
@@ -88,6 +87,9 @@ private slots:
     //screen settings
     void startDelivery();
     void stopDelivery();
+
+    //screen home
+    void stopBolus();
 };
 
 #endif // MAINWINDOW_H

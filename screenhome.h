@@ -21,9 +21,10 @@ public:
     void setIL(double);
     void setGlucoseLevel(double);
     void setBattery(int);
-
+    void stopBolus();
     void addPoint(double);
     void startShadedArea();
+    void setBolusActive(QString);
 private:
     Ui::ScreenHome *ui;
 
@@ -32,7 +33,7 @@ private:
 signals:
     void sendToBolus();
     void sendToSettings();
-
+    void sendStopBolus();
 private slots:
     void goToSettings();
     void goToBolus();

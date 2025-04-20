@@ -54,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->startButton, SIGNAL(released()), this, SLOT(startSimulation()));
     connect(ui->stopButton, SIGNAL(released()), this, SLOT(stopSimulation()));
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
-    connect(ui->stopBolusButton, &QPushButton::released, this, &MainWindow::stopBolus);
 
     connect(ui->rechargeButton, SIGNAL(released()), this, SLOT(resetBattery()));
     connect(ui->addCarbsButton, SIGNAL(released()), this, SLOT(addCarbs()));
@@ -68,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Home Screen
     connect(screenHome, SIGNAL(sendToSettings()), this, SLOT(goToSettings()));
     connect(screenHome, SIGNAL(sendToBolus()), this, SLOT(goToBolus()));
+    connect(screenHome, SIGNAL(sendStopBolus()), this, SLOT(stopBolus()));
 
     // Profile Screen
     connect(screenProfileSetup, SIGNAL(sendToAddProfile()), this, SLOT(goToAddProfile()));
@@ -216,10 +216,10 @@ void MainWindow::simulationStep(){
         logMessage += result;
     }
     if(insulinPump->getBolusActive()){//checks for Bolus status and updates lable accordingly
-        ui->bolusActive->setText("Bolus Delivery: ACTIVE");
+        screenHome->setBolusActive("ACTIVE");
     }
     else{
-        ui->bolusActive->setText("Bolus Delivery: INACTIVE");
+        screenHome->setBolusActive("INACTIVE");
     }
     //Update chart
     screenHome->addPoint(newGlucoseLevel);
@@ -294,7 +294,7 @@ void MainWindow::selectProfile(QString inName){
 void MainWindow::confirmBolus(int now, int later, int durHr, int durMin, double totalCarbs, double currentBG){
     QString logMessage = insulinPump->giveBolus(now, later, durHr, durMin, currentTimeStep, totalCarbs, currentBG);
     if(logMessage == ""){//when bolus has no errors
-        ui->bolusActive->setText("Bolus Delivery: ACTIVE");
+        screenHome->setBolusActive("ACTIVE");
         return;
     }
     QString time = screenHome->setTime(currentTimeStep);
@@ -330,7 +330,6 @@ void MainWindow::stopDelivery(){
 }
 void MainWindow::stopBolus(){
     insulinPump->stopBolusDelievery();
-    ui->bolusActive->setText("Bolus Delivery: INACTIVE");
     QString time = screenHome->setTime(currentTimeStep);
     logText->append(time+"  | bolus ended manually");
 }
