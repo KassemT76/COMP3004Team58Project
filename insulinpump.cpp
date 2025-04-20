@@ -36,6 +36,7 @@ void InsulinPump::initailizeExtended(int now, int later, int durHr, int durMin, 
         bolusCalculator->calculateExtended(now, later, durHr, durMin, currTime);
     }
 }
+
 QString InsulinPump::updateCGM(int currTime){//checks if current basal has finished its delivery period
     QString message = "";
     //Bolus:
@@ -126,6 +127,7 @@ QString InsulinPump::giveBasal(int currTime){
     stopBolusDelievery();
     return " | starting basal delivery from: "+profileManager->getActiveProfile()->getName();
 }
+
 QString InsulinPump::stopBasal(){
     if(profileManager->getActiveProfile() == nullptr || !basalActive){//when no active profile
         return "";
@@ -137,6 +139,8 @@ QString InsulinPump::stopBasal(){
 
 /*
 TODO add an error message if the user tries to give a bolus when the pump is already giving a bolus
+
+TODO take this function and break it into smaller functions
 
 caclculate how much insulin to give
 
@@ -220,8 +224,20 @@ QString InsulinPump::distributeInsulin(int timeStep){
     else if(battery <= 30){
         message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
     }
+
+    /**
+     * Que functions, this is where the insulin is added to the queue
+     * add the insulin added to iob
+     * check if the queue is over 3 hours, if so remove the first element
+     */
+    insulinQueue.push(totalInsulin5Min);
+    insulinOnBoard += totalInsulin5Min;
+
+    if (insulinQueue.size() > 36) { // 36 * 5 min = 3 hours
+        insulinOnBoard -= insulinQueue.front();
+        insulinQueue.pop();
+    }
     
-    //Natural Body
     return message;
 }
 
