@@ -91,8 +91,21 @@ public:
      */
     int getBattery();
 
+    /**
+     * @brief This method retrieves the current insulin level.
+     * 
+     * @return double The current insulin level.
+     */
+    double getInsulinLevel() {return insulinLevel;}
 
-    double getInsulinLevel();
+    /**
+     * @brief This method retrieves the current insulin on board (IOB) level.
+     * 
+     * @return double The current insulin on board level.
+     */
+    void rechargeInsulin() {insulinLevel = 35;}
+
+
     double getInsulinOB();
     bool getBasalActive();
     bool getBolusActive();
@@ -123,13 +136,22 @@ private:
     // the number of times the battery can be used before battery % goes down by 1
     int batteryOffset; 
 
+    // the amount of insulin in the pump
     double insulinLevel;
+
+    // the amount of insulin on board
     double insulinOnBoard;
+
+    // the amound of bolus to distribute immediately
     double immediateBolus;
+
+    
     bool basalActive;
     bool bolusActive;
     bool bolusImmediateActive;
     bool basalDeActive;
+
+    double bolusDecayRate; // rate at which the bolus decays
 
     std::queue<double> insulinQueue; // que to store insulin values
 

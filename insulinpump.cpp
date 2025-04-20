@@ -17,6 +17,7 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     bolusActive = false;
     bolusImmediateActive = false;
     basalDeActive = false;
+    bolusDecayRate = 7;
 }
 
 
@@ -136,24 +137,18 @@ QString InsulinPump::stopBasal(){
     return " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
 }
 
-
-/*
-TODO add an error message if the user tries to give a bolus when the pump is already giving a bolus
-
-TODO take this function and break it into smaller functions
-
-TODO make the above 10 function, make it so that the + 7 is reduced and if its less then slowly increase is that sounds like a plan.
-*/
 QString InsulinPump::distributeInsulin(int timeStep){
     QString message = "";
     Error error;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0, 1.0);
+    std::uniform_real_distribution<> dis(-0.5, 0.5);
     double randomValue = dis(gen);
 
-    auto sinosoidalFunction = [](double x){
-        return 4 * cos((1.0) * x) + 7;
+    bolusDecayRate = std::min(7.0, bolusDecayRate + 0.2);
+
+    auto sinosoidalFunction = [this](double x){
+        return 4 * sin((1.0) * x) + bolusDecayRate;
     };
     
     double rad = timeStep * (M_PI / 180.0);
@@ -171,7 +166,8 @@ QString InsulinPump::distributeInsulin(int timeStep){
         basalDeActive = false;
     }
     if(predictedResult > 10){
-        // TODO: add a function to deliver bolus boost 
+        bolusDecayRate -= 4;
+        insulinLevel -= 4;
         message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
     }
     double totalInsulin5Min = 0;
@@ -192,7 +188,8 @@ QString InsulinPump::distributeInsulin(int timeStep){
         if(bolusImmediateActive){//deliver immediate bolus first
             bolusImmediateActive = false;
             message += " | immediate bolus delivered: "+QString::number(immediateBolus);
-            totalInsulin5Min = immediateBolus;
+            bolusDecayRate -= immediateBolus;
+            insulinLevel -= immediateBolus;
         }
         else{
             double bolus5Min = bolusCalculator->getBolusRatePerHour()/60 * 5.0;
@@ -201,6 +198,9 @@ QString InsulinPump::distributeInsulin(int timeStep){
         }
     }
     currGlucoseLevel = result + randomValue - totalInsulin5Min;
+    
+    insulinLevel -= totalInsulin5Min;
+
     //check if pump has enough insulin for the bolus
     // TODO : do something with this code
     if(insulinLevel <= 0){
@@ -227,8 +227,17 @@ QString InsulinPump::distributeInsulin(int timeStep){
     insulinQueue.push(totalInsulin5Min);
     insulinOnBoard += totalInsulin5Min;
 
-    if (insulinQueue.size() > 36) { // 36 * 5 min = 3 hours
+    if (insulinQueue.size() > 24) { // 36 * 5 min = 3 hours
         insulinOnBoard -= insulinQueue.front();
+        insulinQueue.pop();
+    }
+
+    for (int i = 0; i < insulinQueue.size(); i++) {
+        double item = insulinQueue.front();
+        insulinOnBoard -= item;
+        item *= 0.7;
+        insulinOnBoard += item;
+        insulinQueue.push(item);
         insulinQueue.pop();
     }
     
@@ -276,9 +285,6 @@ bool InsulinPump::setBatteryOffset(int offset){
 int InsulinPump::getBattery(){
     return battery;
 }
-double InsulinPump::getInsulinLevel(){
-    return insulinLevel;
-}
 bool InsulinPump::getBasalActive(){
     return basalActive;
 }
@@ -308,8 +314,3 @@ BolusCalculator* InsulinPump::getBolusCalculator(){
 double InsulinPump::getGlucoseLevel(){return currGlucoseLevel;}
 
 void InsulinPump::setGlucoseLevel(double g){currGlucoseLevel = g;}
-
-// Should be implemented by functions returning an error
-// void InsulinPump::raiseError(){
-
-// }

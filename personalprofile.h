@@ -33,9 +33,6 @@ private:
     double targetBG; // target blood glucose level
     int startTime;//in hours
     int endTime;
-    /**
-     * TODO: this should get updated 
-     */
     double insulinOB; // insulin on board
     //all of these are for the QTable in screenprofilesetup
 };

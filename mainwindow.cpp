@@ -193,8 +193,11 @@ void MainWindow::simulationStep(){
     //Do 1 Tick
     currentTimeStep+=5;
 
+    if (currentTimeStep > 1440){
+        stopSimulation();
+    }
+
     //Insulin Pump
-    //TODO: DECAY, operations
     QString logMessage = "";
     logMessage += insulinPump->distributeInsulin(currentTimeStep);//output
     if (insulinPump->getBasalDeActive() != chartShaded){
