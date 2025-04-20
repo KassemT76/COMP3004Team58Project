@@ -1,4 +1,5 @@
 #include "insulinpump.h"
+#include <QDebug>
 InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin) :
     battery(battery),
     insulinLevel(insulinLevel),
@@ -14,7 +15,7 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     basalActive = false;
     bolusActive = false;
 
-    basilDeActive = false;
+    basalDeActive = false;
 }
 
 
@@ -81,9 +82,13 @@ QString InsulinPump::giveBolus(int now, int later, int durHr, int durMin, int cu
     if(profileManager->getActiveProfile() == nullptr){
         return " | No profiles selected, a profile is needed as to assess bolus delivery";
     }
+    if(currentBG <= 0){//when no glucose is entered, use the glucose in insulin pump
+        currentBG = currGlucoseLevel;
+    }
     //initialize bolus calc if hadn't already(ie didn't view calculations or units)
     if(now < 0){//when immediate, now, later, durHr, durMin are set to -1(aka invalid)
         initailizeBolus(totalCarbs, currentBG);
+        //bolusCalculator->getFinalBolus()
     }
     else{//when extended, all values are valid are intialized
         initailizeExtended(now, later, durHr, durMin, currTime, totalCarbs, currentBG);
@@ -150,37 +155,34 @@ QString InsulinPump::distributeInsulin(int timeStep){
     glucoseLevel = result + randomValue;
 
     currGlucoseLevel = glucoseLevel;
-
+    qInfo() << basalActive << basalDeActive;
     //Deliver immediate bolus
     if(predictedResult < 3.9){
-        basilDeActive = true;
+        basalDeActive = true;
         message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
         
     } else {
-        basilDeActive = false;
+        basalDeActive = false;
     }
     if(predictedResult > 10){
         // TODO: add a function to deliver bolus boost 
         message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
     }
-    
-    if(basalActive && !basilDeActive){
+    double totalInsulin5Min = 0;
+    if(basalActive && !basalDeActive){
         double basalRate = profileManager->getActiveProfile()->getBasalRate();
-
-        double basal5Min = (basalRate / 60.0) * 5.0; // basil rate per 5 min
+        double basal5Min = (basalRate / 60.0) * 5.0; // basal rate per 5 min
         // Correction
         double correction = (currGlucoseLevel - profileManager->getActiveProfile()->getTargetBG()) / profileManager->getActiveProfile()->getCorrectionFactor();
-        double totalInsulin5Min = basal5Min + std::max(correction - getInsulinOB(), 0.0);
-
-
-
+        totalInsulin5Min = std::max((basal5Min + correction) - getInsulinOB(), 0.0);
         message += " | basal delivered: "+QString::number(totalInsulin5Min);
     }
     else{//bolusActive
-        
+        double bolus5Min = bolusCalculator->getBolusRatePerHour()/60 * 5.0;
+        totalInsulin5Min = std::max((bolus5Min + bolusCalculator->getCorrectionBolus()) - getInsulinOB(), 0.0);
+        message += " | bolus delivered: "+QString::number(totalInsulin5Min);
     }
 
-    
     //check if pump has enough insulin for the bolus
     // TODO : do something with this code
     if(insulinLevel <= 0){
@@ -199,7 +201,6 @@ QString InsulinPump::distributeInsulin(int timeStep){
         message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
     }
     
-
     //Natural Body
     return message;
 }

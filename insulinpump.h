@@ -99,7 +99,7 @@ public:
      * 
      * @brief This method retrieves if basiz
      */
-    bool getBasilDeActive() {return basilDeActive;}
+    bool getBasalDeActive() {return basalDeActive;}
 
 
     /**
@@ -135,7 +135,7 @@ private:
     bool basalActive;
     bool bolusActive;
 
-    bool basilDeActive;
+    bool basalDeActive;
 
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;

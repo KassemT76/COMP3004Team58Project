@@ -5,14 +5,9 @@ BolusCalculator::BolusCalculator() : bolus(0), correctionBolus(0), totalRequired
 void BolusCalculator::calculateBolus(double totalCarbs, double currentBG, PersonalProfile* profile, double iobOnBoard) {
     profile->setInsulinOB(iobOnBoard);
     bolus = totalCarbs / profile->getCarbRatio();
-    if(currentBG <= 0){//if no BG was selected in bolus screen
-        correctionBolus = profile->getTargetBG() / profile->getCorrectionFactor();
-    }
-    else{
-        correctionBolus = (currentBG - profile->getTargetBG()) / profile->getCorrectionFactor();
-    }
+    correctionBolus = (currentBG - profile->getTargetBG()) / profile->getCorrectionFactor();
     totalRequiredBolus = bolus + correctionBolus;
-    finalBolus = totalRequiredBolus - profile->getInsulinOB();
+    finalBolus = std::max(totalRequiredBolus - profile->getInsulinOB(), 0.0);
 }
 void BolusCalculator::calculateExtended(int now, int later, int durHr, int durMin, int currTime) {
     immediateBolus = round(now * finalBolus)/100; //round all values to 2 decimal

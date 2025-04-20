@@ -198,8 +198,8 @@ void MainWindow::simulationStep(){
     QString logMessage = "";
     logMessage += insulinPump->distributeInsulin(currentTimeStep);//output
     insulinPump->setGlucoseLevel(insulinPump->getCurrentGlucose());
-    if (insulinPump->getBasilDeActive() != chartShaded){
-        chartShaded = insulinPump->getBasilDeActive();
+    if (insulinPump->getBasalDeActive() != chartShaded){
+        chartShaded = insulinPump->getBasalDeActive();
         screenHome->startShadedArea();
     }
 
@@ -279,6 +279,10 @@ void MainWindow::addProfile(QString name, double basal, double carb, double corr
     goToProfile();
 }
 void MainWindow::removeProfile(QString inName){
+    if(insulinPump->getProfileManager()->getActiveProfile() == insulinPump->getProfileManager()->getProfile(inName)){
+        //if selected profile is being used
+        insulinPump->stopBasalDelievery();
+    }
     insulinPump->getProfileManager()->removeProfile(inName);
 }
 void MainWindow::editProfile(int index, QString input, QString rowName){
