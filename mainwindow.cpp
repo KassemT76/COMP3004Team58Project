@@ -197,7 +197,6 @@ void MainWindow::simulationStep(){
     //TODO: DECAY, operations
     QString logMessage = "";
     logMessage += insulinPump->distributeInsulin(currentTimeStep);//output
-    insulinPump->setGlucoseLevel(insulinPump->getCurrentGlucose());
     if (insulinPump->getBasalDeActive() != chartShaded){
         chartShaded = insulinPump->getBasalDeActive();
         screenHome->startShadedArea();
@@ -206,7 +205,7 @@ void MainWindow::simulationStep(){
     // This is updating the battery level
     int battery = insulinPump->useBattery();
     screenHome->setBattery(battery);
-
+    //make a use insulin function
 
     double newGlucoseLevel = insulinPump->getGlucoseLevel();
 
@@ -294,6 +293,10 @@ void MainWindow::selectProfile(QString inName){
 
 void MainWindow::confirmBolus(int now, int later, int durHr, int durMin, double totalCarbs, double currentBG){
     QString logMessage = insulinPump->giveBolus(now, later, durHr, durMin, currentTimeStep, totalCarbs, currentBG);
+    if(logMessage == ""){//when bolus has no errors
+        ui->bolusActive->setText("Bolus Delivery: ACTIVE");
+        return;
+    }
     QString time = screenHome->setTime(currentTimeStep);
     logText->append(time+" "+logMessage);
 }
@@ -329,5 +332,5 @@ void MainWindow::stopBolus(){
     insulinPump->stopBolusDelievery();
     ui->bolusActive->setText("Bolus Delivery: INACTIVE");
     QString time = screenHome->setTime(currentTimeStep);
-    logText->append(time+" Bolus ended manually");
+    logText->append(time+"  | bolus ended manually");
 }

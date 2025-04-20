@@ -132,9 +132,10 @@ private:
 
     double insulinLevel;
     double insulinOnBoard;
+    double immediateBolus;
     bool basalActive;
     bool bolusActive;
-
+    bool bolusImmediateActive;
     bool basalDeActive;
 
     BolusCalculator* bolusCalculator;
