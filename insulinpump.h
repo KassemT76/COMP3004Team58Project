@@ -40,7 +40,7 @@ public:
      * @param timeStep The current time step.
      * @return InsulinInformation* A pointer to an InsulinInformation object containing the result of the distribution.
      */
-     QString distributeInsulin(int timeStep);
+    QString distributeInsulin(int timeStep);
 
 
     /**
@@ -103,15 +103,6 @@ public:
      */
     bool getBasalDeActive() {return basalDeActive;}
 
-
-    /**
-     * @deprecated This method is deprecated, use rechargeBattery() instead.
-     * 
-     * @brief This method retrieves the bolus calculator.
-     * 
-     * @return BolusCalculator* The bolus calculator.
-     */
-
     double getGlucoseLevel();
     ProfileManager* getProfileManager();
     BolusCalculator* getBolusCalculator();
@@ -139,7 +130,7 @@ private:
 
     bool basalDeActive;
 
-    std::queue<double> insulinQueue;
+    std::queue<double> insulinQueue; // que to store insulin values
 
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
