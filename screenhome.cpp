@@ -9,7 +9,7 @@ ScreenHome::ScreenHome(QWidget *parent) :
 
     connect(ui->settingsButton, SIGNAL(released()), this, SLOT(goToSettings()));
     connect(ui->bolusButton, SIGNAL(released()), this, SLOT(goToBolus()));
-
+    connect(ui->stopBolusButton, &QPushButton::released, this, &ScreenHome::stopBolus);
     chart = new Chart(ui->chartHolder);
 }
 
@@ -61,3 +61,11 @@ void ScreenHome::startShadedArea(){
     chart->shadeArea();
 }
 
+void ScreenHome::stopBolus(){
+    ui->bolusActive->setText("INACTIVE");
+    emit sendStopBolus();
+}
+
+void ScreenHome::setBolusActive(QString text){
+    ui->bolusActive->setText(text);
+}
