@@ -35,6 +35,7 @@ void InsulinPump::initailizeExtended(int now, int later, int durHr, int durMin, 
         bolusCalculator->calculateExtended(now, later, durHr, durMin, currTime);
     }
 }
+
 QString InsulinPump::updateCGM(int currTime){//checks if current basal has finished its delivery period
     QString message = "";
     //Bolus:
@@ -174,7 +175,10 @@ QString InsulinPump::distributeInsulin(int timeStep){
         double basal5Min = (basalRate / 60.0) * 5.0; // basal rate per 5 min
         // Correction
         double correction = (currGlucoseLevel - profileManager->getActiveProfile()->getTargetBG()) / profileManager->getActiveProfile()->getCorrectionFactor();
-        totalInsulin5Min = std::max((basal5Min + correction) - getInsulinOB(), 0.0);
+        totalInsulin5Min = basal5Min + std::max(correction - getInsulinOB(), 0.0);
+
+        // TODO: add the data to insulin on board?
+
         message += " | basal delivered: "+QString::number(totalInsulin5Min);
     }
     else{//bolusActive

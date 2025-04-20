@@ -5,8 +5,10 @@
 #include "boluscalculator.h"
 #include "profilemanager.h"
 #include "screenprofilesetup.h"
-# include <cmath>
+#include <cmath>
 #include <random>
+#include <queue>
+
 
 /**
  * @brief The current glucose level and insulin active status are stored in this class.
@@ -136,6 +138,8 @@ private:
     bool bolusActive;
 
     bool basalDeActive;
+
+    std::queue<double> insulinQueue;
 
     BolusCalculator* bolusCalculator;
     ProfileManager* profileManager;
