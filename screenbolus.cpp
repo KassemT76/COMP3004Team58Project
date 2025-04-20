@@ -23,7 +23,6 @@ void ScreenBolus::goToHome(){
     emit sendToHome();
 }
 void ScreenBolus::confirmBolus(){
-    qInfo("TEST");
     if(ui->carbsSpinbox->value() <= 0){//if no carbs input(must at least have carbs, this input is invalid)
         return;
     }

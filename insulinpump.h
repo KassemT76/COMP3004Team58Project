@@ -125,9 +125,10 @@ private:
 
     double insulinLevel;
     double insulinOnBoard;
+    double immediateBolus;
     bool basalActive;
     bool bolusActive;
-
+    bool bolusImmediateActive;
     bool basalDeActive;
 
     std::queue<double> insulinQueue; // que to store insulin values
