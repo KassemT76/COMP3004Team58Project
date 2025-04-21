@@ -146,7 +146,7 @@ QString InsulinPump::distributeInsulin(int timeStep){
     std::uniform_real_distribution<> dis(-0.5, 0.5);
     double randomValue = dis(gen);
 
-    bolusDecayRate = std::min(7.0, bolusDecayRate + 0.2);
+    bolusDecayRate = std::min(7.0, bolusDecayRate + 0.1);
 
     auto sinosoidalFunction = [this](double x){
         return 4 * cos((1.0) * x) + bolusDecayRate;
@@ -191,7 +191,6 @@ QString InsulinPump::distributeInsulin(int timeStep){
                 bolusDecayRate -= 4;
                 insulinLevel -= 4;
             }
-            //TODO: fix emergency bolus
             message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
         }
         if(basalActive && !basalDeActive){//when basalActive = T, there is an active profile
@@ -320,3 +319,11 @@ BolusCalculator* InsulinPump::getBolusCalculator(){
 double InsulinPump::getGlucoseLevel(){return currGlucoseLevel;}
 
 void InsulinPump::setGlucoseLevel(double g){currGlucoseLevel = g;}
+
+void InsulinPump::increaseGlucoseLevel(double g) {
+    bolusDecayRate += g;
+}
+
+void InsulinPump::decreaseGlucoseLevel(double g) {
+    bolusDecayRate -= g;
+}

@@ -180,13 +180,13 @@ void MainWindow::addBattery(){
 void MainWindow::removeBattery(){
     insulinPump->setBattery(insulinPump->getBattery() - 5);
 }
-//TODO: fix these functions
+
 void MainWindow::addCarbs(){
-    insulinPump->setGlucoseLevel(insulinPump->getGlucoseLevel() + 0.5);
+    insulinPump->increaseGlucoseLevel(0.5);
 }
-//TODO: fix these functions
+
 void MainWindow::removeCarbs(){
-    insulinPump->setGlucoseLevel(insulinPump->getGlucoseLevel() - 0.5);
+    insulinPump->decreaseGlucoseLevel(0.5);
 }
 
 /// Simulation ///
