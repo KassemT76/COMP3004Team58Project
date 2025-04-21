@@ -17,6 +17,7 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     bolusActive = false;
     bolusImmediateActive = false;
     basalDeActive = false;
+    runningInsulin = true;
     bolusDecayRate = 7;
 }
 
@@ -148,7 +149,7 @@ QString InsulinPump::distributeInsulin(int timeStep){
     bolusDecayRate = std::min(7.0, bolusDecayRate + 0.2);
 
     auto sinosoidalFunction = [this](double x){
-        return 4 * sin((1.0) * x) + bolusDecayRate;
+        return 4 * cos((1.0) * x) + bolusDecayRate;
     };
     
     double rad = timeStep * (M_PI / 180.0);
@@ -156,71 +157,76 @@ QString InsulinPump::distributeInsulin(int timeStep){
     
     double predictedRad = (timeStep + 30) * (M_PI / 180.0);
     double predictedResult = sinosoidalFunction(predictedRad);
-
-    //Deliver immediate bolus
-    if(predictedResult < 3.9){
-        basalDeActive = true;
-        message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
-        
-    } else {
-        basalDeActive = false;
+    //check if pump has enough insulin for the bolus
+    if(insulinLevel <= 0){
+        message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
+        runningInsulin = false;
     }
-    if(predictedResult > 10){
-        bolusDecayRate -= 4;
-        insulinLevel -= 4;
-        message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
+    else if(insulinLevel <= 2){
+        message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
+    }
+    // this updates the battery level
+    if(battery <= 0){
+        runningInsulin = false;
+        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
+    }
+    else if(battery <= 30){
+        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
+    }
+    if(battery > 0 && insulinLevel > 0){
+        runningInsulin = true;
     }
     double totalInsulin5Min = 0;
-    if(basalActive && !basalDeActive){//when basalActive = T, there is an active profile
-        if(profileManager->getActiveProfile()->getStartTime() <= timeStep){//active profile must be within the time
-            double basalRate = profileManager->getActiveProfile()->getBasalRate();
-            double basal5Min = (basalRate / 60.0) * 5.0; // basal rate per 5 min
-            // Correction
-            double correction = (currGlucoseLevel - profileManager->getActiveProfile()->getTargetBG()) / profileManager->getActiveProfile()->getCorrectionFactor();
-            totalInsulin5Min = std::max((basal5Min + correction) - getInsulinOB(), 0.0);
-            message += " | basal delivered: "+QString::number(totalInsulin5Min);
+    if(runningInsulin){
+        //Deliver immediate bolus
+        if(predictedResult < 3.9){
+            basalDeActive = true;
+            message += " | "+ error.getErrorMessage(ErrorType::LOW_GLUCOSE);
+
+        } else {
+            basalDeActive = false;
         }
-        else{
-            message += " | no basal delivered since not in delivery time";
+        if(predictedResult > 10){
+            if(insulinLevel >= 4){//need enough insulin to do this
+                bolusDecayRate -= 4;
+                insulinLevel -= 4;
+            }
+            //TODO: fix emergency bolus
+            message += " | "+ error.getErrorMessage(ErrorType::HIGH_GLUCOSE);
         }
-    }
-    else if(bolusActive || bolusImmediateActive){//bolusActive
-        if(bolusImmediateActive){//deliver immediate bolus first
-            bolusImmediateActive = false;
-            message += " | immediate bolus delivered: "+QString::number(immediateBolus);
-            bolusDecayRate -= immediateBolus;
-            insulinLevel -= immediateBolus;
+        if(basalActive && !basalDeActive){//when basalActive = T, there is an active profile
+            if(profileManager->getActiveProfile()->getStartTime() <= timeStep){//active profile must be within the time
+                double basalRate = profileManager->getActiveProfile()->getBasalRate();
+                double basal5Min = (basalRate / 60.0) * 5.0; // basal rate per 5 min
+                // Correction
+                double correction = (currGlucoseLevel - profileManager->getActiveProfile()->getTargetBG()) / profileManager->getActiveProfile()->getCorrectionFactor();
+                totalInsulin5Min = std::max((basal5Min + correction) - getInsulinOB(), 0.0);
+                message += " | basal delivered: "+QString::number(totalInsulin5Min);
+            }
+            else{
+                message += " | no basal delivered since not in delivery time";
+            }
         }
-        else{
-            double bolus5Min = bolusCalculator->getBolusRatePerHour()/60 * 5.0;
-            totalInsulin5Min = std::max((bolus5Min + bolusCalculator->getCorrectionBolus()) - getInsulinOB(), 0.0);
-            message += " | bolus delivered: "+QString::number(totalInsulin5Min);
+        else if(bolusActive || bolusImmediateActive){//bolusActive
+            if(bolusImmediateActive){//deliver immediate bolus first
+                bolusImmediateActive = false;
+                message += " | immediate bolus delivered: "+QString::number(immediateBolus);
+                bolusDecayRate -= immediateBolus;
+                insulinLevel -= immediateBolus;
+            }
+            else{
+                double bolus5Min = bolusCalculator->getBolusRatePerHour()/60 * 5.0;
+                totalInsulin5Min = std::max((bolus5Min + bolusCalculator->getCorrectionBolus()) - getInsulinOB(), 0.0);
+                message += " | bolus delivered: "+QString::number(totalInsulin5Min);
+            }
         }
     }
     currGlucoseLevel = result + randomValue - totalInsulin5Min;
     
     insulinLevel -= totalInsulin5Min;
 
-    //check if pump has enough insulin for the bolus
-    // TODO : do something with this code
-    if(insulinLevel <= 0){
-        message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
-
-    }
-    else if(insulinLevel <= 30){
-        message += " | "+ error.getErrorMessage(ErrorType::LOW_INSULIN);
-    }
-
-    // this updates the battery level
-    if(battery <= 0){
-        message += " | "+error.getErrorMessage(ErrorType::POWER_OUT);
-    }
-    else if(battery <= 30){
-        message += " | "+error.getErrorMessage(ErrorType::LOW_POWER);
-    }
-
     /**
-     * Que functions, this is where the insulin is added to the queue
+     * Queue functions, this is where the insulin is added to the queue
      * add the insulin added to iob
      * check if the queue is over 3 hours, if so remove the first element
      */
@@ -232,7 +238,7 @@ QString InsulinPump::distributeInsulin(int timeStep){
         insulinQueue.pop();
     }
 
-    for (int i = 0; i < insulinQueue.size(); i++) {
+    for (int i = 0; i < (int)insulinQueue.size(); i++) {
         double item = insulinQueue.front();
         insulinOnBoard -= item;
         item *= 0.7;

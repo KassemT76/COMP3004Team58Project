@@ -103,7 +103,7 @@ public:
      * 
      * @return double The current insulin on board level.
      */
-    void rechargeInsulin() {insulinLevel = 35;}
+    void rechargeInsulin() {insulinLevel = 20;}
 
 
     double getInsulinOB();
@@ -150,7 +150,7 @@ private:
     bool bolusActive;
     bool bolusImmediateActive;
     bool basalDeActive;
-
+    bool runningInsulin;
     double bolusDecayRate; // rate at which the bolus decays
 
     std::queue<double> insulinQueue; // que to store insulin values

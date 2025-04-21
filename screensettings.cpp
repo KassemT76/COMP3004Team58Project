@@ -9,7 +9,6 @@ ScreenSettings::ScreenSettings(QWidget *parent) :
 
     connect(ui->profileButton, SIGNAL(released()), this, SLOT(goToProfile()));
     connect(ui->backButton, SIGNAL(released()), this, SLOT(goToHome()));
-    connect(ui->startDeliveryButton, SIGNAL(released()), this, SLOT(startDelivery()));
     connect(ui->stopDeliveryButton, SIGNAL(released()), this, SLOT(stopDelivery()));
 }
 
@@ -24,10 +23,6 @@ void ScreenSettings::goToHome(){
 
 void ScreenSettings::goToProfile(){
     emit sendToProfile();
-}
-
-void ScreenSettings::startDelivery(){
-    emit sendStartDeliverySignal();
 }
 
 void ScreenSettings::stopDelivery(){

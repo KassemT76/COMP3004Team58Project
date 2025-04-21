@@ -72,7 +72,7 @@ private slots:
 
     // other, misc fuctions
     void resetBattery();
-
+    void resetInsulin();
     // screen profile setup:
     void addProfile(QString, double, double, double, double, int, int);
     void removeProfile(QString);
@@ -85,7 +85,6 @@ private slots:
     void calcExtended(int, int, int, int, double, double);
 
     //screen settings
-    void startDelivery();
     void stopDelivery();
 
     //screen home
