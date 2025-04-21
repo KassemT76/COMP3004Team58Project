@@ -72,7 +72,7 @@
       <item>
        <widget class="QLabel" name="insulinLevelValue">
         <property name="text">
-         <string>235 u</string>
+         <string>35 u</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -87,9 +87,9 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>60</y>
+     <y>70</y>
      <width>91</width>
-     <height>151</height>
+     <height>101</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="sideBar">
@@ -109,20 +109,6 @@
        <widget class="QLabel" name="glucoseLabel">
         <property name="text">
          <string>mmol/L</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="statusValue">
-        <property name="text">
-         <string>Up</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -587,14 +573,27 @@
          <x>0</x>
          <y>10</y>
          <width>91</width>
-         <height>31</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="text">
-        <string>3 HRS</string>
+        <string>00:00</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>81</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Bolus End:</string>
        </property>
       </widget>
      </widget>

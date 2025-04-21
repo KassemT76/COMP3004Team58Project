@@ -24,6 +24,7 @@ public:
     void stopBolus();
     void addPoint(double);
     void startShadedArea();
+    void setBolusTime(int);
     void setBolusActive(QString);
 private:
     Ui::ScreenHome *ui;

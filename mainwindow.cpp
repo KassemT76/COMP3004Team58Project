@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
         screenSettings = new ScreenSettings(this->ui->frame);
 
     // Insulin Pump
-    insulinPump = new InsulinPump(100, 235, 0);
+    insulinPump = new InsulinPump(100, 20, 0);
 
     // Set to home after screens are set up
     goToHome();
@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pauseButton, SIGNAL(released()), this, SLOT(pauseSimulation()));
 
     connect(ui->rechargeButton, SIGNAL(released()), this, SLOT(resetBattery()));
+    connect(ui->resupplyButton, SIGNAL(released()), this, SLOT(resetInsulin()));
     connect(ui->addCarbsButton, SIGNAL(released()), this, SLOT(addCarbs()));
     connect(ui->removeCarbsButton, SIGNAL(released()), this, SLOT(removeCarbs()));
 
@@ -89,7 +90,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Settings Screen
     connect(screenSettings, SIGNAL(sendToProfile()), this, SLOT(goToProfile()));
     connect(screenSettings, SIGNAL(sendToHome()), this, SLOT(goToHome()));
-    connect(screenSettings, SIGNAL(sendStartDeliverySignal()), this, SLOT(startDelivery()));
     connect(screenSettings, SIGNAL(sendStopDeliverySignal()), this, SLOT(stopDelivery()));
 
 }
@@ -180,9 +180,11 @@ void MainWindow::addBattery(){
 void MainWindow::removeBattery(){
     insulinPump->setBattery(insulinPump->getBattery() - 5);
 }
+//TODO: fix these functions
 void MainWindow::addCarbs(){
-    insulinPump->setGlucoseLevel(insulinPump->getGlucoseLevel() - 0.5);
+    insulinPump->setGlucoseLevel(insulinPump->getGlucoseLevel() + 0.5);
 }
+//TODO: fix these functions
 void MainWindow::removeCarbs(){
     insulinPump->setGlucoseLevel(insulinPump->getGlucoseLevel() - 0.5);
 }
@@ -193,8 +195,9 @@ void MainWindow::simulationStep(){
     //Do 1 Tick
     currentTimeStep+=5;
 
-    if (currentTimeStep > 1440){
+    if (currentTimeStep > 1440){//stops after 24 hours
         stopSimulation();
+        return;
     }
 
     //Insulin Pump
@@ -245,7 +248,7 @@ void MainWindow::simulationStep(){
     //Home Screen
     screenHome->setGlucoseLevel(newGlucoseLevel);
     QString time = screenHome->setTime(currentTimeStep);
-    // screenHome->setBattery(insulinPump->getBattery());
+    screenHome->setBattery(insulinPump->getBattery());
     screenHome->setIL(insulinPump->getInsulinLevel());
     screenHome->setIOB(insulinPump->getInsulinOB());
 
@@ -261,9 +264,10 @@ void MainWindow::startSimulation(){
 void MainWindow::stopSimulation(){
     timer->stop();
     currentTimeStep = 0;
-    screenHome->setTime(currentTimeStep);
+    QString time = screenHome->setTime(currentTimeStep);
     insulinPump->rechargeBattery();
     screenHome->setBattery(insulinPump->getBattery());
+    logText->append(time+"  | SIMULATION ENDED");
 }
 
 void MainWindow::pauseSimulation(){
@@ -274,6 +278,10 @@ void MainWindow::pauseSimulation(){
 void MainWindow::resetBattery(){
     insulinPump->rechargeBattery();
 }
+void MainWindow::resetInsulin(){
+    insulinPump->rechargeInsulin();
+}
+
 /// Profile Functions ///
 void MainWindow::addProfile(QString name, double basal, double carb, double correct, double target,int start,int end){
     screenProfileSetup->addProfile(name, basal, carb, correct, target, start, end);
@@ -291,13 +299,27 @@ void MainWindow::editProfile(int index, QString input, QString rowName){
     insulinPump->getProfileManager()->editProfile(index, input, rowName);
 }
 void MainWindow::selectProfile(QString inName){
+    if(insulinPump->getProfileManager()->getActiveProfile() != insulinPump->getProfileManager()->getProfile(inName) && insulinPump->getBasalActive()){
+        //if another profile is already executing
+        QString time = screenHome->setTime(currentTimeStep);
+        logText->append(time+"  | switching to "+inName);
+    }
     insulinPump->getProfileManager()->selectProfile(inName);
+    QString logMessage = insulinPump->giveBasal(currentTimeStep);
+    if(logMessage == ""){//if no profile
+        return;
+    }
+    QString time = screenHome->setTime(currentTimeStep);
+    logText->append(time+" "+logMessage);
 }
 
 void MainWindow::confirmBolus(int now, int later, int durHr, int durMin, double totalCarbs, double currentBG){
     QString logMessage = insulinPump->giveBolus(now, later, durHr, durMin, currentTimeStep, totalCarbs, currentBG);
     if(logMessage == ""){//when bolus has no errors
         screenHome->setBolusActive("ACTIVE");
+        if(now >= 0){//when not immediate bolus, need to set time of screenhome
+            screenHome->setBolusTime(insulinPump->getBolusCalculator()->getEndTime());
+        }
         return;
     }
     QString time = screenHome->setTime(currentTimeStep);
@@ -315,14 +337,6 @@ void MainWindow::calcExtended(int now, int later, int durHr, int durMin, double 
     screenBolus->updateExtended(insulinPump->getBolusCalculator()->getImmediateBolus(), insulinPump->getBolusCalculator()->getExtendedBolus());
 }
 
-void MainWindow::startDelivery(){
-    QString logMessage = insulinPump->giveBasal(currentTimeStep);
-    if(logMessage == ""){//if no profile
-        return;
-    }
-    QString time = screenHome->setTime(currentTimeStep);
-    logText->append(time+" "+logMessage);
-}
 void MainWindow::stopDelivery(){
     QString logMessage = insulinPump->stopBasal();
     if(logMessage == ""){//if no profile
