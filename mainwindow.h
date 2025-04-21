@@ -9,7 +9,6 @@
 #include "screenhome.h"
 #include "screenbolus.h"
 #include "screenprofilesetup.h"
-#include "screenlock.h"
 #include "screenaddprofile.h"
 #include "screensettings.h"
 #include "insulinpump.h"
@@ -27,7 +26,6 @@ public:
 
     ScreenHome* screenHome = nullptr;
     ScreenBolus* screenBolus = nullptr;
-    ScreenLock* screenLock = nullptr;
     ScreenProfileSetup* screenProfileSetup = nullptr;
     ScreenAddProfile* screenAddProfile = nullptr;
     ScreenSettings* screenSettings = nullptr;

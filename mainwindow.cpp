@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
         screenHome = new ScreenHome(this->ui->frame);
     if (!screenBolus)
         screenBolus = new ScreenBolus(this->ui->frame);
-    if (!screenLock)
-        screenLock = new ScreenLock(this->ui->frame);
     if (!screenProfileSetup)
         screenProfileSetup = new ScreenProfileSetup(this->ui->frame);
     if (!screenAddProfile)
@@ -99,7 +97,6 @@ MainWindow::~MainWindow()
     delete screenHome;
     delete screenBolus;
     delete screenProfileSetup;
-    delete screenLock;
     delete screenAddProfile;
     delete screenSettings;
 
@@ -113,7 +110,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::goToHome(){
     screenBolus->hide();
-    screenLock->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -128,12 +124,10 @@ void MainWindow::goToLock(){
     screenAddProfile->hide();
     screenSettings->hide();
 
-    screenLock->show();
 }
 
 void MainWindow::goToBolus(){
     screenHome->hide();
-    screenLock->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -143,7 +137,6 @@ void MainWindow::goToBolus(){
 
 void MainWindow::goToProfile(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -153,7 +146,6 @@ void MainWindow::goToProfile(){
 
 void MainWindow::goToAddProfile(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenProfileSetup->hide();
     screenSettings->hide();
@@ -163,7 +155,6 @@ void MainWindow::goToAddProfile(){
 
 void MainWindow::goToSettings(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
