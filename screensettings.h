@@ -16,7 +16,6 @@ public:
     ~ScreenSettings();
 
 signals:
-    void sendStartDeliverySignal();
     void sendStopDeliverySignal();
     void sendToProfile();
     void sendToHome();
@@ -24,7 +23,6 @@ signals:
 private slots:
     void goToHome();
     void goToProfile();
-    void startDelivery();
     void stopDelivery();
 
 private:

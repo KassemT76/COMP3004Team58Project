@@ -15,7 +15,6 @@ SOURCES += \
     chart.cpp \
     error.cpp \
     insulinpump.cpp \
-    logger.cpp \
     main.cpp \
     mainwindow.cpp \
     personalprofile.cpp \
@@ -32,7 +31,6 @@ HEADERS += \
     chart.h \
     error.h \
     insulinpump.h \
-    logger.h \
     mainwindow.h \
     personalprofile.h \
     profilemanager.h \

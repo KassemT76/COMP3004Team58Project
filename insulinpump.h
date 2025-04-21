@@ -103,7 +103,7 @@ public:
      * 
      * @return double The current insulin on board level.
      */
-    void rechargeInsulin() {insulinLevel = 35;}
+    void rechargeInsulin() {insulinLevel = 20;}
 
 
     double getInsulinOB();
@@ -126,8 +126,22 @@ public:
 
     void setInsulinLevel(double);
     void setInsulinOB(double);
+
+    /**
+     * @deprecated This function does not actually manipulate the glucose level,
+     * the glucose level is automatically updated by the CGM. To update the glucose level,
+     * use increaseGlucoseLevel() or decreaseGlucoseLevel().
+     * 
+     * @param inGluc The new glucose level to be set.
+     * @return void
+     */
     void setGlucoseLevel(double);
 
+    /**
+     * This function increases the glucose level by the given amount of carbs.
+     */
+    void increaseGlucoseLevel(double);
+    void decreaseGlucoseLevel(double);
 
 private:
     int battery;
@@ -150,6 +164,8 @@ private:
     bool bolusActive;
     bool bolusImmediateActive;
     bool basalDeActive;
+    bool runningInsulin;
+
 
     double bolusDecayRate; // rate at which the bolus decays
 
