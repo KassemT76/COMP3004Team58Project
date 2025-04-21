@@ -10,7 +10,7 @@ InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard
     immediateBolus = 0;
     bolusCalculator = new BolusCalculator();
     batteryUsage = 0;
-    batteryOffset = 5;
+    batteryOffset = 1;
     currGlucoseLevel = 0;
     profileManager = new ProfileManager();
     basalActive = false;
