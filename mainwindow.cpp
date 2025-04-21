@@ -195,7 +195,7 @@ void MainWindow::simulationStep(){
     //Do 1 Tick
     currentTimeStep+=5;
 
-    if (currentTimeStep > 1440){//stops after 24 hours
+    if (currentTimeStep > 1440 || insulinPump->getBattery() <= 0){//stops after 24 hours or when battery runs out
         stopSimulation();
         return;
     }
@@ -264,10 +264,14 @@ void MainWindow::startSimulation(){
 void MainWindow::stopSimulation(){
     timer->stop();
     currentTimeStep = 0;
-    QString time = screenHome->setTime(currentTimeStep);
+    screenHome->setTime(currentTimeStep);
     insulinPump->rechargeBattery();
+    insulinPump->rechargeInsulin();
     screenHome->setBattery(insulinPump->getBattery());
-    logText->append(time+"  | SIMULATION ENDED");
+    if(insulinPump->getBattery() <= 0){
+        logText->append("  | SIMULATION ENDED DUE TO NO BATTERY |  ");
+    }
+    logText->append("  | SIMULATION ENDED |  ");
 }
 
 void MainWindow::pauseSimulation(){
