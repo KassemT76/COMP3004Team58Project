@@ -139,14 +139,21 @@ QString InsulinPump::stopBasal(){
 }
 
 QString InsulinPump::distributeInsulin(int timeStep){
+    // Default values
     QString message = "";
     Error error;
+
+    // THE FOLLOWING IS CODE FOR THE CONTINUOUS GLUCOSE MONITORING
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(-0.5, 0.5);
     double randomValue = dis(gen);
 
-    bolusDecayRate = std::min(7.0, bolusDecayRate + 0.1);
+    if (bolusDecayRate < 7) {
+        bolusDecayRate = std::min(7.0, bolusDecayRate + 0.1);
+    } else if (bolusDecayRate > 7) {
+        bolusDecayRate = std::max(7.0, bolusDecayRate - 0.1);
+    }
 
     auto sinosoidalFunction = [this](double x){
         return 4 * cos((1.0) * x) + bolusDecayRate;
@@ -157,6 +164,10 @@ QString InsulinPump::distributeInsulin(int timeStep){
     
     double predictedRad = (timeStep + 30) * (M_PI / 180.0);
     double predictedResult = sinosoidalFunction(predictedRad);
+
+    // ? END OF CGM CODE
+
+
     //check if pump has enough insulin for the bolus
     if(insulinLevel <= 0){
         message += " | "+ error.getErrorMessage(ErrorType::INSULIN_OUT);
