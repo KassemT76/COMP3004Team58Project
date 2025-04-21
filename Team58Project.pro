@@ -22,7 +22,6 @@ SOURCES += \
     screenaddprofile.cpp \
     screenbolus.cpp \
     screenhome.cpp \
-    screenlock.cpp \
     screenprofilesetup.cpp \
     screensettings.cpp
 
@@ -37,7 +36,6 @@ HEADERS += \
     screenaddprofile.h \
     screenbolus.h \
     screenhome.h \
-    screenlock.h \
     screenprofilesetup.h \
     screensettings.h
 
@@ -47,7 +45,6 @@ FORMS += \
     screenaddprofile.ui \
     screenbolus.ui \
     screenhome.ui \
-    screenlock.ui \
     screenprofilesetup.ui \
     screensettings.ui
 
