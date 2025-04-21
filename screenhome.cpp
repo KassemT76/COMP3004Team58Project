@@ -45,9 +45,6 @@ void ScreenHome::setIOB(double iob){
 
 void ScreenHome::setIL(double il){
     il = round(100*il)/100;//round to two decimals
-    if(il < 0){
-        il = 0;
-    }
     ui->insulinLevelValue->setText(QString::number(il) + " u");
 }
 

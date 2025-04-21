@@ -234,7 +234,9 @@ QString InsulinPump::distributeInsulin(int timeStep){
     currGlucoseLevel = result + randomValue - totalInsulin5Min;
     
     insulinLevel -= totalInsulin5Min;
-
+    if(insulinLevel < 0){
+        insulinLevel = 0;
+    }
     /**
      * Queue functions, this is where the insulin is added to the queue
      * add the insulin added to iob
