@@ -11,8 +11,23 @@
 
 
 /**
- * @brief The current glucose level and insulin active status are stored in this class.
+ * @brief The InsulinPump class represents an insulin pump that manages insulin delivery and glucose levels.
+ * 
+ * @details The InsulinPump class is designed to simulate the behavior of an insulin pump in a diabetes management system.
+ * It includes methods for initializing bolus and basal delivery, distributing insulin based on glucose levels, 
+ * and managing battery usage. The class also interacts with a BolusCalculator and ProfileManager to calculate
+ * the required insulin doses based on user profiles and carbohydrate intake.
+ * 
+ * @note The class uses a sinusoidal function (representing the CGM)to simulate glucose level changes over time, and 
+ * it includes error handling for low insulin levels, low battery, and other conditions. The insulin delivery is managed 
+ * through a queue system to keep track of insulin on board (IOB) and ensure that the insulin levels are within safe limits.
+ * 
+ * @warning This class is intended for educational and simulation purposes only and should not be used for actual medical
+ * treatment or diagnosis.
+ * 
+ * @author Ariz Kazani and Hollen Lo
  */
+
 
 class InsulinPump
 {
@@ -20,9 +35,45 @@ public:
     InsulinPump(int battery=100, double insulinLevel=0, double insulinOnBoard=0, double inGluc=0, bool insulin=false);
     ~InsulinPump();
 
+    /**
+     * @brief This method initializes the bolus calculator with the given total carbs and current blood glucose level.
+     * 
+     * @param totalCarbs The total carbs to be calculated.
+     * @param currentBG The current blood glucose level.
+     * 
+     * @note This method should be called every time the user changes the profile or starts a bolus.
+     */
     void initailizeBolus(double, double);
+
+    /**
+     * @brief This method initializes the extended bolus calculator with the given parameters.
+     * 
+     * @param now The current time.
+     * @param later The time when the bolus should be given.
+     * @param durHr The duration in hours.
+     * @param durMin The duration in minutes.
+     * @param currTime The current time in minutes.
+     * @param totalCarbs The total carbs to be calculated.
+     * @param currentBG The current blood glucose level.
+     * 
+     * @note This method should be called every time the user changes the profile or starts a bolus.
+     */
     void initailizeExtended(int, int, int, int, int, double, double);
-    QString giveBolus(int, int, int, int, int, double, double); // return true if successful
+
+    /**
+     * @brief This method gives a bolus based on the given parameters.
+     * 
+     * @param now The current time.
+     * @param later The time when the bolus should be given.
+     * @param durHr The duration in hours.
+     * @param durMin The duration in minutes.
+     * @param currTime The current time in minutes.
+     * @param totalCarbs The total carbs to be calculated.
+     * @param currentBG The current blood glucose level.
+     * 
+     * @return QString A message indicating the result of the operation.
+     */
+    QString giveBolus(int, int, int, int, int, double, double);
     QString giveBasal(int);
     QString stopBasal();
     QString updateCGM(int);

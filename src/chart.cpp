@@ -1,6 +1,13 @@
 #include "chart.h"
 #include "ui_chart.h"
 
+/**
+ * @file chart.cpp
+ * @brief This file contains the implementation of the Chart class which is used to create a chart for displaying glucose levels over time.
+ * @details The Chart class uses Qt Charts to create a line chart with shaded areas for glucose levels above and below certain thresholds.
+ * @author Kassem Taha
+ */
+
 #define MAX_LENGTH 15
 #define MIN_GLUCOSE 2
 #define MAX_GLUCOSE 18

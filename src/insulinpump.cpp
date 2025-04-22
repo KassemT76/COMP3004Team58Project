@@ -1,5 +1,7 @@
 #include "insulinpump.h"
 #include <QDebug>
+
+
 InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin) :
     battery(battery),
     insulinLevel(insulinLevel),

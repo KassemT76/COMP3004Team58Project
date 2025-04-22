@@ -20,7 +20,7 @@ void BolusCalculator::calculateBolus(double totalCarbs, double currentBG, Person
 void BolusCalculator::calculateExtended(int now, int later, int durHr, int durMin, int currTime) {
     immediateBolus = round(now * finalBolus)/100; //round all values to 2 decimal
     extendedBolus = round(later * finalBolus)/100;
-    double duration = durHr + durMin/60; // ! this line looks off maybe need to be changed?
+    double duration = durHr + durMin/60;
     endTime = currTime + durHr*60 + durMin;
     bolusRatePerHour = round(100*(extendedBolus / duration))/100;
 }
