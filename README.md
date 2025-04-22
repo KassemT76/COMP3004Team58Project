@@ -51,7 +51,7 @@ This project is a simulation of the Tandem t:slim X2 Insulin Pump, designed to e
 This simulation is for educational purposes only and should not be used for medical decision-making or as a substitute for a real insulin pump.
 
 ## Notes
-The document for the project can be found in the docs folder
+The document for the project can be found in the docs folder.
 
 ## Credits
 [Ariz Kazani](https://github.com/Ariz-Kazani) Designed and implemented the backend insuline pump functions and state machine diagrams. 

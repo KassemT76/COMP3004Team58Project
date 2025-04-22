@@ -72,7 +72,7 @@
       <item>
        <widget class="QLabel" name="insulinLevelValue">
         <property name="text">
-         <string>35 u</string>
+         <string>20 u</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -98,7 +98,7 @@
       <item>
        <widget class="QLabel" name="glucoseValue">
         <property name="text">
-         <string>6.9</string>
+         <string>0.0</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

@@ -43,8 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
         screenHome = new ScreenHome(this->ui->frame);
     if (!screenBolus)
         screenBolus = new ScreenBolus(this->ui->frame);
-    if (!screenLock)
-        screenLock = new ScreenLock(this->ui->frame);
     if (!screenProfileSetup)
         screenProfileSetup = new ScreenProfileSetup(this->ui->frame);
     if (!screenAddProfile)
@@ -110,7 +108,6 @@ MainWindow::~MainWindow()
     delete screenHome;
     delete screenBolus;
     delete screenProfileSetup;
-    delete screenLock;
     delete screenAddProfile;
     delete screenSettings;
 
@@ -124,7 +121,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::goToHome(){
     screenBolus->hide();
-    screenLock->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -139,12 +135,10 @@ void MainWindow::goToLock(){
     screenAddProfile->hide();
     screenSettings->hide();
 
-    screenLock->show();
 }
 
 void MainWindow::goToBolus(){
     screenHome->hide();
-    screenLock->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -154,7 +148,6 @@ void MainWindow::goToBolus(){
 
 void MainWindow::goToProfile(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenAddProfile->hide();
     screenSettings->hide();
@@ -164,7 +157,6 @@ void MainWindow::goToProfile(){
 
 void MainWindow::goToAddProfile(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenProfileSetup->hide();
     screenSettings->hide();
@@ -174,7 +166,6 @@ void MainWindow::goToAddProfile(){
 
 void MainWindow::goToSettings(){
     screenBolus->hide();
-    screenLock->hide();
     screenHome->hide();
     screenProfileSetup->hide();
     screenAddProfile->hide();
@@ -206,7 +197,7 @@ void MainWindow::simulationStep(){
     //Do 1 Tick
     currentTimeStep+=5;
 
-    if (currentTimeStep > 1440){//stops after 24 hours
+    if (currentTimeStep > 1440 || insulinPump->getBattery() <= 0){//stops after 24 hours or when battery runs out
         stopSimulation();
         return;
     }
@@ -275,10 +266,14 @@ void MainWindow::startSimulation(){
 void MainWindow::stopSimulation(){
     timer->stop();
     currentTimeStep = 0;
-    QString time = screenHome->setTime(currentTimeStep);
+    screenHome->setTime(currentTimeStep);
     insulinPump->rechargeBattery();
+    insulinPump->rechargeInsulin();
     screenHome->setBattery(insulinPump->getBattery());
-    logText->append(time+"  | SIMULATION ENDED");
+    if(insulinPump->getBattery() <= 0){
+        logText->append("  | SIMULATION ENDED DUE TO NO BATTERY |  ");
+    }
+    logText->append("  | SIMULATION ENDED |  ");
 }
 
 void MainWindow::pauseSimulation(){
