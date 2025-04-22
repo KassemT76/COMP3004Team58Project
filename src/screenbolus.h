@@ -27,10 +27,6 @@ signals:
     void sendCalcUnits(double, double);
     void sendCalcExtended(int, int, int, int, double, double);
 
-    void sendConfirmBolus(int, int, int, int, double, double);
-    void sendCalcUnits(double, double);
-    void sendCalcExtended(int, int, int, int, double, double);
-
 private slots:
     void goToHome();
     void confirmBolus();

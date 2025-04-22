@@ -2,6 +2,24 @@
 #include <QDebug>
 
 
+/**
+ * @brief The InsulinPump class represents an insulin pump that manages insulin delivery and glucose levels.
+ * 
+ * @details The InsulinPump class is designed to simulate the behavior of an insulin pump in a diabetes management system.
+ * It includes methods for initializing bolus and basal delivery, distributing insulin based on glucose levels,
+ * and managing battery usage. The class also interacts with a BolusCalculator and ProfileManager to calculate
+ * the required insulin doses based on user profiles and carbohydrate intake.
+ * 
+ * @note The class uses a sinusoidal function (representing the CGM)to simulate glucose level changes over time, and
+ * it includes error handling for low insulin levels, low battery, and other conditions. The insulin delivery is managed
+ * through a queue system to keep track of insulin on board (IOB) and ensure that the insulin levels are within safe limits.
+ * 
+ * @warning This class is intended for educational and simulation purposes only and should not be used for actual medical
+ * treatment or diagnosis.
+ * 
+ * @authors Ariz Kazani and Hollen Lo
+ */
+
 InsulinPump::InsulinPump(int battery, double insulinLevel, double insulinOnBoard, double inGluc, bool insulin) :
     battery(battery),
     insulinLevel(insulinLevel),

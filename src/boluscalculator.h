@@ -5,7 +5,7 @@
  * @file boluscalculator.h
  * @brief This file contains the BolusCalculator class which is used to calculate the insulin bolus required for a given amount of carbohydrates and current blood glucose level.
  * @details The BolusCalculator class contains methods to calculate the food bolus, correction bolus, total required bolus, final bolus, immediate bolus, extended bolus, and the bolus rate per hour.
- * @author Ariz Kazani and Hollen Lo
+ * @authors Ariz Kazani and Hollen Lo
  */
 
 #include "personalprofile.h"

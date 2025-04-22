@@ -5,7 +5,7 @@
  * @file error.h
  * @brief This file contains the Error class which is used to handle error messages for the insulin pump.
  * @details The Error class contains a method to get error messages based on the error type.
- * @author Ariz Kazani and Hollen Lo
+ * @authors Ariz Kazani and Hollen Lo
  */
 
 #include <QVector>

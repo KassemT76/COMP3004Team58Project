@@ -1,6 +1,15 @@
 #ifndef SCREENHOME_H
 #define SCREENHOME_H
 
+/**
+ * @file screenhome.h
+ * @brief This file contains the ScreenHome class which is used to create the home screen of the insulin pump application.
+ * @details The ScreenHome class is a QWidget that displays the current glucose level, insulin on board (IOB), insulin level (IL), and battery status.
+ * It also provides buttons to navigate to the settings and bolus screens. The class uses a Chart object to display glucose levels over time.
+ * 
+ * @author Kassem Taha
+ */
+
 #include <QWidget>
 #include <QDebug>
 #include "chart.h"
@@ -36,8 +45,6 @@ signals:
     void sendToSettings();
     void sendStopBolus();
 
-    void sendToSettings();
-    void sendStopBolus();
 private slots:
     void goToSettings();
     void goToBolus();

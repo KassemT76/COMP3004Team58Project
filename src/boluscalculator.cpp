@@ -4,7 +4,7 @@
  * @file boluscalculator.cpp
  * @brief This file contains the implementation of the BolusCalculator class which is used to calculate the insulin bolus required for a given amount of carbohydrates and current blood glucose level.
  * @details The BolusCalculator class contains methods to calculate the food bolus, correction bolus, total required bolus, final bolus, immediate bolus, extended bolus, and the bolus rate per hour.
- * @author Ariz Kazani and Hollen Lo
+ * @authors Ariz Kazani and Hollen Lo
  */
 
 BolusCalculator::BolusCalculator() : bolus(0), correctionBolus(0), totalRequiredBolus(0), finalBolus(0), immediateBolus(0), extendedBolus(0), bolusRatePerHour(0), endTime(0) {}

@@ -1,6 +1,15 @@
 #ifndef SCREENLOCK_H
 #define SCREENLOCK_H
 
+/**
+ * @brief This file contains the ScreenLock class which is used to create the lock screen of the insulin pump application.
+ * @details The ScreenLock class is a QWidget that displays a lock screen for the insulin pump application.
+ * 
+ * @warning this class in incomplete
+ * 
+ * @author Kassem Taha
+ */
+
 #include <QWidget>
 
 namespace Ui {
