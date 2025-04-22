@@ -1,7 +1,6 @@
 #ifndef CHART_H
 #define CHART_H
 
-
 #include <QWidget>
 #include <QDebug>
 #include <QtCharts/QChart>
