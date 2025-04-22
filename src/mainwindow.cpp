@@ -2,6 +2,17 @@
 #include "ui_mainwindow.h"
 #include <QtMath>
 
+/**
+ * @brief The MainWindow class represents the main window of the insulin pump simulation application.
+ * 
+ * @details The MainWindow class is responsible for managing the user interface and interactions
+ * with the insulin pump simulation. It includes methods for routing between different screens,
+ * starting and stopping the simulation, and updating the user interface with the current state
+ * of the insulin pump.
+ * 
+ * @authors Ariz Kazani, Hollen Lo and Kassem Taha
+ */
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

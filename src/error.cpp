@@ -1,5 +1,11 @@
 #include "error.h"
 
+/**
+ * @brief This file contains the implementation of the Error class which is used to handle error messages for the insulin pump.
+ * @details The Error class contains a method to get error messages based on the error type.
+ * @author Hollen Lo
+ */
+
 Error::Error()
 {
     //order: LOW_INSULIN_BOLUS, LOW_INSULIN_BASAL,LOW_POWER, INSULIN_OUT, POWER_OUT,LOW_GLUCOSE, HIGH_GLUCOSE, NONE

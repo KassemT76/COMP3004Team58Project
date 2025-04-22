@@ -1,11 +1,15 @@
 #ifndef BOLUSCALCULATOR_H
 #define BOLUSCALCULATOR_H
 
+/**
+ * @file boluscalculator.h
+ * @brief This file contains the BolusCalculator class which is used to calculate the insulin bolus required for a given amount of carbohydrates and current blood glucose level.
+ * @details The BolusCalculator class contains methods to calculate the food bolus, correction bolus, total required bolus, final bolus, immediate bolus, extended bolus, and the bolus rate per hour.
+ * @authors Ariz Kazani and Hollen Lo
+ */
 
 #include "personalprofile.h"
 #include <cmath>
-// #include "QObject"
-// #include "QVector"
 
 class BolusCalculator
 {
@@ -77,20 +81,34 @@ public:
      * 
      * @param totalCarbs Total carbohydrates in grams.
      * @param currentBG Current blood glucose level.
+     * @param profile Pointer to the PersonalProfile object containing user-specific information.
+     * @param iobOnBoard Insulin on board (IOB) in units.
      * @return A BolusData object containing the total, immediate, and extended insulin doses.
      */
     void calculateBolus(double, double, PersonalProfile*, double);
+
+    /**
+     * @brief Calculate the immediate and extended bolus insulin required based on the given parameters.
+     * 
+     * @param now The percentage of the bolus to be given immediately.
+     * @param later The percentage of the bolus to be given later.
+     * @param durHr Duration of the extended bolus in hours.
+     * @param durMin Duration of the extended bolus in minutes.
+     * @param currTime Current time in minutes.
+     * 
+     * @return The correction bolus in units.
+     */
     void calculateExtended(int, int, int, int, int);
 
 private:
-    double bolus;
-    double correctionBolus;
-    double totalRequiredBolus;
-    double finalBolus;
-    double immediateBolus;
-    double extendedBolus;
-    double bolusRatePerHour;
-    int endTime;
+    double bolus;              // Food bolus (carb bolus)
+    double correctionBolus;    // Correction bolus
+    double totalRequiredBolus; // Total required bolus
+    double finalBolus;         // Final bolus after considering insulin on board
+    double immediateBolus;     // Immediate bolus (to be given right away)
+    double extendedBolus;      // Extended bolus (to be given over time)
+    double bolusRatePerHour;   // Bolus rate per hour (for extended bolus)
+    int endTime;               // End time for the extended bolus (in minutes)
 };
 
 #endif // BOLUSCALCULATOR_H

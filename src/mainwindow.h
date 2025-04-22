@@ -1,6 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+/**
+ * @brief This file contains the MainWindow class which is the main interface for the insulin pump simulation application.
+ * 
+ * @details The MainWindow class is responsible for managing the user interface and interactions
+ * with the insulin pump simulation. It includes methods for routing between different screens,
+ * starting and stopping the simulation, and updating the user interface with the current state
+ * of the insulin pump.
+ * 
+ * @authors Ariz Kazani, Hollen Lo and Kassem Taha
+ */
+
 #include <QMainWindow>
 #include <QTimer>
 #include <QDebug>
