@@ -22,6 +22,8 @@ private:
 signals:
     void sendToProfile();
     void sendProfile(QString, double, double, double, double,int,int);
+
+    void sendProfile(QString, double, double, double, double,int,int);
 private slots:
     void gatherInfo();
     void goToProfile();

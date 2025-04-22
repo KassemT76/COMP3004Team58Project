@@ -35,6 +35,9 @@ signals:
     void sendToBolus();
     void sendToSettings();
     void sendStopBolus();
+
+    void sendToSettings();
+    void sendStopBolus();
 private slots:
     void goToSettings();
     void goToBolus();

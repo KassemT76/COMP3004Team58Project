@@ -20,6 +20,9 @@ signals:
     void sendToProfile();
     void sendToHome();
 
+    void sendToProfile();
+    void sendToHome();
+
 private slots:
     void goToHome();
     void goToProfile();

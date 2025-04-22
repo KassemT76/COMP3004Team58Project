@@ -31,6 +31,11 @@ signals:
     void sendRemoveProfile(QString);
     void sendEditProfile(int, QString, QString);
     void sendSelectProfile(QString);
+
+    void sendToAddProfile();
+    void sendRemoveProfile(QString);
+    void sendEditProfile(int, QString, QString);
+    void sendSelectProfile(QString);
 private slots:
     void goToSettings();
     void goToAddProfile();
