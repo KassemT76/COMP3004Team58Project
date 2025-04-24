@@ -16,6 +16,7 @@ public:
     void editProfile(int, QString, QString);
     void selectProfile(QString);
     void updateActiveProfile(int);
+    void resetActiveProfile();
     PersonalProfile* getActiveProfile();
     PersonalProfile* getProfile(QString);
 

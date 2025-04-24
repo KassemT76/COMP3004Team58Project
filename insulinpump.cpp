@@ -135,7 +135,9 @@ QString InsulinPump::stopBasal(){
         return "";
     }
     stopBasalDelievery();
-    return " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
+    QString message = " | stopping basal delivery from: "+profileManager->getActiveProfile()->getName();
+    profileManager->resetActiveProfile();
+    return message;
 }
 
 QString InsulinPump::distributeInsulin(int timeStep){

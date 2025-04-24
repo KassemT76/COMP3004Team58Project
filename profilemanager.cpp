@@ -82,3 +82,6 @@ PersonalProfile* ProfileManager::getProfile(QString profileName){
     }
     return nullptr;
 }
+void ProfileManager::resetActiveProfile(){
+    activeProfile = nullptr;
+}
